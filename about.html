@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>このサイトについて | 楽しい暗記サイト</title>
+    <meta name="description" content="「楽しい暗記サイト」の目的・コンセプト・運営者についてご紹介します。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
+        rel="stylesheet">
+    <!-- スタイル -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <style>
+        /* このサイトについてページ専用スタイル */
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            line-height: 1.9;
+        }
+
+        .about-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-container .subtitle {
+            color: var(--accent-cyan);
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-container .lead {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            border-left: 3px solid var(--accent-pink);
+            padding-left: 1rem;
+        }
+
+        .about-container h2 {
+            font-size: 1.3rem;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-purple);
+            padding-left: 0.8rem;
+        }
+
+        .about-container p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .about-container a {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-list li {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .feature-list li span {
+            font-size: 1.4rem;
+            margin-right: 0.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="about-container animate-fade-in">
+        <span class="subtitle">ABOUT THIS SITE</span>
+        <h1>🧠 このサイトについて</h1>
+        <p class="lead">「暗記」って、辛くて苦しいものだと思っていませんか？<br>
+            このサイトは、暗記をゲームに変える場所です。</p>
+
+        <h2>サイトのコンセプト</h2>
+        <p>「楽しい暗記サイト（Memorization is a Game）」は、<strong>「暗記は覚える作業じゃなくて、遊び方を発見するゲーム」</strong>というコンセプトで作られた学習支援サイトです。</p>
+        <p>詰め込みや根性論ではなく、認知科学・記憶メカニズムに基づいたテクニックを使い、<br>誰もが自分なりの「楽しさ」で知識を吸収できることを目指しています。</p>
+
+        <h2>このサイトでできること</h2>
+        <ul class="feature-list">
+            <li><span>🕹️</span>暗記タイプ診断 — 自分に合った攻略法を見つける</li>
+            <li><span>📘</span>暗記ノウハウ集 — 使える記憶術を学ぶ</li>
+            <li><span>🧠</span>暗記の基本原理 — 科学的に証明された25の法則</li>
+            <li><span>🔬</span>暗記研究所 — 脳と記憶の不思議を探る</li>
+            <li><span>✨</span>暗記したらかっこいいリスト — ロマンあふれる知識のコレクション</li>
+            <li><span>🏆</span>暗記検定 — クイズ形式でアウトプット</li>
+            <li><span>📝</span>リスト記憶ゲーム — 间隔反復で定着させる</li>
+        </ul>
+
+        <h2>運営者について</h2>
+        <p>このサイトは <strong>hiro8343</strong> が個人で開発・運営しています。<br>
+            「もっと楽しく学べる場所を作りたい」という思いで、AIのアシスタントと一緒に日々アップデートしています。</p>
+        <p>ご意見・ご感想は大歓迎です。<a href="contact.html">お問い合わせ</a>からお気軽にどうぞ！</p>
+
+        <a href="index.html" class="back-link">← トップページへ戻る</a>
+    </main>
+</body>
+
+</html>
