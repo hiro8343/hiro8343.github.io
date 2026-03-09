@@ -502,10 +502,97 @@
             });
         });
 
+        // Google Sheet CSV URL
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
+
+        // Category Mapping (Japanese in Sheet -> ID in App)
+        const CATEGORY_MAP = {
+            '言語': 'math',   // 数とことば
+            '数学': 'math',
+            '歴史': 'history', // 時間・歴史
+            '地理': 'world',   // 世界・文化
+            '公民': 'world',
+            '理科': 'space',   // 宇宙・自然
+            '生物': 'space',
+            '地学': 'space',
+            '宇宙': 'space',
+            '雑学': 'culture', // その他
+            '文化': 'culture'
+        };
+
+        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
+        function parseCSV(text) {
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuote = false;
+
+            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (inQuote) {
+                    if (ch === '"') {
+                        if (text[i + 1] === '"') {
+                            cell += '"';
+                            i++;
+                        } else {
+                            inQuote = false;
+                        }
+                    } else {
+                        cell += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuote = true;
+                    } else if (ch === ',') {
+                        row.push(cell);
+                        cell = '';
+                    } else if (ch === '\n') {
+                        row.push(cell);
+                        cell = '';
+                        rows.push(row);
+                        row = [];
+                    } else {
+                        cell += ch;
+                    }
+                }
+            }
+            row.push(cell);
+            if (row.some(c => c !== '')) rows.push(row);
+
+            const result = [];
+            for (let i = 0; i < rows.length; i++) {
+                const r = rows[i];
+                if (r.length < 4) continue;
+                if (i === 0 && (r[0] === 'カテゴリ' || r[0] === 'カテゴリー' || r[0] === 'Category' || r[0] === 'ジャンル')) continue;
+
+                const catKey = CATEGORY_MAP[r[0]] || 'culture';
+                const isActive = r[6] === '◯' || r[6] === '○' || !r[6];
+
+                if (isActive) {
+                    result.push({
+                        id: i,
+                        category: catKey,
+                        originalCategory: r[0],
+                        title: r[1],
+                        description: r[2],
+                        content: r[3],
+                        stars: 3,
+                        explanationUrl: r[7] || null,
+                        wordUrl: null
+                    });
+                }
+            }
+            return result;
+        }
+
         async function loadData() {
             try {
-                const res = await fetch('data/cool_items.json');
-                itemsData = await res.json();
+                const response = await fetch(SHEET_CSV_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const text = await response.text();
+                itemsData = parseCSV(text);
                 renderThemeSelect('all');
 
                 // URLパラメータで検定タイトルが指定されていれば自動開始
@@ -518,8 +605,24 @@
                     }
                 }
             } catch (e) {
-                console.error("Failed to load data", e);
-                themeGrid.innerHTML = '<p>データの読み込みに失敗しました。</p>';
+                console.warn("Failed to load spreadsheet data, falling back to JSON", e);
+                try {
+                    const res = await fetch('data/cool_items.json');
+                    itemsData = await res.json();
+                    renderThemeSelect('all');
+
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const targetTitle = urlParams.get('title');
+                    if (targetTitle) {
+                        const targetItem = itemsData.find(item => item.title === targetTitle);
+                        if (targetItem) {
+                            startGame(targetItem);
+                        }
+                    }
+                } catch (jsonErr) {
+                    console.error("Failed to load JSON data", jsonErr);
+                    themeGrid.innerHTML = '<p>データの読み込みに失敗しました。</p>';
+                }
             }
         }
 
