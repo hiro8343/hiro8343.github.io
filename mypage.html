@@ -251,6 +251,69 @@
             background: rgba(255, 0, 85, 0.3);
         }
 
+        /* お気に入り：過去最高ランク・スコアバッジ */
+        .fav-best {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+            margin-right: 0.5rem;
+        }
+
+        .fav-rank-badge {
+            font-size: 1.1rem;
+            font-weight: 900;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+
+        .rank-S {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #000;
+            box-shadow: 0 0 8px rgba(255, 200, 0, 0.5);
+        }
+
+        .rank-A {
+            background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+            color: #000;
+        }
+
+        .rank-B {
+            background: rgba(0, 243, 255, 0.25);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .rank-C {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            border: 1px solid #555;
+        }
+
+        .rank-D {
+            background: rgba(255, 0, 85, 0.15);
+            color: var(--accent-pink);
+            border: 1px solid var(--accent-pink);
+        }
+
+        .rank-none {
+            background: rgba(255, 255, 255, 0.05);
+            color: #666;
+            border: 1px solid #444;
+            font-size: 0.7rem;
+        }
+
+        .fav-best-score {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
         /* 履歴 */
         .history-list {
             display: flex;
@@ -536,11 +599,32 @@
 
             favList.innerHTML = '';
             data.favorites.forEach(fav => {
+                // この検定テーマの過去最高を取得
+                const best = UserData.getBestResult(fav.title);
+
+                // ランクバッジHTML生成
+                let bestHtml;
+                if (best) {
+                    const rankClass = `rank-${best.rank || 'none'}`;
+                    bestHtml = `
+                        <div class="fav-best">
+                            <span class="fav-rank-badge ${rankClass}">${best.rank || '?'}</span>
+                            <span class="fav-best-score">最高 ${best.score}点</span>
+                            <span class="fav-best-score">${best.count}回挑戦</span>
+                        </div>`;
+                } else {
+                    bestHtml = `
+                        <div class="fav-best">
+                            <span class="fav-rank-badge rank-none">未</span>
+                            <span class="fav-best-score">まず挑戦！</span>
+                        </div>`;
+                }
+
                 const item = document.createElement('div');
                 item.className = 'fav-item';
                 item.innerHTML = `
                     <div class="fav-item-info">
-                        <span>❤️</span>
+                        ${bestHtml}
                         <div>
                             <div style="font-weight:bold;">${fav.title}</div>
                             <div style="font-size:0.8rem; color:var(--text-muted);">${fav.category || ''}</div>

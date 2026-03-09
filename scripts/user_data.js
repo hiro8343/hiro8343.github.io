@@ -121,6 +121,21 @@ function isFavorite(title) {
     return data.favorites.some(f => f.title === title);
 }
 
+// 指定タイトルの過去最高スコア・ランクを取得
+function getBestResult(title) {
+    const data = getUserData();
+    // 同タイトルの履歴を絞り込む
+    const records = data.history.filter(h => h.title === title);
+    if (records.length === 0) return null;
+
+    // スコアが最大のレコードを探す
+    let best = records[0];
+    for (const rec of records) {
+        if (rec.score > best.score) best = rec;
+    }
+    return { score: best.score, rank: best.rank, max: best.max, count: records.length };
+}
+
 // ストリーク計算（連続日数・週・月・年）+ 過去最高値も返す
 function getStreaks() {
     const data = getUserData();
@@ -362,6 +377,7 @@ window.UserData = {
     addFavorite: addFavorite,
     removeFavorite: removeFavorite,
     isFavorite: isFavorite,
+    getBestResult: getBestResult,
     getStreaks: getStreaks,
     BADGES: BADGE_INFO,
     getRequests: getRequests,
