@@ -293,62 +293,78 @@
             '文化': 'culture'
         };
 
-        // CSV Parser
+        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
         function parseCSV(text) {
-            const lines = text.split('\n');
-            const result = [];
+            // テキスト全体を文字単位で走査し、行とセルに分割する
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuote = false;
 
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i].trim();
-                if (!line) continue;
+            // CRLF → LF に正規化
+            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
-                // Simple CSV parser that handles quoted strings with commas
-                const matches = [];
-                let currentMatch = '';
-                let inQuote = false;
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
 
-                for (let j = 0; j < line.length; j++) {
-                    const char = line[j];
-                    if (char === '"') {
-                        inQuote = !inQuote;
-                    } else if (char === ',' && !inQuote) {
-                        matches.push(currentMatch);
-                        currentMatch = '';
+                if (inQuote) {
+                    if (ch === '"') {
+                        // 次も " なら エスケープ("")→ 実際の "
+                        if (text[i + 1] === '"') {
+                            cell += '"';
+                            i++; // 次の " をスキップ
+                        } else {
+                            // クォート終了
+                            inQuote = false;
+                        }
                     } else {
-                        currentMatch += char;
+                        // クォート内では改行もそのままセル値に含める
+                        cell += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuote = true;
+                    } else if (ch === ',') {
+                        // セル区切り
+                        row.push(cell);
+                        cell = '';
+                    } else if (ch === '\n') {
+                        // 行区切り
+                        row.push(cell);
+                        cell = '';
+                        rows.push(row);
+                        row = [];
+                    } else {
+                        cell += ch;
                     }
                 }
-                matches.push(currentMatch);
+            }
+            // 末尾のセル・行を追加
+            row.push(cell);
+            if (row.some(c => c !== '')) rows.push(row);
 
-                // Clean up quotes
-                const row = matches.map(cell => {
-                    cell = cell.trim();
-                    if (cell.startsWith('"') && cell.endsWith('"')) {
-                        cell = cell.slice(1, -1);
-                    }
-                    return cell.replace(/""/g, '"'); // Handle escaped quotes
-                });
+            // 行データをアイテムに変換
+            const result = [];
+            for (let i = 0; i < rows.length; i++) {
+                const r = rows[i];
+                if (r.length < 4) continue;
 
-                if (row.length < 4) continue; // Skip empty/malformed rows
+                // ヘッダー行スキップ
+                if (i === 0 && (r[0] === 'カテゴリ' || r[0] === 'カテゴリー' || r[0] === 'Category' || r[0] === 'ジャンル')) continue;
 
-                // Skip header if detected 
-                if (i === 0 && (row[0] === 'カテゴリ' || row[0] === 'カテゴリー' || row[0] === 'Category' || row[0] === 'ジャンル')) continue;
-
-                const catKey = CATEGORY_MAP[row[0]] || 'culture';
-
-                // Active check (col 6)
-                const isActive = row[6] === '◯' || row[6] === '○' || !row[6];
+                const catKey = CATEGORY_MAP[r[0]] || 'culture';
+                const isActive = r[6] === '◯' || r[6] === '○' || !r[6];
 
                 if (isActive) {
                     result.push({
                         id: i,
                         category: catKey,
-                        originalCategory: row[0],
-                        title: row[1],
-                        description: row[2],
-                        content: row[3],
+                        originalCategory: r[0],
+                        title: r[1],
+                        description: r[2],
+                        content: r[3],          // セル内改行も含む生テキスト
                         stars: 3,
-                        explanationUrl: row[7] || null,
+                        explanationUrl: r[7] || null,
                         wordUrl: null
                     });
                 }
@@ -438,7 +454,7 @@
             document.getElementById('modal-cat').textContent = item.category;
             document.getElementById('modal-title').textContent = item.title;
             document.getElementById('modal-desc').textContent = item.description;
-            document.getElementById('modal-content').textContent = item.content || 'データがありません';
+            document.getElementById('modal-content').innerText = item.content || 'データがありません';
             document.getElementById('modal-length').textContent = item.content ? item.content.length : 0;
 
             // Render Links

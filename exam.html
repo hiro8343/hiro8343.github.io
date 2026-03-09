@@ -710,10 +710,10 @@
                     for (let i = 0; i < val.length; i++) {
                         const char = val[i];
 
-                        // スペースの自動スキップ
-                        while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                        // スペース・改行の自動スキップ
+                        while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
                             currentIndex++;
-                            singleCorrect.textContent = targetString.slice(0, currentIndex);
+                            singleCorrect.innerText = targetString.slice(0, currentIndex);
                             currentScoreDisplay.textContent = currentIndex;
                         }
 
@@ -726,13 +726,13 @@
                         const expected = targetString[currentIndex];
                         if (isMatch(char, expected)) {
                             currentIndex++;
-                            singleCorrect.textContent = targetString.slice(0, currentIndex);
+                            singleCorrect.innerText = targetString.slice(0, currentIndex);
                             currentScoreDisplay.textContent = currentIndex;
 
-                            // スペースの自動スキップ
-                            while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                            // スペース・改行の自動スキップ
+                            while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
                                 currentIndex++;
-                                singleCorrect.textContent = targetString.slice(0, currentIndex);
+                                singleCorrect.innerText = targetString.slice(0, currentIndex);
                                 currentScoreDisplay.textContent = currentIndex;
                             }
 
@@ -832,9 +832,9 @@
             const char = val.slice(-1);
 
             // Auto-skip spaces in target string
-            while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+            while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
                 currentIndex++;
-                singleCorrect.textContent = targetString.slice(0, currentIndex);
+                singleCorrect.innerText = targetString.slice(0, currentIndex);
                 currentScoreDisplay.textContent = currentIndex;
             }
 
@@ -849,15 +849,15 @@
             if (isMatch(char, expected)) {
                 // Correct!
                 currentIndex++;
-                singleCorrect.textContent = targetString.slice(0, currentIndex);
+                singleCorrect.innerText = targetString.slice(0, currentIndex);
                 currentScoreDisplay.textContent = currentIndex;
 
                 answerInput.value = '';
 
                 // Auto-skip spaces after correct char
-                while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
                     currentIndex++;
-                    singleCorrect.textContent = targetString.slice(0, currentIndex);
+                    singleCorrect.innerText = targetString.slice(0, currentIndex);
                     currentScoreDisplay.textContent = currentIndex;
                 }
 
@@ -874,6 +874,9 @@
 
         function isMatch(input, target) {
             if (input === target) return true;
+            // 改行などの空白文字を正規化して比較（必要に応じて）
+            if (input.trim() === target.trim() && (input === '\n' || target === '\n' || input === ' ' || target === ' ')) return true;
+
             // Fullwidth check
             const full = input.replace(/[A-Za-z0-9]/g, function (s) {
                 return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
@@ -992,9 +995,12 @@
                 const remainingPart = targetString.slice(currentIndex);
 
                 container.innerHTML = `
-                    <span style="color: var(--accent-green); font-weight:bold;">${correctPart}</span><span style="color: var(--text-muted);">${remainingPart}</span>
+                    <span id="result-detail-text" style="white-space: pre-wrap;"></span>
                 `;
                 detailsContainer.appendChild(container);
+                const textEl = document.getElementById('result-detail-text');
+                textEl.innerHTML = `<span style="color: var(--accent-green); font-weight:bold;">${correctPart}</span><span style="color: var(--text-muted);">${remainingPart}</span>`;
+
             }
 
             switchView('view-result');

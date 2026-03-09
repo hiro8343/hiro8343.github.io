@@ -226,54 +226,68 @@
             'logic': ['構造系', '整理系', '論理系', 'その他']
         };
 
-        // CSV Parser
+        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
         function parseCSV(text) {
-            const lines = text.split('\n');
-            const result = [];
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuote = false;
 
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i].trim();
-                if (!line) continue;
+            // CRLF → LF に正規化
+            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
-                const matches = [];
-                let currentMatch = '';
-                let inQuote = false;
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
 
-                for (let j = 0; j < line.length; j++) {
-                    const char = line[j];
-                    if (char === '"') {
-                        inQuote = !inQuote;
-                    } else if (char === ',' && !inQuote) {
-                        matches.push(currentMatch);
-                        currentMatch = '';
+                if (inQuote) {
+                    if (ch === '"') {
+                        if (text[i + 1] === '"') {
+                            cell += '"';
+                            i++;
+                        } else {
+                            inQuote = false;
+                        }
                     } else {
-                        currentMatch += char;
+                        cell += ch; // クォート内の改行もセル値として保持
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuote = true;
+                    } else if (ch === ',') {
+                        row.push(cell);
+                        cell = '';
+                    } else if (ch === '\n') {
+                        row.push(cell);
+                        cell = '';
+                        rows.push(row);
+                        row = [];
+                    } else {
+                        cell += ch;
                     }
                 }
-                matches.push(currentMatch);
+            }
+            // 末尾のセル・行を追加
+            row.push(cell);
+            if (row.some(c => c !== '')) rows.push(row);
 
-                const row = matches.map(cell => {
-                    cell = cell.trim();
-                    if (cell.startsWith('"') && cell.endsWith('"')) {
-                        cell = cell.slice(1, -1);
-                    }
-                    return cell.replace(/""/g, '"');
-                });
+            const result = [];
+            for (let i = 0; i < rows.length; i++) {
+                const r = rows[i];
 
-                // Header check: "No","名前","分類","向いている人","使い方","具体例"
+                // ヘッダー行スキップ
                 if (i === 0) continue;
-                if (row.length < 6) continue;
+                if (r.length < 6) continue;
 
-                // Simple check if it's a valid data row (e.g. check if ID is a number)
-                if (isNaN(parseInt(row[0]))) continue;
+                // IDが数値でない行はスキップ
+                if (isNaN(parseInt(r[0]))) continue;
 
                 result.push({
-                    id: row[0],
-                    title: row[1],
-                    category: row[2],
-                    target: row[3],
-                    usage: row[4],
-                    example: row[5]
+                    id: r[0],
+                    title: r[1],
+                    category: r[2],
+                    target: r[3],
+                    usage: r[4],
+                    example: r[5]
                 });
             }
             return result;
