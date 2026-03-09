@@ -427,15 +427,18 @@
                 div.style.animationDelay = `${index * 0.05}s`;
                 div.style.position = 'relative';
 
-                // Calculate length if exists, otherwise display 0 or approximate
-                const length = item.content ? item.content.length : 0;
+                // 項目数と文字数の計算
+                const parts = item.content ? item.content.split(/,|、/).map(s => s.trim()).filter(s => s !== '') : [];
+                const itemCount = parts.length;
+                const cleanContent = item.content ? item.content.replace(/,|、|\n|\r|\s/g, '') : '';
+                const length = cleanContent.length;
 
                 div.innerHTML = `
                     <span class="card-cat">${item.category}</span>
                     <h3 class="card-title">${item.title}</h3>
                     <p class="card-desc">${item.description}</p>
                     <div class="coolness">
-                        <span>かっこよさ ${'★'.repeat(item.stars)}${'☆'.repeat(5 - item.stars)}</span>
+                        <span>${itemCount > 0 ? itemCount + '項目' : 'かっこよさ ' + '★'.repeat(item.stars) + '☆'.repeat(5 - item.stars)}</span>
                         <span class="char-count">${length}文字</span>
                     </div>
                     <button onclick="event.stopPropagation(); toggleFav('${item.title.replace(/'/g, "\\'")}',' ${item.category}', this)" style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; font-size:1.3rem; opacity:0.7; transition:all 0.3s;">
@@ -451,11 +454,15 @@
         }
 
         function openModal(item) {
-            document.getElementById('modal-cat').textContent = item.category;
+            const parts = item.content ? item.content.split(/,|、/).map(s => s.trim()).filter(s => s !== '') : [];
+            const itemCount = parts.length;
+            const cleanContent = item.content ? item.content.replace(/,|、|\n|\r|\s/g, '') : '';
+
+            document.getElementById('modal-cat').textContent = `${item.category}${itemCount > 0 ? ' (' + itemCount + '項目)' : ''}`;
             document.getElementById('modal-title').textContent = item.title;
             document.getElementById('modal-desc').textContent = item.description;
             document.getElementById('modal-content').innerText = item.content || 'データがありません';
-            document.getElementById('modal-length').textContent = item.content ? item.content.length : 0;
+            document.getElementById('modal-length').textContent = cleanContent.length;
 
             // Render Links
             const linksContainer = document.getElementById('modal-links');

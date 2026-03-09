@@ -654,7 +654,7 @@
                     <p style="font-size: 0.9rem; margin-bottom: 1rem; color: #ccc;">${item.description}</p>
                     <div class="meta">
                         <span>${item.category.toUpperCase()}</span>
-                        <span>${isSingle ? '長文チャレンジ' : `全 ${parts.length} 問`}</span>
+                        <span>${isSingle ? '長文チャレンジ' : `全 ${parts.length} 項目`}</span>
                     </div>
                     <button class="fav-toggle-btn" onclick="event.stopPropagation(); toggleFav('${item.title.replace(/'/g, "\\'")}',' ${item.category}', this)" style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; font-size:1.3rem; opacity:0.7; transition:all 0.3s;">
                         ${UserData.isFavorite(item.title) ? '❤️' : '🤍'}
@@ -734,7 +734,8 @@
             } else {
                 targetString = item.content;
                 currentIndex = 0;
-                maxScoreDisplay.textContent = targetString.length;
+                const cleanTarget = targetString.replace(/,|、|\n|\r|\s/g, '');
+                maxScoreDisplay.textContent = cleanTarget.length;
 
                 // Set Placeholder Highlight
                 answerInput.placeholder = `例: ${targetString.slice(0, 5)}...`;
@@ -1020,8 +1021,11 @@
                 score = correctAnswers.filter(a => a.found).length;
                 max = correctAnswers.length;
             } else {
-                score = currentIndex;
-                max = targetString.length;
+                // 文字数カウント（区切り文字・空白除外）でのスコア計算
+                const cleanCorrect = targetString.slice(0, currentIndex).replace(/,|、|\n|\r|\s/g, '');
+                const cleanTotal = targetString.replace(/,|、|\n|\r|\s/g, '');
+                score = cleanCorrect.length;
+                max = cleanTotal.length;
             }
 
             // Calculate Rank
