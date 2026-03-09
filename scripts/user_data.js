@@ -121,11 +121,11 @@ function isFavorite(title) {
     return data.favorites.some(f => f.title === title);
 }
 
-// ストリーク計算（連続日数・週・月・年）
+// ストリーク計算（連続日数・週・月・年）+ 過去最高値も返す
 function getStreaks() {
     const data = getUserData();
     if (data.history.length === 0) {
-        return { days: 0, weeks: 0, months: 0, years: 0 };
+        return { days: 0, weeks: 0, months: 0, years: 0, bestDays: 0, bestWeeks: 0, bestMonths: 0, bestYears: 0 };
     }
 
     // 日付のみ（時刻を除去）のSetを作成
@@ -135,37 +135,70 @@ function getStreaks() {
         examDates.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
     });
 
-    const sortedDates = Array.from(examDates).sort().reverse(); // 新しい順
+    const sortedDates = Array.from(examDates).sort(); // 古い順
 
-    // 連続日数の計算
+    // ====== 現在の連続日数の計算 ======
     let dayStreak = 0;
     const today = new Date();
     const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
     // 今日か昨日からスタート
     let checkDate = new Date(today);
-    if (!examDates.has(todayStr)) {
+    let startedFromToday = examDates.has(todayStr);
+    if (!startedFromToday) {
         // 今日やってない場合は昨日からチェック
         checkDate.setDate(checkDate.getDate() - 1);
         const yesterdayStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
         if (!examDates.has(yesterdayStr)) {
-            // 昨日もやってなければストリーク0
-            return { days: 0, weeks: 0, months: 0, years: 0 };
-        }
-    }
-
-    while (true) {
-        const dateStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
-        if (examDates.has(dateStr)) {
-            dayStreak++;
-            checkDate.setDate(checkDate.getDate() - 1);
+            // 昨日もやってなければ現在のストリークは0
+            dayStreak = 0;
         } else {
-            break;
+            while (true) {
+                const dateStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
+                if (examDates.has(dateStr)) {
+                    dayStreak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+        }
+    } else {
+        while (true) {
+            const dateStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
+            if (examDates.has(dateStr)) {
+                dayStreak++;
+                checkDate.setDate(checkDate.getDate() - 1);
+            } else {
+                break;
+            }
         }
     }
 
-    // 連続週の計算（1週間に1回以上やっていれば連続）
-    let weekStreak = 0;
+    // ====== 過去最高連続日数の計算（全履歴を走査）======
+    let bestDays = 0;
+    let tempDayStreak = 0;
+    for (let i = 0; i < sortedDates.length; i++) {
+        if (i === 0) {
+            tempDayStreak = 1;
+        } else {
+            // 前の日付から1日差かチェック
+            const prev = new Date(sortedDates[i - 1]);
+            const curr = new Date(sortedDates[i]);
+            const diffMs = curr - prev;
+            const diffDays = Math.round(diffMs / 86400000);
+            if (diffDays === 1) {
+                tempDayStreak++;
+            } else {
+                tempDayStreak = 1;
+            }
+        }
+        if (tempDayStreak > bestDays) bestDays = tempDayStreak;
+    }
+    // 現在値も比較
+    if (dayStreak > bestDays) bestDays = dayStreak;
+
+    // ====== 連続週の計算 ======
     const getWeekKey = (d) => {
         const jan1 = new Date(d.getFullYear(), 0, 1);
         const weekNum = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
@@ -174,6 +207,7 @@ function getStreaks() {
     const examWeeks = new Set();
     data.history.forEach(h => examWeeks.add(getWeekKey(new Date(h.date))));
 
+    let weekStreak = 0;
     let checkWeekDate = new Date(today);
     while (true) {
         const wk = getWeekKey(checkWeekDate);
@@ -185,12 +219,37 @@ function getStreaks() {
         }
     }
 
-    // 連続月の計算
-    let monthStreak = 0;
+    // 過去最高連続週数（ソートされたweekキーで連続チェック）
+    const sortedWeeks = Array.from(examWeeks).sort();
+    let bestWeeks = 0;
+    let tempWeekStreak = 0;
+    for (let i = 0; i < sortedWeeks.length; i++) {
+        if (i === 0) {
+            tempWeekStreak = 1;
+        } else {
+            // 週番号が連続しているかチェック（年を超える場合も考慮して日換算）
+            const prev = sortedWeeks[i - 1];
+            const curr = sortedWeeks[i];
+            // 同年・連続週かを判定（簡易: "YYYY-WN"の週番号差を比較）
+            const [py, pw] = prev.split('-W').map(Number);
+            const [cy, cw] = curr.split('-W').map(Number);
+            const isConsecutive = (cy === py && cw === pw + 1) || (cy === py + 1 && cw === 1 && pw >= 52);
+            if (isConsecutive) {
+                tempWeekStreak++;
+            } else {
+                tempWeekStreak = 1;
+            }
+        }
+        if (tempWeekStreak > bestWeeks) bestWeeks = tempWeekStreak;
+    }
+    if (weekStreak > bestWeeks) bestWeeks = weekStreak;
+
+    // ====== 連続月の計算 ======
     const getMonthKey = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
     const examMonths = new Set();
     data.history.forEach(h => examMonths.add(getMonthKey(new Date(h.date))));
 
+    let monthStreak = 0;
     let checkMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     while (true) {
         const mk = getMonthKey(checkMonth);
@@ -202,18 +261,57 @@ function getStreaks() {
         }
     }
 
-    // 連続年の計算
-    let yearStreak = 0;
+    // 過去最高連続月数
+    const sortedMonths = Array.from(examMonths).sort();
+    let bestMonths = 0;
+    let tempMonthStreak = 0;
+    for (let i = 0; i < sortedMonths.length; i++) {
+        if (i === 0) {
+            tempMonthStreak = 1;
+        } else {
+            const prev = new Date(sortedMonths[i - 1] + '-01');
+            const curr = new Date(sortedMonths[i] + '-01');
+            const diffMonths = (curr.getFullYear() - prev.getFullYear()) * 12 + (curr.getMonth() - prev.getMonth());
+            if (diffMonths === 1) {
+                tempMonthStreak++;
+            } else {
+                tempMonthStreak = 1;
+            }
+        }
+        if (tempMonthStreak > bestMonths) bestMonths = tempMonthStreak;
+    }
+    if (monthStreak > bestMonths) bestMonths = monthStreak;
+
+    // ====== 連続年の計算 ======
     const examYears = new Set();
     data.history.forEach(h => examYears.add(new Date(h.date).getFullYear()));
 
+    let yearStreak = 0;
     let checkYear = today.getFullYear();
     while (examYears.has(checkYear)) {
         yearStreak++;
         checkYear--;
     }
 
-    return { days: dayStreak, weeks: weekStreak, months: monthStreak, years: yearStreak };
+    // 過去最高連続年数
+    const sortedYears = Array.from(examYears).sort((a, b) => a - b);
+    let bestYears = 0;
+    let tempYearStreak = 0;
+    for (let i = 0; i < sortedYears.length; i++) {
+        if (i === 0) {
+            tempYearStreak = 1;
+        } else {
+            if (sortedYears[i] === sortedYears[i - 1] + 1) {
+                tempYearStreak++;
+            } else {
+                tempYearStreak = 1;
+            }
+        }
+        if (tempYearStreak > bestYears) bestYears = tempYearStreak;
+    }
+    if (yearStreak > bestYears) bestYears = yearStreak;
+
+    return { days: dayStreak, weeks: weekStreak, months: monthStreak, years: yearStreak, bestDays, bestWeeks, bestMonths, bestYears };
 }
 
 // Badge Definitions (Metadata)
