@@ -646,7 +646,7 @@
                 card.className = 'theme-card';
 
                 // Determine Mode
-                const parts = item.content.split(/,|、|\n/).filter(s => s.trim());
+                const parts = item.content.split(/,|、/).filter(s => s.trim());
                 const isSingle = parts.length === 1 && !item.content.includes(',') && !item.content.includes('、');
 
                 card.innerHTML = `
@@ -714,7 +714,7 @@
             foundAnswers.clear();
 
             // Determine Mode
-            const parts = item.content.split(/,|、|\n/).map(s => s.trim()).filter(s => s);
+            const parts = item.content.split(/,|、/).map(s => s.trim()).filter(s => s);
             const isSingle = parts.length === 1 && !item.content.includes(',') && !item.content.includes('、');
             gameMode = isSingle ? 'single' : 'multi';
 
