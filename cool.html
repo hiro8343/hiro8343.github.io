@@ -430,7 +430,7 @@
                 // 項目数と文字数の計算
                 const parts = item.content ? item.content.split(/,|、/).map(s => s.trim()).filter(s => s !== '') : [];
                 const itemCount = parts.length;
-                const cleanContent = item.content ? item.content.replace(/,|、|\n|\r|\s/g, '') : '';
+                const cleanContent = item.content ? item.content.replace(/\(.*?\)|（.*?）/g, '').replace(/,|、|\n|\r|\s/g, '') : '';
                 const length = cleanContent.length;
 
                 div.innerHTML = `
@@ -456,7 +456,7 @@
         function openModal(item) {
             const parts = item.content ? item.content.split(/,|、/).map(s => s.trim()).filter(s => s !== '') : [];
             const itemCount = parts.length;
-            const cleanContent = item.content ? item.content.replace(/,|、|\n|\r|\s/g, '') : '';
+            const cleanContent = item.content ? item.content.replace(/\(.*?\)|（.*?）/g, '').replace(/,|、|\n|\r|\s/g, '') : '';
 
             document.getElementById('modal-cat').textContent = `${item.category}${itemCount > 0 ? ' (' + itemCount + '項目)' : ''}`;
             document.getElementById('modal-title').textContent = item.title;
