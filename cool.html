@@ -572,13 +572,45 @@
             url.searchParams.set('h', hash);
             const shareUrl = url.toString();
 
+            // Xの制限に配慮したリッチなテキスト構成 (ターゲット: 日本語140文字程度)
+            // URL(約23文字固定) + タグ + 改行などを除き、自由に使えるのは約100文字程度
+            const tags = "\n\n#暗記 #かっこいい";
+            const currentTitle = `「${title}」\n`;
+            
+            // 内容のリスト化
             const contentLines = content.split('\n').filter(l => l.trim() !== '');
-            const preview = contentLines.slice(0, 3).join('\n');
-            const hasMore = contentLines.length > 3;
+            const previewAll = "---\n" + contentLines.join('、');
+            
+            let fullText = `${currentTitle}${desc}\n${previewAll}${tags}`;
+            
+            // 文字数制限チェック（簡易版: 日本語は140文字、実際はURLを除いて判定）
+            // XのWeb IntentはURLを自動でリンクとして扱うため、textパラメータの長さ制限に注意
+            const MAX_TOTAL_LEN = 135; // 少し余裕を持たせる
+            
+            if (fullText.length > MAX_TOTAL_LEN) {
+                // 1. まずは「内容の抜粋」を短くしてみる
+                let partialPreview = "---\n" + contentLines.slice(0, 2).join('、') + (contentLines.length > 2 ? '...' : '');
+                fullText = `${currentTitle}${desc}\n${partialPreview}${tags}`;
+                
+                if (fullText.length > MAX_TOTAL_LEN) {
+                    // 2. まだ長いなら「説明文」を削る
+                    let shortDesc = desc.length > 30 ? desc.substring(0, 27) + "..." : desc;
+                    fullText = `${currentTitle}${shortDesc}\n${partialPreview}${tags}`;
+                    
+                    if (fullText.length > MAX_TOTAL_LEN) {
+                        // 3. 最終手段：内容をなくす
+                        fullText = `${currentTitle}${shortDesc}${tags}`;
+                        
+                        if (fullText.length > MAX_TOTAL_LEN) {
+                            // 4. タイトルも短く（ありえないとは思うが）
+                            let shortTitle = title.length > 20 ? title.substring(0, 17) + "..." : title;
+                            fullText = `「${shortTitle}」${tags}`;
+                        }
+                    }
+                }
+            }
 
-            const shareText = `「${title}」\n${desc}\n---\n${preview}${hasMore ? '\n...' : ''}\n\n#暗記 #かっこいい`;
-
-            return { title, desc, shareUrl, shareText };
+            return { title, desc, shareUrl, shareText: fullText };
         }
 
         function shareOnX() {
