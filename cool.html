@@ -246,18 +246,8 @@
             <button id="close-modal" class="close-btn">&times;</button>
             <span class="card-cat" id="modal-cat">CATEGORY</span>
             <h2 id="modal-title" style="margin-bottom: 0.5rem; color: #fff;">Title</h2>
-            <div class="modal-meta" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="modal-meta">
                 <span>文字数: <span id="modal-length">0</span>文字</span>
-                <button class="btn btn-sm" onclick="shareItem()"
-                    style="padding: 4px 12px; font-size: 0.8rem; background: rgba(0, 243, 255, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                        <polyline points="16 6 12 2 8 6"></polyline>
-                        <line x1="12" y1="2" x2="12" y2="15"></line>
-                    </svg>
-                    シェア
-                </button>
             </div>
             <div id="modal-links" class="modal-links"></div>
             <p id="modal-desc" style="color: var(--text-muted); margin-bottom: 1rem;">Description</p>
@@ -541,32 +531,69 @@
             };
             linksContainer.appendChild(favBtn);
 
+            // X (Twitter) でシェアボタン
+            const xBtn = document.createElement('button');
+            xBtn.className = 'link-btn';
+            xBtn.style.cssText = 'background: #000; color: #fff; border-color: #333; display: flex; align-items: center; gap: 0.5rem;';
+            xBtn.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                𝕏 でポストする
+            `;
+            xBtn.onclick = () => shareOnX();
+            linksContainer.appendChild(xBtn);
+
+            // 汎用シェアボタン
+            const genericShareBtn = document.createElement('button');
+            genericShareBtn.className = 'link-btn';
+            genericShareBtn.style.cssText = 'background: rgba(0, 243, 255, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;';
+            genericShareBtn.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                    <polyline points="16 6 12 2 8 6"></polyline>
+                    <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+                🔗 その他へシェア
+            `;
+            genericShareBtn.onclick = () => shareItem();
+            linksContainer.appendChild(genericShareBtn);
+
             modal.showModal();
         }
 
-        async function shareItem() {
+        function getShareInfo() {
             const title = document.getElementById('modal-title').textContent;
             const desc = document.getElementById('modal-desc').textContent;
             const content = document.getElementById('modal-content').innerText;
 
-            // Generate the URL with hash (shortened)
             const hash = generateHash(title);
             const url = new URL(window.location.origin + window.location.pathname);
             url.searchParams.set('h', hash);
             const shareUrl = url.toString();
 
-            // Format rich content for sharing
-            // Get first 3 items/lines for preview
             const contentLines = content.split('\n').filter(l => l.trim() !== '');
             const preview = contentLines.slice(0, 3).join('\n');
             const hasMore = contentLines.length > 3;
-            
+
             const shareText = `「${title}」\n${desc}\n---\n${preview}${hasMore ? '\n...' : ''}\n\n#暗記 #かっこいい`;
 
+            return { title, desc, shareUrl, shareText };
+        }
+
+        function shareOnX() {
+            const info = getShareInfo();
+            const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(info.shareText)}&url=${encodeURIComponent(info.shareUrl)}`;
+            window.open(xUrl, '_blank');
+        }
+
+        async function shareItem() {
+            const info = getShareInfo();
+
             const shareData = {
-                title: `${title} - 楽しい暗記サイト`,
-                text: shareText,
-                url: shareUrl
+                title: `${info.title} - 楽しい暗記サイト`,
+                text: info.shareText,
+                url: info.shareUrl
             };
 
             try {
