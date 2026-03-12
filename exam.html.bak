@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-80TMBGVND6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-80TMBGVND6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗記検定 | Memorization Exam</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <style>
+        /* Exam Specific Styles */
+        .exam-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .exam-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .exam-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Views */
+        .view {
+            display: none;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* Select View */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .theme-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .theme-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-card .meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Play View */
+        .game-ui {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .game-info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+        }
+
+        .timer {
+            color: var(--accent-pink);
+            font-weight: bold;
+        }
+
+        .score-board {
+            color: var(--accent-green);
+        }
+
+        .question-area {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .question-area h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-area input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-size: 1.2rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-area input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        /* Scrollable Grid */
+        .answers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            max-height: 40vh;
+            /* Limit height */
+            overflow-y: auto;
+            /* Scrollable */
+            padding-right: 0.5rem;
+            scroll-behavior: smooth;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            /* Subtle border */
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        .answers-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .answers-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .answers-grid::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 4px;
+        }
+
+        /* Feedback Popup */
+        .feedback-popup {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 100;
+            white-space: nowrap;
+            box-shadow: 0 0 15px var(--accent-green);
+        }
+
+        .feedback-popup.show {
+            top: -60px;
+            opacity: 1;
+        }
+
+        .answer-pill {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .answer-pill.found {
+            background: rgba(10, 255, 104, 0.2);
+            border-color: var(--accent-green);
+            color: #fff;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Result View */
+        .result-card {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .rank-badge {
+            font-size: 4rem;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px currentColor;
+        }
+
+        .rank-s {
+            color: #FFD700;
+        }
+
+        .rank-a {
+            color: #ff0055;
+        }
+
+        .rank-b {
+            color: #0aff68;
+        }
+
+        .rank-c {
+            color: #00f3ff;
+        }
+
+        .rank-d {
+            color: #a0a0b0;
+        }
+
+        /* Filter Buttons */
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            border-color: var(--accent-cyan);
+            color: #fff;
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        /* Single Mode UI */
+        .single-area {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: monospace;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .single-correct {
+            color: var(--accent-green);
+        }
+
+        .single-cursor {
+            color: var(--accent-pink);
+            border-bottom: 2px solid var(--accent-pink);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="nav-back">← Topに戻る</a>
+
+    <div class="exam-container">
+
+        <!-- HEADER -->
+        <header class="exam-header">
+            <h3>AREA 4: EXAM</h3>
+            <h1>暗記検定</h1>
+            <p style="color: var(--text-muted);">覚えた知識をアウトプット。<br>制限時間内にどれだけ思い出せるか。</p>
+        </header>
+
+        <!-- VIEW: SELECT THEME -->
+        <div id="view-select" class="view active">
+            <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--accent-cyan); padding-left: 1rem;">検定テーマを選択
+            </h2>
+
+            <!-- Category Filters -->
+            <div class="filters" style="margin-bottom: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="filter-btn active" data-filter="all">すべて</button>
+                <button class="filter-btn" data-filter="space">宇宙・自然</button>
+                <button class="filter-btn" data-filter="history">時間・歴史</button>
+                <button class="filter-btn" data-filter="math">数とことば</button>
+                <button class="filter-btn" data-filter="world">世界・文化</button>
+                <button class="filter-btn" data-filter="literature">文学</button>
+                <button class="filter-btn" data-filter="manga_anime">漫画・アニメ</button>
+            </div>
+
+            <div class="theme-grid" id="theme-grid">
+                <!-- Javascript will populate this -->
+            </div>
+        </div>
+
+        <!-- VIEW: PLAY GAME -->
+        <div id="view-play" class="view">
+            <div class="game-ui">
+                <div class="game-info-bar">
+                    <div class="timer" id="timer">60.00</div>
+                    <div class="score-board">Score: <span id="current-score">0</span> / <span id="max-score">0</span>
+                    </div>
+                </div>
+
+                <div class="question-area">
+                    <div
+                        style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <h2 id="question-title" style="margin-bottom: 0;">タイトル</h2>
+                        <button class="btn btn-sm" onclick="shareExam()"
+                            style="padding: 4px 12px; font-size: 0.8rem; background: rgba(0, 243, 255, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                                <polyline points="16 6 12 2 8 6"></polyline>
+                                <line x1="12" y1="2" x2="12" y2="15"></line>
+                            </svg>
+                            シェア
+                        </button>
+                    </div>
+                    <p id="question-desc" style="color: var(--text-muted); font-size: 0.9rem;">説明文</p>
+                </div>
+
+                <!-- Multi Mode Input -->
+                <div class="input-area" id="multi-input-area" style="position: relative;">
+                    <input type="text" id="answer-input" placeholder="回答を入力してEnter..." autocomplete="off">
+                    <!-- Feedback Element -->
+                    <div id="feedback-msg" class="feedback-popup">Nice!</div>
+                    <button class="btn btn-primary" id="skip-btn" style="display:none;">パス</button>
+                </div>
+
+                <!-- Single Mode Area -->
+                <div id="single-mode-area" style="display:none;">
+                    <div class="single-area">
+                        <div id="single-display">
+                            <span id="single-correct" class="single-correct"></span><span id="single-cursor"
+                                class="single-cursor">_</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem;">※半角・全角どちらでもOK</p>
+                    </div>
+                </div>
+
+                <div class="answers-grid" id="answers-grid">
+                    <!-- Answer pills -->
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem; display:flex; gap:1rem; justify-content:center;">
+                <button class="btn btn-primary" onclick="finishGame()">採点して終了</button>
+                <button class="btn" onclick="abortGame()">中断して戻る</button>
+            </div>
+        </div>
+
+        <!-- VIEW: RESULT -->
+        <div id="view-result" class="view">
+            <div class="game-ui result-card">
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">YOUR RESULT</p>
+                <div class="rank-badge" id="result-rank">A</div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">
+                    <span id="result-score">0</span> <span style="font-size: 1rem; color: var(--text-muted);">/ <span
+                            id="result-max">0</span></span>
+                </h2>
+
+                <p id="result-message" style="margin-bottom: 2rem;">素晴らしい記憶力です！</p>
+
+                <div id="result-details" style="margin-bottom: 2rem; width: 100%;">
+                    <!-- Details will be injected here -->
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button class="btn btn-primary" onclick="resetGame()">もう一度</button>
+                    <button class="btn" onclick="showSelect()">他の検定を受ける</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="scripts/user_data.js"></script>
+    <script>
+        // State
+        let itemsData = [];
+        let currentItem = null;
+        let correctAnswers = []; // For Multi Mode
+        let foundAnswers = new Set();
+        let targetString = ""; // For Single Mode
+        let currentIndex = 0;  // For Single Mode
+        let elapsedTime = 0;
+        let timerInterval = null;
+        let isGameActive = false;
+
+        // DOM
+        const viewSelect = document.getElementById('view-select');
+        const viewPlay = document.getElementById('view-play');
+        const viewResult = document.getElementById('view-result');
+        const themeGrid = document.getElementById('theme-grid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Game UI
+        const questionTitle = document.getElementById('question-title');
+        const questionDesc = document.getElementById('question-desc');
+        const timerDisplay = document.getElementById('timer');
+        const currentScoreDisplay = document.getElementById('current-score');
+        const maxScoreDisplay = document.getElementById('max-score');
+        const answerInput = document.getElementById('answer-input'); // Main input
+        const multiInputArea = document.getElementById('multi-input-area');
+        const singleModeArea = document.getElementById('single-mode-area');
+        const singleCorrect = document.getElementById('single-correct');
+        const singleCursor = document.getElementById('single-cursor');
+        const answersGrid = document.getElementById('answers-grid');
+        const feedbackMsg = document.getElementById('feedback-msg');
+
+        // Init
+        window.addEventListener('DOMContentLoaded', loadData);
+
+        // Filter Handlers
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderThemeSelect(btn.dataset.filter);
+            });
+        });
+
+        async function loadData() {
+            try {
+                const res = await fetch('data/cool_items.json');
+                itemsData = await res.json();
+                renderThemeSelect('all');
+
+                // URLパラメータで検定タイトルが指定されていれば自動開始
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetTitle = urlParams.get('title');
+                if (targetTitle) {
+                    const targetItem = itemsData.find(item => item.title === targetTitle);
+                    if (targetItem) {
+                        startGame(targetItem);
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to load data", e);
+                themeGrid.innerHTML = '<p>データの読み込みに失敗しました。</p>';
+            }
+        }
+
+        function renderThemeSelect(filter) {
+            themeGrid.innerHTML = '';
+
+            const filtered = filter === 'all'
+                ? itemsData
+                : itemsData.filter(item => {
+                    if (filter === 'world') return item.category === 'world' || item.category === 'culture';
+                    return item.category === filter;
+                });
+
+            if (filtered.length === 0) {
+                themeGrid.innerHTML = '<p style="color:var(--text-muted)">該当する検定はありません</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'theme-card';
+
+                // Determine Mode
+                const parts = item.content.split(/,|、|\n/).filter(s => s.trim());
+                const isSingle = parts.length === 1 && !item.content.includes(',') && !item.content.includes('、');
+
+                card.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: #ccc;">${item.description}</p>
+                    <div class="meta">
+                        <span>${item.category.toUpperCase()}</span>
+                        <span>${isSingle ? '長文チャレンジ' : `全 ${parts.length} 問`}</span>
+                    </div>
+                    <button class="fav-toggle-btn" onclick="event.stopPropagation(); toggleFav('${item.title.replace(/'/g, "\\'")}',' ${item.category}', this)" style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; font-size:1.3rem; opacity:0.7; transition:all 0.3s;">
+                        ${UserData.isFavorite(item.title) ? '❤️' : '🤍'}
+                    </button>
+                `;
+                card.style.position = 'relative';
+                card.onclick = () => startGame(item);
+                themeGrid.appendChild(card);
+            });
+        }
+
+        function switchView(viewId) {
+            [viewSelect, viewPlay, viewResult].forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        // お気に入りトグル
+        function toggleFav(title, category, btn) {
+            if (UserData.isFavorite(title)) {
+                UserData.removeFavorite(title);
+                btn.textContent = '🤍';
+            } else {
+                UserData.addFavorite({ title: title, category: category.trim() });
+                btn.textContent = '❤️';
+            }
+        }
+
+        function normalizeString(str) {
+            return str.replace(/[\(（][^\)）]+[\)）]/g, "").trim();
+        }
+
+        async function shareExam() {
+            if (!currentItem) return;
+            const url = new URL(window.location.href);
+            url.searchParams.set('title', currentItem.title);
+            const shareUrl = url.toString();
+            const shareData = {
+                title: `${currentItem.title} - 暗記検定`,
+                text: `「${currentItem.title}」の暗記検定に挑戦しよう！\n`,
+                url: shareUrl
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                    alert('検定のURLをコピーしました！お友達にシェアしてね✨');
+                }
+            } catch (err) {
+                console.error('Share failed:', err);
+            }
+        }
+
+        function startGame(item) {
+            currentItem = item;
+            foundAnswers.clear();
+
+            // Determine Mode
+            const parts = item.content.split(/,|、|\n/).map(s => s.trim()).filter(s => s);
+            const isSingle = parts.length === 1 && !item.content.includes(',') && !item.content.includes('、');
+            gameMode = isSingle ? 'single' : 'multi';
+
+            // Setup Data
+            if (gameMode === 'multi') {
+                correctAnswers = parts.map((s, i) => ({
+                    id: i, // Add ID for tracking
+                    display: s,
+                    normalized: normalizeString(s),
+                    found: false
+                }));
+                maxScoreDisplay.textContent = correctAnswers.length;
+
+                // Set Placeholder Highlight
+                answerInput.placeholder = `例: ${correctAnswers[0].display}`;
+
+            } else {
+                targetString = item.content;
+                currentIndex = 0;
+                maxScoreDisplay.textContent = targetString.length;
+
+                // Set Placeholder Highlight
+                answerInput.placeholder = `例: ${targetString.slice(0, 5)}...`;
+
+                // Reset Single UI
+                singleCorrect.textContent = "";
+                singleCursor.textContent = "_";
+            }
+
+            currentScoreDisplay.textContent = '0';
+            answerInput.value = '';
+            elapsedTime = 0;
+            timerDisplay.textContent = "0.00";
+
+            // Toggle UI Areas
+            if (gameMode === 'multi') {
+                multiInputArea.style.display = 'flex';
+                answersGrid.style.display = 'flex';
+                singleModeArea.style.display = 'none';
+                renderAnswersGrid();
+            } else {
+                multiInputArea.style.display = 'flex';
+                answersGrid.style.display = 'none';
+                singleModeArea.style.display = 'block';
+            }
+
+            // UI Setup
+            questionTitle.textContent = item.title;
+            questionDesc.textContent = item.description;
+
+            switchView('view-play');
+
+            // Start
+            isGameActive = true;
+            answerInput.focus();
+
+            if (timerInterval) clearInterval(timerInterval);
+            const startTime = Date.now();
+            timerInterval = setInterval(() => {
+                if (!isGameActive) return;
+
+                const thisElapsed = (Date.now() - startTime) / 1000;
+                elapsedTime = thisElapsed;
+                timerDisplay.textContent = thisElapsed.toFixed(2);
+            }, 50);
+        }
+
+        function renderAnswersGrid() {
+            answersGrid.innerHTML = '';
+            correctAnswers.forEach(ans => {
+                const pill = document.createElement('div');
+                pill.id = `ans-${ans.id}`; // Add ID for scrolling
+                pill.className = `answer-pill ${ans.found ? 'found' : ''}`;
+                pill.textContent = ans.found ? ans.display : '???';
+                // Initially hide '???' if there are too many? No, better show all slots.
+                answersGrid.appendChild(pill);
+            });
+        }
+
+        // Input Handling
+        let isComposing = false; // IME変換中フラグ
+
+        answerInput.addEventListener('compositionstart', () => {
+            isComposing = true;
+        });
+
+        answerInput.addEventListener('compositionend', (e) => {
+            isComposing = false;
+            if (!isGameActive) return;
+
+            if (gameMode === 'single') {
+                // IME変換確定後に1文字ずつチェック
+                const val = answerInput.value;
+                if (val.length > 0) {
+                    // 確定された文字を1文字ずつ処理
+                    for (let i = 0; i < val.length; i++) {
+                        const char = val[i];
+
+                        // スペースの自動スキップ
+                        while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                            currentIndex++;
+                            singleCorrect.textContent = targetString.slice(0, currentIndex);
+                            currentScoreDisplay.textContent = currentIndex;
+                        }
+
+                        if (currentIndex >= targetString.length) {
+                            answerInput.value = '';
+                            finishGame();
+                            return;
+                        }
+
+                        const expected = targetString[currentIndex];
+                        if (isMatch(char, expected)) {
+                            currentIndex++;
+                            singleCorrect.textContent = targetString.slice(0, currentIndex);
+                            currentScoreDisplay.textContent = currentIndex;
+
+                            // スペースの自動スキップ
+                            while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                                currentIndex++;
+                                singleCorrect.textContent = targetString.slice(0, currentIndex);
+                                currentScoreDisplay.textContent = currentIndex;
+                            }
+
+                            if (currentIndex >= targetString.length) {
+                                answerInput.value = '';
+                                finishGame();
+                                return;
+                            }
+                        } else {
+                            // 不正解エフェクト
+                            singleCursor.style.color = 'red';
+                            setTimeout(() => singleCursor.style.color = 'var(--accent-pink)', 200);
+                            break;
+                        }
+                    }
+                    answerInput.value = '';
+                }
+            } else {
+                // multiモードではcompositionend後にチェック
+                checkMultiAnswer(false);
+            }
+        });
+
+        answerInput.addEventListener('keydown', (e) => {
+            if (!isGameActive) return;
+            if (e.key === 'Enter') {
+                if (gameMode === 'multi') checkMultiAnswer();
+            }
+        });
+
+        answerInput.addEventListener('input', (e) => {
+            if (!isGameActive) return;
+            // IME変換中はスキップ
+            if (isComposing) return;
+
+            if (gameMode === 'multi') {
+                checkMultiAnswer(false);
+            } else {
+                checkSingleInput(e);
+            }
+        });
+
+        function checkMultiAnswer(clearOnMatch = true) {
+            const inputVal = normalizeString(answerInput.value);
+            if (!inputVal) return;
+
+            let matched = false;
+            let matchedItem = null;
+
+            correctAnswers.forEach(ans => {
+                if (!ans.found && (ans.normalized === inputVal)) {
+                    ans.found = true;
+                    matched = true;
+                    matchedItem = ans;
+                }
+            });
+
+            if (matched) {
+                foundAnswers.add(inputVal);
+                const currentCount = correctAnswers.filter(a => a.found).length;
+                currentScoreDisplay.textContent = currentCount;
+
+                // Update specific element instead of re-rendering whole grid to prevent scroll jump (though we want to scroll TO it)
+                const pill = document.getElementById(`ans-${matchedItem.id}`);
+                if (pill) {
+                    pill.classList.add('found');
+                    pill.textContent = matchedItem.display;
+
+                    // Auto-Scroll
+                    pill.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                // Show Feedback
+                showFeedback(matchedItem.display);
+
+                if (clearOnMatch || true) {
+                    answerInput.value = '';
+                }
+
+                if (currentCount === correctAnswers.length) finishGame();
+            }
+        }
+
+        function showFeedback(text) {
+            feedbackMsg.textContent = `${text} OK!`;
+            feedbackMsg.classList.add('show');
+            setTimeout(() => {
+                feedbackMsg.classList.remove('show');
+            }, 1000);
+        }
+
+        function checkSingleInput(e) {
+            const val = answerInput.value;
+            if (val.length === 0) return;
+
+            // Get last char
+            const char = val.slice(-1);
+
+            // Auto-skip spaces in target string
+            while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                currentIndex++;
+                singleCorrect.textContent = targetString.slice(0, currentIndex);
+                currentScoreDisplay.textContent = currentIndex;
+            }
+
+            if (currentIndex >= targetString.length) {
+                answerInput.value = '';
+                finishGame();
+                return;
+            }
+
+            const expected = targetString[currentIndex];
+
+            if (isMatch(char, expected)) {
+                // Correct!
+                currentIndex++;
+                singleCorrect.textContent = targetString.slice(0, currentIndex);
+                currentScoreDisplay.textContent = currentIndex;
+
+                answerInput.value = '';
+
+                // Auto-skip spaces after correct char
+                while (currentIndex < targetString.length && targetString[currentIndex] === ' ') {
+                    currentIndex++;
+                    singleCorrect.textContent = targetString.slice(0, currentIndex);
+                    currentScoreDisplay.textContent = currentIndex;
+                }
+
+                if (currentIndex >= targetString.length) {
+                    finishGame();
+                }
+            } else {
+                // Wrong
+                singleCursor.style.color = 'red';
+                setTimeout(() => singleCursor.style.color = 'var(--accent-pink)', 200);
+                answerInput.value = '';
+            }
+        }
+
+        function isMatch(input, target) {
+            if (input === target) return true;
+            // Fullwidth check
+            const full = input.replace(/[A-Za-z0-9]/g, function (s) {
+                return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+            });
+            if (full === target) return true;
+            return false;
+        }
+
+        // Called when user clicks "Finish" or completes all items
+        function finishGame() {
+            endGame(true);
+        }
+
+        // Called when user clicks "Abort"
+        function abortGame() {
+            if (confirm('本当に中断しますか？記録は残りません。')) {
+                isGameActive = false;
+                clearInterval(timerInterval);
+                showSelect();
+            }
+        }
+
+        function endGame(showScore = false) {
+            isGameActive = false;
+            clearInterval(timerInterval);
+            if (showScore) {
+                showResult();
+            } else {
+                showSelect();
+            }
+        }
+
+        function showResult() {
+            let score = 0;
+            let max = 0;
+
+            if (gameMode === 'multi') {
+                score = correctAnswers.filter(a => a.found).length;
+                max = correctAnswers.length;
+            } else {
+                score = currentIndex;
+                max = targetString.length;
+            }
+
+            // Calculate Rank
+            const percentage = (max > 0) ? (score / max) * 100 : 0;
+            let rank = 'C';
+            let msg = 'まだまだこれから！';
+            let rankClass = 'rank-c';
+
+            if (percentage === 100) {
+                rank = 'S';
+                msg = '完璧です！神レベル！';
+                rankClass = 'rank-s';
+            } else if (percentage >= 80) {
+                rank = 'A';
+                msg = '素晴らしい！あと少し！';
+                rankClass = 'rank-a';
+            } else if (percentage >= 50) {
+                rank = 'B';
+                msg = 'いい感じです！';
+                rankClass = 'rank-b';
+            }
+
+            // Save Result
+            UserData.addResult({
+                title: currentItem.title,
+                score: score,
+                max: max,
+                rank: rank
+            });
+
+            const rankEl = document.getElementById('result-rank');
+            rankEl.textContent = rank;
+            rankEl.className = `rank-badge ${rankClass}`;
+
+            document.getElementById('result-score').textContent = score;
+            document.getElementById('result-max').textContent = max;
+            document.getElementById('result-message').textContent = msg;
+
+            // Render Details
+            const detailsContainer = document.getElementById('result-details');
+            detailsContainer.innerHTML = '';
+
+            if (gameMode === 'multi') {
+                const grid = document.createElement('div');
+                grid.className = 'answers-grid';
+                grid.style.justifyContent = 'center';
+
+                correctAnswers.forEach(ans => {
+                    const pill = document.createElement('div');
+                    pill.className = `answer-pill ${ans.found ? 'found' : ''}`;
+                    // For result, show the actual answer. If not found, maybe style differently or just show it normal?
+                    // User asked to see "what I got right and the actual correct answer".
+                    pill.textContent = ans.display;
+                    if (!ans.found) {
+                        pill.style.opacity = '0.7';
+                        pill.style.border = '1px dashed var(--text-muted)';
+                    }
+                    grid.appendChild(pill);
+                });
+                detailsContainer.appendChild(grid);
+            } else {
+                // Single Mode
+                const container = document.createElement('div');
+                container.style.textAlign = 'left';
+                container.style.background = 'rgba(0,0,0,0.3)';
+                container.style.padding = '1.5rem';
+                container.style.borderRadius = 'var(--radius-md)';
+                container.style.fontFamily = 'monospace';
+                container.style.fontSize = '1.2rem';
+                container.style.lineHeight = '1.6';
+                container.style.wordBreak = 'break-all';
+
+                const correctPart = targetString.slice(0, currentIndex);
+                const remainingPart = targetString.slice(currentIndex);
+
+                container.innerHTML = `
+                    <span style="color: var(--accent-green); font-weight:bold;">${correctPart}</span><span style="color: var(--text-muted);">${remainingPart}</span>
+                `;
+                detailsContainer.appendChild(container);
+            }
+
+            switchView('view-result');
+        }
+
+        function resetGame() {
+            startGame(currentItem);
+        }
+
+        function showSelect() {
+            switchView('view-select');
+        }
+
+    </script>
+    <a href="mypage.html" class="nav-mypage-btn">👤 マイページ</a>
+</body>
+
+</html>
