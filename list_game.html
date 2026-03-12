@@ -229,6 +229,85 @@
         // --- Utils & Constants ---
         const PHASES = { IDLE: 'idle', MEMORIZE: 'memorize', WAITING: 'waiting', INPUT: 'input', RESULT: 'result' };
 
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
+
+        const CATEGORY_MAP = {
+            '言語': 'math',
+            '数学': 'math',
+            '歴史': 'history',
+            '地理': 'world',
+            '公民': 'world',
+            '理科': 'space',
+            '生物': 'space',
+            '地学': 'space',
+            '宇宙': 'space',
+            '雑学': 'culture',
+            '文化': 'culture'
+        };
+
+        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
+        function parseCSV(text) {
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuote = false;
+            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (inQuote) {
+                    if (ch === '"') {
+                        if (text[i + 1] === '"') {
+                            cell += '"';
+                            i++;
+                        } else {
+                            inQuote = false;
+                        }
+                    } else {
+                        cell += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuote = true;
+                    } else if (ch === ',') {
+                        row.push(cell);
+                        cell = '';
+                    } else if (ch === '\n') {
+                        row.push(cell);
+                        cell = '';
+                        rows.push(row);
+                        row = [];
+                    } else {
+                        cell += ch;
+                    }
+                }
+            }
+            row.push(cell);
+            if (row.some(c => c !== '')) rows.push(row);
+
+            const result = [];
+            for (let i = 0; i < rows.length; i++) {
+                const r = rows[i];
+                if (r.length < 4) continue;
+                if (i === 0 && (r[0] === 'カテゴリ' || r[0] === 'カテゴリー' || r[0] === 'Category' || r[0] === 'ジャンル')) continue;
+                const catKey = CATEGORY_MAP[r[0]] || 'culture';
+                const isActive = r[6] === '◯' || r[6] === '○' || !r[6];
+                if (isActive) {
+                    result.push({
+                        id: `sheet-${i}`,
+                        category: catKey,
+                        originalCategory: r[0],
+                        title: r[1],
+                        description: r[2],
+                        content: r[3],
+                        stars: 3,
+                        explanationUrl: r[7] || null,
+                        wordUrl: null
+                    });
+                }
+            }
+            return result;
+        }
+
         const PROMPTS = [
             "頭の中で1番から順番に声に出してみよう",
             "目を閉じて、リストを映像として思い浮かべてみよう",
@@ -331,7 +410,7 @@
                     try {
                         let merged_lists = [];
 
-                        // first push country list if it exists
+                        // 1. 最初からある国名リストを追加
                         if (window.COUNTRY_LIST) {
                             merged_lists.push({
                                 id: 'countries',
@@ -342,17 +421,36 @@
                             });
                         }
 
-                        const res = await fetch('data/cool_items.json');
-                        const data = await res.json();
+                        // 2. スプレッドシートからの取得を試みる
+                        let data = [];
+                        try {
+                            const response = await fetch(SHEET_CSV_URL);
+                            if (response.ok) {
+                                const csvText = await response.text();
+                                data = parseCSV(csvText);
+                            } else {
+                                throw new Error('Sheet fetch failed');
+                            }
+                        } catch (sheetErr) {
+                            console.warn('Falling back to local JSON:', sheetErr);
+                            const res = await fetch('data/cool_items.json');
+                            data = await res.json();
+                        }
 
+                        // データを展開してリストに追加
                         const dynamicLists = data
-                            .map(item => ({ ...item, items: item.content.split(',').map(s => s.trim()).filter(s => s !== '') }))
+                            .map(item => ({
+                                ...item,
+                                items: item.content
+                                    ? item.content.split(/,|、|\n/).map(s => s.trim()).filter(s => s !== '')
+                                    : []
+                            }))
                             .filter(item => item.items.length >= 2);
 
                         merged_lists = merged_lists.concat(dynamicLists);
                         setAvailableLists(merged_lists);
 
-                        // Check URL params for pre-selection
+                        // URLパラメータによる初期選択
                         const urlParams = new URLSearchParams(window.location.search);
                         const targetId = urlParams.get('id');
                         const targetTitle = urlParams.get('title');
@@ -363,7 +461,6 @@
                             const found = merged_lists.find(l => l.title === targetTitle);
                             setSelectedListId(found.id);
                         } else if (merged_lists.length > 0) {
-                            // Select first list by default
                             setSelectedListId(merged_lists[0].id);
                         }
                     } catch (err) {
