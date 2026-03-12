@@ -275,6 +275,15 @@
         const closeModal = document.getElementById('close-modal');
         let coolItems = [];
 
+        // DJB2 Hash Function for URL Shortening
+        function generateHash(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) + hash) + str.charCodeAt(i);
+            }
+            return (hash >>> 0).toString(16);
+        }
+
         // Google Sheet CSV URL
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
 
@@ -404,8 +413,16 @@
         function checkUrlParam() {
             const urlParams = new URLSearchParams(window.location.search);
             const targetTitle = urlParams.get('title');
-            if (targetTitle && coolItems.length > 0) {
-                const targetItem = coolItems.find(item => item.title === targetTitle);
+            const targetHash = urlParams.get('h');
+
+            if (coolItems.length > 0) {
+                let targetItem;
+                if (targetHash) {
+                    targetItem = coolItems.find(item => generateHash(item.title) === targetHash);
+                } else if (targetTitle) {
+                    targetItem = coolItems.find(item => item.title === targetTitle);
+                }
+
                 if (targetItem) {
                     openModal(targetItem);
                 }
@@ -530,15 +547,25 @@
         async function shareItem() {
             const title = document.getElementById('modal-title').textContent;
             const desc = document.getElementById('modal-desc').textContent;
+            const content = document.getElementById('modal-content').innerText;
 
-            // Generate the URL to the exact item by passing ?title param to the page
-            const url = new URL(window.location.href);
-            url.searchParams.set('title', title);
+            // Generate the URL with hash (shortened)
+            const hash = generateHash(title);
+            const url = new URL(window.location.origin + window.location.pathname);
+            url.searchParams.set('h', hash);
             const shareUrl = url.toString();
+
+            // Format rich content for sharing
+            // Get first 3 items/lines for preview
+            const contentLines = content.split('\n').filter(l => l.trim() !== '');
+            const preview = contentLines.slice(0, 3).join('\n');
+            const hasMore = contentLines.length > 3;
+            
+            const shareText = `「${title}」\n${desc}\n---\n${preview}${hasMore ? '\n...' : ''}\n\n#暗記 #かっこいい`;
 
             const shareData = {
                 title: `${title} - 楽しい暗記サイト`,
-                text: `「${title}」\n${desc}\n`,
+                text: shareText,
                 url: shareUrl
             };
 
