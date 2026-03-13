@@ -147,6 +147,27 @@
             transform: translateX(5px);
         }
 
+        /* フォーム要素の改善 */
+        .input-field option {
+            background: #222;
+            color: #fff;
+        }
+
+        .feedback-area {
+            height: 2rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .feedback-correct { color: #2ed573; }
+        .feedback-wrong { color: #ff4757; }
+
         .option-btn.correct {
             background: rgba(46, 213, 115, 0.2);
             border-color: #2ed573;
@@ -346,6 +367,9 @@
                 setIsCorrect(correct);
                 if (correct) setScore(s => s + 1);
 
+                // 正解なら1秒、不正解なら3秒待機
+                const waitTime = correct ? 1000 : 3000;
+
                 setTimeout(() => {
                     if (currentIdx < questions.length - 1) {
                         setCurrentIdx(i => i + 1);
@@ -354,7 +378,7 @@
                     } else {
                         setPhase(PHASES.RESULT);
                     }
-                }, 1000);
+                }, waitTime);
             };
 
             // 3. Renderers
@@ -411,6 +435,15 @@
                                     {opt}
                                 </button>
                             ))}
+                        </div>
+                        <div className="feedback-area">
+                            {selectedOption !== null && (
+                                isCorrect ? (
+                                    <span className="feedback-correct">⭕ 正解！</span>
+                                ) : (
+                                    <span className="feedback-wrong">❌ 残念... 正解は 「{q.a}」</span>
+                                )
+                            )}
                         </div>
                     </div>
                 );
