@@ -940,8 +940,8 @@
             // Get last char
             const char = val.slice(-1);
 
-            // Auto-skip spaces in target string
-            while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
+            // Auto-skip special characters in target string
+            while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
                 currentIndex++;
                 singleCorrect.innerText = targetString.slice(0, currentIndex);
                 currentScoreDisplay.textContent = currentIndex;
@@ -963,8 +963,8 @@
 
                 answerInput.value = '';
 
-                // Auto-skip spaces after correct char
-                while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
+                // Auto-skip special characters after correct char
+                while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
                     currentIndex++;
                     singleCorrect.innerText = targetString.slice(0, currentIndex);
                     currentScoreDisplay.textContent = currentIndex;
@@ -979,6 +979,15 @@
                 setTimeout(() => singleCursor.style.color = 'var(--accent-pink)', 200);
                 answerInput.value = '';
             }
+        }
+
+        function isAutoSkip(char) {
+            if (!char) return false;
+            // スペース、改行
+            if (char === ' ' || char === '\n' || char === '\r') return true;
+            // 記号類 (ー はユーザーが入力したい場合が多いので除外しておく)
+            const skipChars = '・、。,.?!:;「」『』()（）[]［］【】';
+            return skipChars.includes(char);
         }
 
         function isMatch(input, target) {
