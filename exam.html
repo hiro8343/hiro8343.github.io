@@ -819,8 +819,8 @@
                     for (let i = 0; i < val.length; i++) {
                         const char = val[i];
 
-                        // スペース・改行の自動スキップ
-                        while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
+                        // 特殊文字の自動スキップ
+                        while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
                             currentIndex++;
                             singleCorrect.innerText = targetString.slice(0, currentIndex);
                             currentScoreDisplay.textContent = currentIndex;
@@ -838,8 +838,8 @@
                             singleCorrect.innerText = targetString.slice(0, currentIndex);
                             currentScoreDisplay.textContent = currentIndex;
 
-                            // スペース・改行の自動スキップ
-                            while (currentIndex < targetString.length && (targetString[currentIndex] === ' ' || targetString[currentIndex] === '\n')) {
+                            // 特殊文字の自動スキップ
+                            while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
                                 currentIndex++;
                                 singleCorrect.innerText = targetString.slice(0, currentIndex);
                                 currentScoreDisplay.textContent = currentIndex;
