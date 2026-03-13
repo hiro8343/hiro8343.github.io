@@ -207,6 +207,71 @@
             opacity: 0.8;
             transform: translateY(-2px);
         }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .cool-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .cool-header h1 {
+                font-size: 2rem;
+            }
+
+            .filters {
+                gap: 0.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .filter-btn {
+                padding: 6px 14px;
+                font-size: 0.85rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            dialog {
+                width: 95vw;
+                max-width: none;
+            }
+
+            .modal-content {
+                padding: 1.5rem 1rem;
+                max-height: 90vh;
+            }
+
+            .modal-content h2 {
+                font-size: 1.5rem;
+                padding-right: 2rem;
+            }
+
+            .modal-body {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                padding: 0.8rem;
+            }
+
+            .modal-links {
+                gap: 8px;
+            }
+
+            .link-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .link-btn {
+                flex: 1 1 100%;
+            }
+        }
     </style>
 </head>
 
