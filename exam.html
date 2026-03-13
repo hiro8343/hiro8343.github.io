@@ -445,7 +445,7 @@
 
                 <div style="background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 16px; padding: 1rem; margin-bottom: 2rem; text-align: center;">
                     <span style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-bottom: 0.3rem;">現在の累計スコア</span>
-                    <span style="font-size: 1.5rem; font-weight: bold; color: var(--accent-cyan);">✨ <span id="total-score-display">0</span> ✨</span>
+                    <span style="font-size: 1.5rem; font-weight: bold; color: var(--accent-cyan);">✨ <span id="total-score-display">0</span> <small id="session-score-plus" style="font-size: 0.9rem; margin-left: 4px;"></small> ✨</span>
                 </div>
 
                 <div id="result-details" style="margin-bottom: 2rem; width: 100%;">
@@ -1072,6 +1072,7 @@
             const totalScoreArea = document.getElementById('total-score-display');
             if (totalScoreArea) {
                 totalScoreArea.textContent = UserData.get().totalScore;
+                document.getElementById('session-score-plus').textContent = `(+${score})`;
             }
 
             // Render Details
