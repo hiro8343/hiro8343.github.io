@@ -748,6 +748,9 @@
                 // Reset Single UI
                 singleCorrect.textContent = "";
                 singleCursor.textContent = "_";
+
+                // 初期状態でのスキップ処理（冒頭に記号がある場合など）
+                skipConsecutive();
             }
 
             currentScoreDisplay.textContent = '0';
@@ -819,12 +822,8 @@
                     for (let i = 0; i < val.length; i++) {
                         const char = val[i];
 
-                        // 特殊文字の自動スキップ
-                        while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
-                            currentIndex++;
-                            singleCorrect.innerText = targetString.slice(0, currentIndex);
-                            currentScoreDisplay.textContent = currentIndex;
-                        }
+                        // 入力判定前にまず現在の位置の記号をスキップ
+                        skipConsecutive();
 
                         if (currentIndex >= targetString.length) {
                             answerInput.value = '';
@@ -838,12 +837,8 @@
                             singleCorrect.innerText = targetString.slice(0, currentIndex);
                             currentScoreDisplay.textContent = currentIndex;
 
-                            // 特殊文字の自動スキップ
-                            while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
-                                currentIndex++;
-                                singleCorrect.innerText = targetString.slice(0, currentIndex);
-                                currentScoreDisplay.textContent = currentIndex;
-                            }
+                            // 入力確定後、次の文字までの記号をスキップ
+                            skipConsecutive();
 
                             if (currentIndex >= targetString.length) {
                                 answerInput.value = '';
@@ -940,12 +935,8 @@
             // Get last char
             const char = val.slice(-1);
 
-            // Auto-skip special characters in target string
-            while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
-                currentIndex++;
-                singleCorrect.innerText = targetString.slice(0, currentIndex);
-                currentScoreDisplay.textContent = currentIndex;
-            }
+            // 現在の位置の記号をスキップ
+            skipConsecutive();
 
             if (currentIndex >= targetString.length) {
                 answerInput.value = '';
@@ -963,12 +954,8 @@
 
                 answerInput.value = '';
 
-                // Auto-skip special characters after correct char
-                while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
-                    currentIndex++;
-                    singleCorrect.innerText = targetString.slice(0, currentIndex);
-                    currentScoreDisplay.textContent = currentIndex;
-                }
+                // 次の文字までの記号をスキップ
+                skipConsecutive();
 
                 if (currentIndex >= targetString.length) {
                     finishGame();
@@ -981,12 +968,21 @@
             }
         }
 
+        function skipConsecutive() {
+            while (currentIndex < targetString.length && isAutoSkip(targetString[currentIndex])) {
+                currentIndex++;
+                singleCorrect.innerText = targetString.slice(0, currentIndex);
+                currentScoreDisplay.textContent = currentIndex;
+            }
+        }
+
         function isAutoSkip(char) {
             if (!char) return false;
             // スペース、改行
             if (char === ' ' || char === '\n' || char === '\r') return true;
             // 記号類 (ー はユーザーが入力したい場合が多いので除外しておく)
-            const skipChars = '・、。,.?!:;「」『』()（）[]［］【】';
+            // ・(30FB), ·(00B7), •(2022), ･(FF65)
+            const skipChars = '・·•･、。,.?!:;「」『』()（）[]［］【】';
             return skipChars.includes(char);
         }
 
