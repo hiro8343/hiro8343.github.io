@@ -309,405 +309,428 @@
         }
 
         const PROMPTS = [
-            "頭の中で1番から順番に声に出してみよう",
-            "目を閉じて、リストを映像として思い浮かべてみよう",
-            "声に出してリズムに乗りながら読もう",
-            "それぞれの項目の文字数を数えながら思い出そう"
-        ];
+                "頭の中で1番から順番に声に出してみよう",
+                "目を閉じて、リストを映像として思い浮かべてみよう",
+                "声に出してリズムに乗りながら読もう",
+                "それぞれの項目の文字数を数えながら思い出そう"
+            ];
 
-        // SRS Logic (simplified SM-2)
-        const loadSRS = (listId) => JSON.parse(localStorage.getItem(`listSrsData_${listId}`) || '{}');
-        const saveSRS = (listId, data) => localStorage.setItem(`listSrsData_${listId}`, JSON.stringify(data));
+            // 文字列の正規化（判定用：括弧とその中身を除去）
+            const normalizeForMatch = (str) => {
+                if (!str) return "";
+                // 全角かな・カナ、英数字の正規化は必要に応じて追加
+                // ここでは主に「括弧とその中身」を除去する
+                return str.replace(/[\(（][^\)）]+[\)）]/g, "").trim();
+            };
 
-        const updateSRS = (srsData, item, isCorrect) => {
-            const now = Date.now();
-            const record = srsData[item] || { easeFactor: 2.5, interval: 0, nextReviewTime: 0, isWeak: false };
+            // SRS Logic (simplified SM-2)
+            const loadSRS = (listId) => JSON.parse(localStorage.getItem(`listSrsData_${listId}`) || '{}');
+            const saveSRS = (listId, data) => localStorage.setItem(`listSrsData_${listId}`, JSON.stringify(data));
 
-            if (isCorrect) {
-                if (record.interval === 0) record.interval = 1;
-                else record.interval = Math.round(record.interval * record.easeFactor);
-                record.easeFactor = Math.min(Math.max(1.3, record.easeFactor + 0.1), 3.0);
-                record.isWeak = false;
-            } else {
-                record.interval = 1;
-                record.easeFactor = Math.max(1.3, record.easeFactor - 0.2);
-                record.isWeak = true;
-            }
-            record.nextReviewTime = now + record.interval * 24 * 60 * 60 * 1000;
-            return { ...srsData, [item]: record };
-        };
+            const updateSRS = (srsData, item, isCorrect) => {
+                const now = Date.now();
+                const record = srsData[item] || { easeFactor: 2.5, interval: 0, nextReviewTime: 0, isWeak: false };
 
-        const getReviewCount = (srsData) => {
-            if (!srsData) return 0;
-            const now = Date.now();
-            return Object.values(srsData).filter(item => item.nextReviewTime < now || item.isWeak).length;
-        };
-
-        const selectItems = (all_items, srsData, count) => {
-            const now = Date.now();
-            let reviews = [];
-            let newItems = [];
-            let nonDueItems = [];
-
-            // Separate into due items and new/future items
-            for (const item of all_items) {
-                const record = srsData[item];
-                if (record && (record.isWeak || record.nextReviewTime < now)) {
-                    reviews.push({ item, score: record.nextReviewTime });
-                } else if (!record) {
-                    newItems.push({ item, score: Math.random() });
+                if (isCorrect) {
+                    if (record.interval === 0) record.interval = 1;
+                    else record.interval = Math.round(record.interval * record.easeFactor);
+                    record.easeFactor = Math.min(Math.max(1.3, record.easeFactor + 0.1), 3.0);
+                    record.isWeak = false;
                 } else {
-                    nonDueItems.push({ item, score: Math.random() });
+                    record.interval = 1;
+                    record.easeFactor = Math.max(1.3, record.easeFactor - 0.2);
+                    record.isWeak = true;
                 }
-            }
+                record.nextReviewTime = now + record.interval * 24 * 60 * 60 * 1000;
+                return { ...srsData, [item]: record };
+            };
 
-            // Sort reviews by how overdue they are
-            reviews.sort((a, b) => a.score - b.score);
-            // Sort new items randomly
-            newItems.sort((a, b) => a.score - b.score);
-            nonDueItems.sort((a, b) => a.score - b.score);
+            const getReviewCount = (srsData) => {
+                if (!srsData) return 0;
+                const now = Date.now();
+                return Object.values(srsData).filter(item => item.nextReviewTime < now || item.isWeak).length;
+            };
 
-            const selected = [];
-            for (const review of reviews) {
-                if (selected.length < count) selected.push(review.item);
-            }
-            for (const newItem of newItems) {
-                if (selected.length < count) selected.push(newItem.item);
-            }
-            for (const nonDue of nonDueItems) {
-                if (selected.length < count) selected.push(nonDue.item);
-            }
+            const selectItems = (all_items, srsData, count) => {
+                const now = Date.now();
+                let reviews = [];
+                let newItems = [];
+                let nonDueItems = [];
 
-            // Shuffle selected
-            return selected.sort(() => Math.random() - 0.5);
-        };
-
-        // --- Main App Component ---
-        const App = () => {
-            const [phase, setPhase] = useState(PHASES.IDLE);
-
-            // Available Lists
-            const [availableLists, setAvailableLists] = useState([]);
-            const [selectedListId, setSelectedListId] = useState(null);
-
-            const [srsData, setSrsData] = useState({});
-
-            // Settings
-            const [count, setCount] = useState(5);
-            const [waitTime, setWaitTime] = useState(30);
-
-            // Game State
-            const [targets, setTargets] = useState([]);
-            const [timeLeft, setTimeLeft] = useState(0);
-            const [inputs, setInputs] = useState([]);
-            const [results, setResults] = useState([]); // Array of { item, isCorrect, hintsRequired }
-            const [promptIndex, setPromptIndex] = useState(0);
-            const [isLoading, setIsLoading] = useState(true);
-
-            // Load all lists
-            useEffect(() => {
-                const loadData = async () => {
-                    try {
-                        let merged_lists = [];
-
-                        // 1. 最初からある国名リストを追加
-                        if (window.COUNTRY_LIST) {
-                            merged_lists.push({
-                                id: 'countries',
-                                category: 'world',
-                                title: '世界196カ国',
-                                description: '外務省掲載の約196か国の国名を暗記',
-                                items: window.COUNTRY_LIST
-                            });
-                        }
-
-                        // 2. スプレッドシートからの取得を試みる
-                        let data = [];
-                        try {
-                            const response = await fetch(SHEET_CSV_URL);
-                            if (response.ok) {
-                                const csvText = await response.text();
-                                data = parseCSV(csvText);
-                            } else {
-                                throw new Error('Sheet fetch failed');
-                            }
-                        } catch (sheetErr) {
-                            console.warn('Falling back to local JSON:', sheetErr);
-                            const res = await fetch('data/cool_items.json');
-                            data = await res.json();
-                        }
-
-                        // データを展開してリストに追加
-                        const dynamicLists = data
-                            .map(item => ({
-                                ...item,
-                                items: item.content
-                                    ? item.content.split(/,|、|\n/).map(s => s.trim()).filter(s => s !== '')
-                                    : []
-                            }))
-                            .filter(item => item.items.length >= 2);
-
-                        merged_lists = merged_lists.concat(dynamicLists);
-                        setAvailableLists(merged_lists);
-
-                        // URLパラメータによる初期選択
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const targetId = urlParams.get('id');
-                        const targetTitle = urlParams.get('title');
-
-                        if (targetId && merged_lists.find(l => String(l.id) === String(targetId))) {
-                            setSelectedListId(targetId);
-                        } else if (targetTitle && merged_lists.find(l => l.title === targetTitle)) {
-                            const found = merged_lists.find(l => l.title === targetTitle);
-                            setSelectedListId(found.id);
-                        } else if (merged_lists.length > 0) {
-                            setSelectedListId(merged_lists[0].id);
-                        }
-                    } catch (err) {
-                        console.error('Data load error:', err);
-                    } finally {
-                        setIsLoading(false);
+                // Separate into due items and new/future items
+                for (const item of all_items) {
+                    const record = srsData[item];
+                    if (record && (record.isWeak || record.nextReviewTime < now)) {
+                        reviews.push({ item, score: record.nextReviewTime });
+                    } else if (!record) {
+                        newItems.push({ item, score: Math.random() });
+                    } else {
+                        nonDueItems.push({ item, score: Math.random() });
                     }
-                };
-                loadData();
-            }, []);
-
-            // Handle Selection Change
-            useEffect(() => {
-                if (selectedListId) {
-                    setSrsData(loadSRS(selectedListId));
                 }
-            }, [selectedListId]);
 
-            // Save SRS data on change inside effects creates bugs when switching lists.
-            // We will save only when checking answers.
+                // Sort reviews by how overdue they are
+                reviews.sort((a, b) => a.score - b.score);
+                // Sort new items randomly
+                newItems.sort((a, b) => a.score - b.score);
+                nonDueItems.sort((a, b) => a.score - b.score);
 
-            const reviewCount = getReviewCount(srsData);
+                const selected = [];
+                for (const review of reviews) {
+                    if (selected.length < count) selected.push(review.item);
+                }
+                for (const newItem of newItems) {
+                    if (selected.length < count) selected.push(newItem.item);
+                }
+                for (const nonDue of nonDueItems) {
+                    if (selected.length < count) selected.push(nonDue.item);
+                }
 
-            const getSelectedListData = () => availableLists.find(l => String(l.id) === String(selectedListId));
-
-            // --- Handlers ---
-            const startNewGame = () => {
-                const curList = getSelectedListData();
-                if (!curList) return;
-
-                // Max count shouldn't exceed total list items
-                const actualCount = Math.min(count, curList.items.length);
-
-                const selected = selectItems(curList.items, srsData, actualCount);
-                setTargets(selected);
-                setInputs(Array(selected.length).fill(''));
-                setPhase(PHASES.MEMORIZE);
+                // Shuffle selected
+                return selected.sort(() => Math.random() - 0.5);
             };
 
-            const retrySameGame = () => {
-                setInputs(Array(count).fill(''));
-                setPhase(PHASES.MEMORIZE);
-            };
+            // --- Main App Component ---
+            const App = () => {
+                const [phase, setPhase] = useState(PHASES.IDLE);
 
-            const startWaiting = () => {
-                setTimeLeft(waitTime);
-                setPromptIndex(Math.floor(Math.random() * PROMPTS.length));
-                setPhase(PHASES.WAITING);
-            };
+                // Available Lists
+                const [availableLists, setAvailableLists] = useState([]);
+                const [selectedListId, setSelectedListId] = useState(null);
 
-            // Timer Effect for Waiting Phase
-            useEffect(() => {
-                let timer;
-                let promptTimer;
-                if (phase === PHASES.WAITING) {
-                    timer = setInterval(() => {
-                        setTimeLeft(prev => {
-                            if (prev <= 1) {
-                                setPhase(PHASES.INPUT);
-                                return 0;
+                const [srsData, setSrsData] = useState({});
+
+                // Settings
+                const [count, setCount] = useState(5);
+                const [waitTime, setWaitTime] = useState(30);
+
+                // Game State
+                const [targets, setTargets] = useState([]);
+                const [timeLeft, setTimeLeft] = useState(0);
+                const [inputs, setInputs] = useState([]);
+                const [results, setResults] = useState([]); // Array of { item, isCorrect, hintsRequired }
+                const [promptIndex, setPromptIndex] = useState(0);
+                const [isLoading, setIsLoading] = useState(true);
+
+                // Load all lists
+                useEffect(() => {
+                    const loadData = async () => {
+                        try {
+                            let merged_lists = [];
+
+                            // 1. 最初からある国名リストを追加
+                            if (window.COUNTRY_LIST) {
+                                merged_lists.push({
+                                    id: 'countries',
+                                    category: 'world',
+                                    title: '世界196カ国',
+                                    description: '外務省掲載の約196か国の国名を暗記',
+                                    items: window.COUNTRY_LIST
+                                });
                             }
-                            return prev - 1;
+
+                            // 2. スプレッドシートからの取得を試みる
+                            let data = [];
+                            try {
+                                const response = await fetch(SHEET_CSV_URL);
+                                if (response.ok) {
+                                    const csvText = await response.text();
+                                    data = parseCSV(csvText);
+                                } else {
+                                    throw new Error('Sheet fetch failed');
+                                }
+                            } catch (sheetErr) {
+                                console.warn('Falling back to local JSON:', sheetErr);
+                                const res = await fetch('data/cool_items.json');
+                                data = await res.json();
+                            }
+
+                            // データを展開してリストに追加
+                            const dynamicLists = data
+                                .map(item => ({
+                                    ...item,
+                                    items: item.content
+                                        ? item.content.split(/,|、|\n/).map(s => s.trim()).filter(s => s !== '')
+                                        : []
+                                }))
+                                .filter(item => item.items.length >= 2);
+
+                            merged_lists = merged_lists.concat(dynamicLists);
+                            setAvailableLists(merged_lists);
+
+                            // URLパラメータによる初期選択
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const targetId = urlParams.get('id');
+                            const targetTitle = urlParams.get('title');
+
+                            if (targetId && merged_lists.find(l => String(l.id) === String(targetId))) {
+                                setSelectedListId(targetId);
+                            } else if (targetTitle && merged_lists.find(l => l.title === targetTitle)) {
+                                const found = merged_lists.find(l => l.title === targetTitle);
+                                setSelectedListId(found.id);
+                            } else if (merged_lists.length > 0) {
+                                setSelectedListId(merged_lists[0].id);
+                            }
+                        } catch (err) {
+                            console.error('Data load error:', err);
+                        } finally {
+                            setIsLoading(false);
+                        }
+                    };
+                    loadData();
+                }, []);
+
+                // Handle Selection Change
+                useEffect(() => {
+                    if (selectedListId) {
+                        setSrsData(loadSRS(selectedListId));
+                    }
+                }, [selectedListId]);
+
+                // Save SRS data on change inside effects creates bugs when switching lists.
+                // We will save only when checking answers.
+
+                const reviewCount = getReviewCount(srsData);
+
+                const getSelectedListData = () => availableLists.find(l => String(l.id) === String(selectedListId));
+
+                // --- Handlers ---
+                const startNewGame = () => {
+                    const curList = getSelectedListData();
+                    if (!curList) return;
+
+                    // Max count shouldn't exceed total list items
+                    const actualCount = Math.min(count, curList.items.length);
+
+                    const selected = selectItems(curList.items, srsData, actualCount);
+                    setTargets(selected);
+                    setInputs(Array(selected.length).fill(''));
+                    setPhase(PHASES.MEMORIZE);
+                };
+
+                const retrySameGame = () => {
+                    setInputs(Array(targets.length).fill(''));
+                    setPhase(PHASES.MEMORIZE);
+                };
+
+                const startWaiting = () => {
+                    setTimeLeft(waitTime);
+                    setPromptIndex(Math.floor(Math.random() * PROMPTS.length));
+                    setPhase(PHASES.WAITING);
+                };
+
+                // Timer Effect for Waiting Phase
+                useEffect(() => {
+                    let timer;
+                    let promptTimer;
+                    if (phase === PHASES.WAITING) {
+                        timer = setInterval(() => {
+                            setTimeLeft(prev => {
+                                if (prev <= 1) {
+                                    setPhase(PHASES.INPUT);
+                                    return 0;
+                                }
+                                return prev - 1;
+                            });
+                        }, 1000);
+
+                        // Change prompt every 10s
+                        promptTimer = setInterval(() => {
+                            setPromptIndex(prev => (prev + 1) % PROMPTS.length);
+                        }, 10000);
+                    }
+                    return () => { clearInterval(timer); clearInterval(promptTimer); };
+                }, [phase]);
+
+                const checkAnswers = () => {
+                    const answerList = inputs.map(i => i.trim()).filter(i => i !== '');
+                    let newSrsData = { ...srsData };
+
+                    // For simplicity, ANY order is matched. We need to match each target to one input.
+                    const matchedInputs = new Set();
+                    const currentResults = targets.map(target => {
+                        const targetNorm = normalizeForMatch(target);
+
+                        const matchIndex = answerList.findIndex((ans, idx) => {
+                            if (matchedInputs.has(idx)) return false;
+                            const ansNorm = normalizeForMatch(ans);
+                            return ans === target || ansNorm === targetNorm;
                         });
-                    }, 1000);
 
-                    // Change prompt every 10s
-                    promptTimer = setInterval(() => {
-                        setPromptIndex(prev => (prev + 1) % PROMPTS.length);
-                    }, 10000);
-                }
-                return () => { clearInterval(timer); clearInterval(promptTimer); };
-            }, [phase]);
+                        const isCorrect = matchIndex !== -1;
+                        if (isCorrect) matchedInputs.add(matchIndex);
 
-            const checkAnswers = () => {
-                const answerList = inputs.map(i => i.trim()).filter(i => i !== '');
-                let newSrsData = { ...srsData };
+                        // Update SRS only on first check (hintsRequired = 0)
+                        newSrsData = updateSRS(newSrsData, target, isCorrect);
 
-                // For simplicity, ANY order is matched. We need to match each target to one input.
-                const matchedInputs = new Set();
-                const currentResults = targets.map(target => {
-                    const matchIndex = answerList.findIndex((ans, idx) => !matchedInputs.has(idx) && ans === target);
-                    const isCorrect = matchIndex !== -1;
-                    if (isCorrect) matchedInputs.add(matchIndex);
+                        return { item: target, isCorrect, hintsRequired: isCorrect ? 0 : 1 };
+                    });
 
-                    // Update SRS only on first check (hintsRequired = 0)
-                    newSrsData = updateSRS(newSrsData, target, isCorrect);
+                    setSrsData(newSrsData);
+                    if (selectedListId) saveSRS(selectedListId, newSrsData);
+                    setResults(currentResults);
+                    setPhase(PHASES.RESULT);
+                };
 
-                    return { item: target, isCorrect, hintsRequired: isCorrect ? 0 : 1 };
-                });
+                const submitRetry = (index, value) => {
+                    const res = [...results];
+                    const target = res[index].item;
+                    const valTrim = value.trim();
+                    const valNorm = normalizeForMatch(valTrim);
+                    const targetNorm = normalizeForMatch(target);
 
-                setSrsData(newSrsData);
-                if (selectedListId) saveSRS(selectedListId, newSrsData);
-                setResults(currentResults);
-                setPhase(PHASES.RESULT);
-            };
+                    if (valTrim === target || valNorm === targetNorm) {
+                        res[index].isCorrect = true;
+                    } else {
+                        res[index].hintsRequired += 1;
+                    }
+                    setResults(res);
+                };
 
-            const submitRetry = (index, value) => {
-                const res = [...results];
-                const target = res[index].item;
-                if (value.trim() === target) {
-                    res[index].isCorrect = true;
-                } else {
-                    res[index].hintsRequired += 1;
-                }
-                setResults(res);
-            };
+                // --- Render Helpers ---
+                const renderIdle = () => {
+                    if (isLoading) return <div className="card animate-fade-in"><h2 style={{ textAlign: 'center' }}>読み込み中...</h2></div>;
 
-            // --- Render Helpers ---
-            const renderIdle = () => {
-                if (isLoading) return <div className="card animate-fade-in"><h2 style={{ textAlign: 'center' }}>読み込み中...</h2></div>;
+                    const curList = getSelectedListData();
+                    const totalItems = curList ? curList.items.length : 0;
 
-                const curList = getSelectedListData();
-                const totalItems = curList ? curList.items.length : 0;
-
-                return (
-                    <div className="card animate-fade-in">
-                        <div className="header-stats">
-                            <span style={{ fontSize: '1.2rem' }}>📝 リスト記憶ゲーム</span>
-                            <div style={{ background: reviewCount > 0 ? 'rgba(255, 71, 87, 0.2)' : 'rgba(255,255,255,0.1)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontSize: '0.9rem', color: reviewCount > 0 ? '#ff7675' : '#aaa' }}>
-                                📅 復習 {reviewCount}件
+                    return (
+                        <div className="card animate-fade-in">
+                            <div className="header-stats">
+                                <span style={{ fontSize: '1.2rem' }}>📝 リスト記憶ゲーム</span>
+                                <div style={{ background: reviewCount > 0 ? 'rgba(255, 71, 87, 0.2)' : 'rgba(255,255,255,0.1)', padding: '0.4rem 0.8rem', borderRadius: '20px', fontSize: '0.9rem', color: reviewCount > 0 ? '#ff7675' : '#aaa' }}>
+                                    📅 復習 {reviewCount}件
+                                </div>
                             </div>
-                        </div>
 
-                        <div style={{ marginBottom: '2rem' }}>
-                            <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>覚えるテーマ</p>
-                            <select
-                                className="input-field"
-                                style={{ cursor: 'pointer' }}
-                                value={selectedListId || ''}
-                                onChange={(e) => setSelectedListId(e.target.value)}
-                            >
-                                {availableLists.map(list => (
-                                    <option key={list.id} value={list.id}>{list.title} ({list.items.length}件)</option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div style={{ marginBottom: '2rem' }}>
-                            <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>出題数</p>
-                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                                {[1, 3, 5, 7, 10, 15, 20].filter(n => n <= totalItems).map(n => (
-                                    <button key={n} onClick={() => setCount(n)} className={`btn ${count === n ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.5rem 1rem' }}>
-                                        {n}個
-                                    </button>
-                                ))}
+                            <div style={{ marginBottom: '2rem' }}>
+                                <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>覚えるテーマ</p>
+                                <select
+                                    className="input-field"
+                                    style={{ cursor: 'pointer' }}
+                                    value={selectedListId || ''}
+                                    onChange={(e) => setSelectedListId(e.target.value)}
+                                >
+                                    {availableLists.map(list => (
+                                        <option key={list.id} value={list.id}>{list.title} ({list.items.length}件)</option>
+                                    ))}
+                                </select>
                             </div>
+
+                            <div style={{ marginBottom: '2rem' }}>
+                                <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>出題数</p>
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                    {[1, 3, 5, 7, 10, 15, 20].filter(n => n <= totalItems).map(n => (
+                                        <button key={n} onClick={() => setCount(n)} className={`btn ${count === n ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.5rem 1rem' }}>
+                                            {n}個
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div style={{ marginBottom: '3rem' }}>
+                                <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>待機時間</p>
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                    {[{ v: 10, l: '10秒' }, { v: 30, l: '30秒' }, { v: 60, l: '1分' }, { v: 120, l: '2分' }].map(t => (
+                                        <button key={t.v} onClick={() => setWaitTime(t.v)} className={`btn ${waitTime === t.v ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.5rem 1rem' }}>
+                                            {t.l}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.2rem' }} onClick={startNewGame}>
+                                スタート 🚀
+                            </button>
+                            <a href="index.html" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: '#aaa', textDecoration: 'none' }}>マイページに戻る</a>
                         </div>
+                    );
+                };
+
+                const renderMemorize = () => (
+                    <div className="card animate-fade-in" style={{ width: '100%' }}>
+                        <h2 style={{ color: 'var(--accent-cyan)' }}>暗記フェーズ</h2>
+                        <p style={{ textAlign: 'center', color: '#aaa', marginBottom: '2rem' }}>以下の項目を覚えてください。</p>
 
                         <div style={{ marginBottom: '3rem' }}>
-                            <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>待機時間</p>
-                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                                {[{ v: 10, l: '10秒' }, { v: 30, l: '30秒' }, { v: 60, l: '1分' }, { v: 120, l: '2分' }].map(t => (
-                                    <button key={t.v} onClick={() => setWaitTime(t.v)} className={`btn ${waitTime === t.v ? 'btn-primary' : 'btn-secondary'}`} style={{ padding: '0.5rem 1rem' }}>
-                                        {t.l}
-                                    </button>
+                            {targets.map((t, idx) => {
+                                const isWeak = srsData[t]?.isWeak;
+                                return (
+                                    <div key={idx} className={`country-item ${isWeak ? 'country-weak' : ''}`}>
+                                        {t}
+                                        {isWeak && <span style={{ fontSize: '0.8rem', marginLeft: '1rem', color: '#ff4757' }}>⚠️苦手</span>}
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }} onClick={startWaiting}>
+                            覚えた！テストを受ける ✅
+                        </button>
+                        <button className="btn btn-secondary" style={{ width: '100%', marginTop: '1rem' }} onClick={() => setPhase(PHASES.IDLE)}>
+                            やめる
+                        </button>
+                    </div>
+                );
+
+                const renderWaiting = () => (
+                    <div className="card animate-fade-in" style={{ width: '100%', textAlign: 'center', padding: '4rem 2rem' }}>
+                        <div className={`timer-circle ${timeLeft <= 5 ? 'danger' : ''}`}>
+                            {timeLeft}
+                        </div>
+                        <div style={{ minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: 'var(--accent-pink)', lineHeight: '1.6' }} key={promptIndex} className="animate-fade-in">
+                            💡 {PROMPTS[promptIndex]}
+                        </div>
+                        <p style={{ marginTop: '2rem', color: '#aaa' }}>項目を心の中で思い出しましょう</p>
+                    </div>
+                );
+
+                const renderInput = () => {
+                    const handleKeyDown = (e, index) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const nextId = `input-${index + 1}`;
+                            const nextEle = document.getElementById(nextId);
+                            if (nextEle) nextEle.focus();
+                            else checkAnswers(); // submit if last
+                        }
+                    };
+
+                    return (
+                        <div className="card animate-fade-in" style={{ width: '100%' }}>
+                            <h2 style={{ color: 'var(--accent-cyan)', marginBottom: '2rem' }}>解答入力</h2>
+                            <p style={{ color: '#aaa', marginBottom: '1.5rem', textAlign: 'center' }}>
+                                思い出した項目を順不同で入力してください。<br />
+                                <span style={{ fontSize: '0.8rem' }}>※括弧があるものは（ ）の前までで正解になります</span>
+                            </p>
+
+                            <div style={{ marginBottom: '2rem' }}>
+                                {inputs.map((val, idx) => (
+                                    <input
+                                        key={idx}
+                                        id={`input-${idx}`}
+                                        className="input-field"
+                                        type="text"
+                                        value={val}
+                                        onChange={(e) => {
+                                            const newIns = [...inputs];
+                                            newIns[idx] = e.target.value;
+                                            setInputs(newIns);
+                                        }}
+                                        onKeyDown={(e) => handleKeyDown(e, idx)}
+                                        placeholder={`${idx + 1}つ目`}
+                                        autoComplete="off"
+                                    />
                                 ))}
                             </div>
+
+                            <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }} onClick={checkAnswers}>
+                                答え合わせ 🔍
+                            </button>
                         </div>
-
-                        <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.2rem' }} onClick={startNewGame}>
-                            スタート 🚀
-                        </button>
-                        <a href="index.html" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: '#aaa', textDecoration: 'none' }}>マイページに戻る</a>
-                    </div>
-                );
-            };
-
-            const renderMemorize = () => (
-                <div className="card animate-fade-in" style={{ width: '100%' }}>
-                    <h2 style={{ color: 'var(--accent-cyan)' }}>暗記フェーズ</h2>
-                    <p style={{ textAlign: 'center', color: '#aaa', marginBottom: '2rem' }}>以下の項目を覚えてください。</p>
-
-                    <div style={{ marginBottom: '3rem' }}>
-                        {targets.map((t, idx) => {
-                            const isWeak = srsData[t]?.isWeak;
-                            return (
-                                <div key={idx} className={`country-item ${isWeak ? 'country-weak' : ''}`}>
-                                    {t}
-                                    {isWeak && <span style={{ fontSize: '0.8rem', marginLeft: '1rem', color: '#ff4757' }}>⚠️苦手</span>}
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }} onClick={startWaiting}>
-                        覚えた！テストを受ける ✅
-                    </button>
-                    <button className="btn btn-secondary" style={{ width: '100%', marginTop: '1rem' }} onClick={() => setPhase(PHASES.IDLE)}>
-                        やめる
-                    </button>
-                </div>
-            );
-
-            const renderWaiting = () => (
-                <div className="card animate-fade-in" style={{ width: '100%', textAlign: 'center', padding: '4rem 2rem' }}>
-                    <div className={`timer-circle ${timeLeft <= 5 ? 'danger' : ''}`}>
-                        {timeLeft}
-                    </div>
-                    <div style={{ minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: 'var(--accent-pink)', lineHeight: '1.6' }} key={promptIndex} className="animate-fade-in">
-                        💡 {PROMPTS[promptIndex]}
-                    </div>
-                    <p style={{ marginTop: '2rem', color: '#aaa' }}>項目を心の中で思い出しましょう</p>
-                </div>
-            );
-
-            const renderInput = () => {
-                const handleKeyDown = (e, index) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        const nextId = `input-${index + 1}`;
-                        const nextEle = document.getElementById(nextId);
-                        if (nextEle) nextEle.focus();
-                        else checkAnswers(); // submit if last
-                    }
+                    );
                 };
 
-                return (
-                    <div className="card animate-fade-in" style={{ width: '100%' }}>
-                        <h2 style={{ color: 'var(--accent-cyan)', marginBottom: '2rem' }}>解答入力</h2>
-                        <p style={{ color: '#aaa', marginBottom: '1.5rem', textAlign: 'center' }}>思い出した項目を順不同で入力してください。<br /><span style={{ fontSize: '0.8rem' }}>※省略不可（例：日本）</span></p>
-
-                        <div style={{ marginBottom: '2rem' }}>
-                            {inputs.map((val, idx) => (
-                                <input
-                                    key={idx}
-                                    id={`input-${idx}`}
-                                    className="input-field"
-                                    type="text"
-                                    value={val}
-                                    onChange={(e) => {
-                                        const newIns = [...inputs];
-                                        newIns[idx] = e.target.value;
-                                        setInputs(newIns);
-                                    }}
-                                    onKeyDown={(e) => handleKeyDown(e, idx)}
-                                    placeholder={`${idx + 1}つ目`}
-                                    autoComplete="off"
-                                />
-                            ))}
-                        </div>
-
-                        <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }} onClick={checkAnswers}>
-                            答え合わせ 🔍
-                        </button>
-                    </div>
-                );
-            };
 
             const renderResult = () => {
                 const allCorrect = results.every(r => r.isCorrect);
