@@ -650,7 +650,10 @@
                 const renderMemorize = () => (
                     <div className="card animate-fade-in" style={{ width: '100%' }}>
                         <h2 style={{ color: 'var(--accent-cyan)' }}>暗記フェーズ</h2>
-                        <p style={{ textAlign: 'center', color: '#aaa', marginBottom: '2rem' }}>以下の項目を覚えてください。</p>
+                        <p style={{ textAlign: 'center', color: '#aaa', marginBottom: '2rem' }}>
+                            以下の項目を覚えてください。<br />
+                            <span style={{ fontSize: '0.8rem' }}>※括弧があるものは（ ）の前までで正解になります</span>
+                        </p>
 
                         <div style={{ marginBottom: '3rem' }}>
                             {targets.map((t, idx) => {
@@ -700,8 +703,7 @@
                         <div className="card animate-fade-in" style={{ width: '100%' }}>
                             <h2 style={{ color: 'var(--accent-cyan)', marginBottom: '2rem' }}>解答入力</h2>
                             <p style={{ color: '#aaa', marginBottom: '1.5rem', textAlign: 'center' }}>
-                                思い出した項目を順不同で入力してください。<br />
-                                <span style={{ fontSize: '0.8rem' }}>※括弧があるものは（ ）の前までで正解になります</span>
+                                思い出した項目を順不同で入力してください。
                             </p>
 
                             <div style={{ marginBottom: '2rem' }}>
