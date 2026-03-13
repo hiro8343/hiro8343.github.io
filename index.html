@@ -202,6 +202,38 @@
             right: -50px;
             animation: float 6s infinite alternate-reverse;
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero-content {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                /* 日本語の長いタイトル「遊び方を発見するゲーム」が溢れないよう調整 */
+                font-size: clamp(1.8rem, 10vw, 3.5rem);
+                line-height: 1.3;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .area-nav {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 2rem 0;
+            }
+
+            .area-card {
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
 
