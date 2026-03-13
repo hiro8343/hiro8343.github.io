@@ -20,6 +20,9 @@
     <!-- Babel for in-browser JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- User Data -->
+    <script src="scripts/user_data.js"></script>
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
@@ -376,6 +379,21 @@
                         setSelectedOption(null);
                         setIsCorrect(null);
                     } else {
+                        // スコアを保存（クイズタイプ）
+                        const percent = ((score + (correct ? 1 : 0)) / questions.length) * 100;
+                        let rank = 'C';
+                        if (percent === 100) rank = 'S';
+                        else if (percent >= 80) rank = 'A';
+                        else if (percent >= 50) rank = 'B';
+
+                        UserData.addResult({
+                            title: selectedList.title,
+                            score: score + (correct ? 1 : 0),
+                            max: questions.length,
+                            rank: rank,
+                            type: 'quiz'
+                        });
+
                         setPhase(PHASES.RESULT);
                     }
                 }, waitTime);
@@ -456,11 +474,26 @@
                 else if (percent >= 80) msg = "素晴らしい成績です！👏";
                 else if (percent >= 50) msg = "いい感じです！もっと上を目指しましょう。";
 
+                const currentTotalScore = UserData.get().totalScore;
+
                 return (
                     <div className="card animate-fade-in">
                         <h2 style={{fontSize: '1.5rem'}}>テスト結果</h2>
                         <div className="result-score">{score} / {questions.length}</div>
                         <p className="result-msg">{msg}</p>
+                        
+                        <div style={{
+                            background: 'rgba(0, 243, 255, 0.1)',
+                            border: '1px solid rgba(0, 243, 255, 0.2)',
+                            borderRadius: '16px',
+                            padding: '1rem',
+                            marginBottom: '2rem',
+                            textAlign: 'center'
+                        }}>
+                            <span style={{color: '#aaa', fontSize: '0.8rem', display: 'block', marginBottom: '0.3rem'}}>現在の累計スコア</span>
+                            <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent-cyan)'}}>✨ {currentTotalScore} ✨</span>
+                        </div>
+
                         <div style={{display: 'grid', gap: '1rem'}}>
                             <button className="btn btn-primary" onClick={() => setPhase(PHASES.START)}>もう一度挑戦する</button>
                             <button className="btn btn-secondary" onClick={() => window.location.href = 'index.html'}>トップに戻る</button>

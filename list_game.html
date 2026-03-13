@@ -23,6 +23,9 @@
     <!-- Data Source -->
     <script src="scripts/countries.js"></script>
 
+    <!-- User Data -->
+    <script src="scripts/user_data.js"></script>
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
@@ -569,6 +572,26 @@
                     setSrsData(newSrsData);
                     if (selectedListId) saveSRS(selectedListId, newSrsData);
                     setResults(currentResults);
+
+                    // --- UserDataへの連携 ---
+                    const score = currentResults.filter(r => r.isCorrect).length;
+                    const max = targets.length;
+                    const percent = (score / max) * 100;
+                    let rank = 'C';
+                    if (percent === 100) rank = 'S';
+                    else if (percent >= 80) rank = 'A';
+                    else if (percent >= 50) rank = 'B';
+
+                    const curList = getSelectedListData();
+                    UserData.addResult({
+                        title: curList ? curList.title : 'リスト記憶',
+                        score: score,
+                        max: max,
+                        rank: rank,
+                        type: 'list'
+                    });
+                    // -------------------------
+
                     setPhase(PHASES.RESULT);
                 };
 
@@ -780,6 +803,18 @@
                                     </div>
                                 );
                             })}
+                        </div>
+
+                        <div style={{
+                            background: 'rgba(0, 243, 255, 0.1)',
+                            border: '1px solid rgba(0, 243, 255, 0.2)',
+                            borderRadius: '16px',
+                            padding: '1rem',
+                            marginBottom: '2rem',
+                            textAlign: 'center'
+                        }}>
+                            <span style={{color: '#aaa', fontSize: '0.8rem', display: 'block', marginBottom: '0.3rem'}}>現在の累計スコア</span>
+                            <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent-cyan)'}}>✨ {UserData.get().totalScore} ✨</span>
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

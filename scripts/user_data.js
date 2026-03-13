@@ -33,7 +33,7 @@ function saveUserData(data) {
 }
 
 function addExamResult(result) {
-    // result: { title, score, max, rank }
+    // result: { title, score, max, rank, type }
     const data = getUserData();
 
     // Update Stats
@@ -43,6 +43,7 @@ function addExamResult(result) {
     // Add History
     data.history.unshift({
         date: new Date().toISOString(),
+        type: result.type || 'exam',
         ...result
     });
 

@@ -441,7 +441,12 @@
                             id="result-max">0</span></span>
                 </h2>
 
-                <p id="result-message" style="margin-bottom: 2rem;">素晴らしい記憶力です！</p>
+                <p id="result-message" style="margin-bottom: 1.5rem;">素晴らしい記憶力です！</p>
+
+                <div style="background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.2); border-radius: 16px; padding: 1rem; margin-bottom: 2rem; text-align: center;">
+                    <span style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-bottom: 0.3rem;">現在の累計スコア</span>
+                    <span style="font-size: 1.5rem; font-weight: bold; color: var(--accent-cyan);">✨ <span id="total-score-display">0</span> ✨</span>
+                </div>
 
                 <div id="result-details" style="margin-bottom: 2rem; width: 100%;">
                     <!-- Details will be injected here -->
@@ -1060,9 +1065,14 @@
             rankEl.textContent = rank;
             rankEl.className = `rank-badge ${rankClass}`;
 
-            document.getElementById('result-score').textContent = score;
             document.getElementById('result-max').textContent = max;
             document.getElementById('result-message').textContent = msg;
+
+            // 累計スコアの表示
+            const totalScoreArea = document.getElementById('total-score-display');
+            if (totalScoreArea) {
+                totalScoreArea.textContent = UserData.get().totalScore;
+            }
 
             // Render Details
             const detailsContainer = document.getElementById('result-details');

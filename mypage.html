@@ -649,14 +649,21 @@
             historyList.innerHTML = '';
             data.history.forEach(h => {
                 const date = new Date(h.date).toLocaleDateString();
+                const typeLabel = h.type === 'quiz' ? '［クイズ］' : (h.type === 'list' ? '［リスト］' : '［検定］');
+                const typeColor = h.type === 'quiz' ? 'var(--accent-cyan)' : (h.type === 'list' ? 'var(--accent-purple)' : 'var(--accent-green)');
+                const retryUrl = h.type === 'quiz' ? `quiz_game.html?title=${encodeURIComponent(h.title)}` : (h.type === 'list' ? `list_game.html?title=${encodeURIComponent(h.title)}` : `exam.html?title=${encodeURIComponent(h.title)}`);
+
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 item.innerHTML = `
-                    <div>
-                        <div style="font-weight:bold;">${h.title}</div>
+                    <div style="flex: 1; text-align: left;">
+                        <div style="font-weight:bold; display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span style="font-size: 0.6rem; color: ${typeColor}; border: 1px solid ${typeColor}; padding: 1px 4px; border-radius: 4px; white-space: nowrap;">${typeLabel}</span>
+                            ${h.title}
+                        </div>
                         <div style="font-size:0.8rem; color:var(--text-muted);">${date} - ランク ${h.rank} - ${h.score} 点</div>
                     </div>
-                    <a href="exam.html?title=${encodeURIComponent(h.title)}" class="history-link">🔄 もう一度</a>
+                    <a href="${retryUrl}" class="history-link">🔄 もう一度</a>
                 `;
                 historyList.appendChild(item);
             });
