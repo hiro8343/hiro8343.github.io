@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗記したらかっこいいクイズ | Memorization Quiz</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel for in-browser JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            color: #fff;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+        }
+
+        #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.2;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-purple, #9b51e0);
+            top: -100px;
+            left: -100px;
+            animation: float 8s infinite alternate;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-cyan, #0defd2);
+            bottom: 10%;
+            right: -50px;
+            animation: float 6s infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(30px) scale(1.1); }
+        }
+
+        .app-container {
+            z-index: 10;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: left;
+            font-size: 1.1rem;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-cyan);
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: rgba(46, 213, 115, 0.2);
+            border-color: #2ed573;
+            color: #2ed573;
+        }
+
+        .option-btn.wrong {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: #ff4757;
+            color: #ff4757;
+        }
+
+        .option-label {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .result-score {
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            margin: 2rem 0;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .result-msg {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 480px) {
+            .app-container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .question-text { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        const PHASES = { START: 'start', QUIZ: 'quiz', RESULT: 'result' };
+        
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
+
+        // --- Main App Component ---
+        const App = () => {
+            const [phase, setPhase] = useState(PHASES.START);
+            const [allPossibleLists, setAllPossibleLists] = useState([]);
+            const [selectedList, setSelectedList] = useState(null);
+            const [questions, setQuestions] = useState([]);
+            const [currentIdx, setCurrentIdx] = useState(0);
+            const [score, setScore] = useState(0);
+            const [selectedOption, setSelectedOption] = useState(null);
+            const [isCorrect, setIsCorrect] = useState(null);
+            const [limit, setLimit] = useState(10);
+            const [isLoading, setIsLoading] = useState(true);
+
+            // 1. Data Loading
+            useEffect(() => {
+                const init = async () => {
+                    try {
+                        let data = [];
+                        try {
+                            const res = await fetch(SHEET_CSV_URL);
+                            if (res.ok) {
+                                const csvText = await res.text();
+                                data = parseCSV(csvText);
+                            } else { throw new Error(); }
+                        } catch {
+                            const res = await fetch('data/cool_items.json');
+                            data = await res.json();
+                        }
+
+                        // Filter lists that have items with parentheses
+                        const quizLists = data.map(list => {
+                            if (!list.content) return null;
+                            const items = list.content.split(/,|、|\n/).map(s => s.trim()).filter(s => s !== '');
+                            const pairs = items.map(item => {
+                                const match = item.match(/^(.+?)[\(（](.+?)[\)）]$/);
+                                if (match) return { q: match[1].trim(), a: match[2].trim() };
+                                return null;
+                            }).filter(p => p !== null);
+
+                            if (pairs.length >= 4) {
+                                return { ...list, pairs };
+                            }
+                            return null;
+                        }).filter(l => l !== null);
+
+                        setAllPossibleLists(quizLists);
+
+                        // Initial selection from URL param or default to "二十四節気"
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const targetTitle = urlParams.get('title');
+                        let initialSelect = quizLists.find(l => l.title === targetTitle);
+                        if (!initialSelect) initialSelect = quizLists.find(l => l.title === '二十四節気');
+                        if (!initialSelect && quizLists.length > 0) initialSelect = quizLists[0];
+
+                        setSelectedList(initialSelect);
+                    } catch (e) {
+                        console.error(e);
+                    } finally {
+                        setIsLoading(false);
+                    }
+                };
+                init();
+            }, []);
+
+            const parseCSV = (text) => {
+                const rows = [];
+                let row = [];
+                let cell = '';
+                let inQuotes = false;
+                for (let i = 0; i < text.length; i++) {
+                    const ch = text[i];
+                    if (ch === '"') inQuotes = !inQuotes;
+                    else if (ch === ',' && !inQuotes) { row.push(cell); cell = ''; }
+                    else if (ch === '\n' && !inQuotes) { row.push(cell); rows.push(row); row = []; cell = ''; }
+                    else cell += ch;
+                }
+                row.push(cell); rows.push(row);
+                return rows.slice(1).map((r, i) => ({
+                    id: `sheet-${i}`,
+                    title: r[1],
+                    description: r[2],
+                    content: r[3]
+                }));
+            };
+
+            // 2. Game Logic
+            const startQuiz = (num) => {
+                const actualLimit = num === 0 ? selectedList.pairs.length : Math.min(num, selectedList.pairs.length);
+                const shuffled = [...selectedList.pairs].sort(() => Math.random() - 0.5).slice(0, actualLimit);
+                
+                // Create choices for each question
+                const quizQuestions = shuffled.map(pair => {
+                    const others = selectedList.pairs.filter(p => p.a !== pair.a);
+                    const incorrects = others.sort(() => Math.random() - 0.5).slice(0, 3).map(p => p.a);
+                    const options = [...incorrects, pair.a].sort(() => Math.random() - 0.5);
+                    return { ...pair, options };
+                });
+
+                setQuestions(quizQuestions);
+                setCurrentIdx(0);
+                setScore(0);
+                setPhase(PHASES.QUIZ);
+            };
+
+            const handleSelect = (option) => {
+                if (selectedOption !== null) return;
+                setSelectedOption(option);
+                const correct = option === questions[currentIdx].a;
+                setIsCorrect(correct);
+                if (correct) setScore(s => s + 1);
+
+                setTimeout(() => {
+                    if (currentIdx < questions.length - 1) {
+                        setCurrentIdx(i => i + 1);
+                        setSelectedOption(null);
+                        setIsCorrect(null);
+                    } else {
+                        setPhase(PHASES.RESULT);
+                    }
+                }, 1000);
+            };
+
+            // 3. Renderers
+            if (isLoading) return <div className="card">読み込み中...</div>;
+
+            const renderStart = () => (
+                <div className="card animate-fade-in">
+                    <h1 style={{fontSize: '1.5rem', marginBottom: '0.5rem'}}>🎯 クイズに挑戦！</h1>
+                    <h2 style={{color: 'var(--accent-cyan)', marginBottom: '2rem'}}>{selectedList?.title}</h2>
+                    <p style={{textAlign: 'center', color: '#aaa', marginBottom: '2rem'}}>{selectedList?.description}</p>
+                    
+                    <div style={{marginBottom: '2rem'}}>
+                        <p style={{fontSize: '0.9rem', color: '#888', marginBottom: '0.5rem'}}>他のクイズを選ぶ</p>
+                        <select 
+                            className="input-field" 
+                            style={{background: 'rgba(255,255,255,0.05)', cursor: 'pointer'}}
+                            value={selectedList?.title || ''}
+                            onChange={(e) => setSelectedList(allPossibleLists.find(l => l.title === e.target.value))}
+                        >
+                            {allPossibleLists.map(l => <option key={l.title} value={l.title}>{l.title}</option>)}
+                        </select>
+                    </div>
+
+                    <div style={{display: 'grid', gap: '1rem'}}>
+                        <button className="btn btn-primary" onClick={() => startQuiz(5)}>5問挑戦 🚀</button>
+                        <button className="btn btn-secondary" onClick={() => startQuiz(10)}>10問挑戦 🚀</button>
+                        <button className="btn btn-secondary" onClick={() => startQuiz(0)}>全{selectedList?.pairs.length}問挑戦 🔥</button>
+                    </div>
+                    <a href="cool.html" style={{display: 'block', textAlign: 'center', marginTop: '1.5rem', color: '#888', textDecoration: 'none'}}>戻る</a>
+                </div>
+            );
+
+            const renderQuiz = () => {
+                const q = questions[currentIdx];
+                return (
+                    <div className="card animate-fade-in" key={currentIdx}>
+                        <div className="quiz-header">
+                            <span>{selectedList.title}</span>
+                            <span>第 {currentIdx + 1} 問 / 全 {questions.length} 問</span>
+                        </div>
+                        <div className="progress-bar">
+                            <div className="progress-fill" style={{width: `${((currentIdx + 1) / questions.length) * 100}%`}}></div>
+                        </div>
+                        <div className="question-text">{q.q}</div>
+                        <div className="options-grid">
+                            {q.options.map((opt, i) => (
+                                <button 
+                                    key={i} 
+                                    className={`option-btn ${selectedOption === opt ? (isCorrect ? 'correct' : 'wrong') : (selectedOption !== null && opt === q.a ? 'correct' : '')}`}
+                                    onClick={() => handleSelect(opt)}
+                                    disabled={selectedOption !== null}
+                                >
+                                    <span className="option-label">{['A','B','C','D'][i]}</span>
+                                    {opt}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                );
+            };
+
+            const renderResult = () => {
+                const percent = (score / questions.length) * 100;
+                let msg = "お疲れ様でした！";
+                if (percent === 100) msg = "完璧ですね！季節の達人です！✨";
+                else if (percent >= 80) msg = "素晴らしい成績です！👏";
+                else if (percent >= 50) msg = "いい感じです！もっと上を目指しましょう。";
+
+                return (
+                    <div className="card animate-fade-in">
+                        <h2 style={{fontSize: '1.5rem'}}>テスト結果</h2>
+                        <div className="result-score">{score} / {questions.length}</div>
+                        <p className="result-msg">{msg}</p>
+                        <div style={{display: 'grid', gap: '1rem'}}>
+                            <button className="btn btn-primary" onClick={() => setPhase(PHASES.START)}>もう一度挑戦する</button>
+                            <button className="btn btn-secondary" onClick={() => window.location.href = 'index.html'}>トップに戻る</button>
+                        </div>
+                    </div>
+                );
+            };
+
+            return (
+                <div className="app-container">
+                    {phase === PHASES.START && renderStart()}
+                    {phase === PHASES.QUIZ && renderQuiz()}
+                    {phase === PHASES.RESULT && renderResult()}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

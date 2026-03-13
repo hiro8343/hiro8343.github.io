@@ -558,6 +558,17 @@
                     listGameBtn.style.cssText = 'background: rgba(255, 100, 150, 0.2); color: #ff6b81; border-color: #ff6b81;';
                     listGameBtn.textContent = '📝 このリストを覚える（ゲーム）';
                     linksContainer.appendChild(listGameBtn);
+
+                    // 括弧を含む項目がある場合、クイズリンクを追加
+                    const hasParens = listItems.some(s => s.includes('(') || s.includes('（'));
+                    if (hasParens) {
+                        const quizBtn = document.createElement('a');
+                        quizBtn.href = `quiz_game.html?title=${encodeURIComponent(item.title)}`;
+                        quizBtn.className = 'link-btn';
+                        quizBtn.style.cssText = 'background: rgba(188, 19, 254, 0.2); color: #e0aaff; border-color: var(--accent-purple);';
+                        quizBtn.textContent = '🎯 このリストでクイズに挑戦';
+                        linksContainer.appendChild(quizBtn);
+                    }
                 }
             }
 

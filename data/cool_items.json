@@ -1,4 +1,4 @@
-﻿[
+[
     {
         "id":  1,
         "category":  "space",
@@ -198,5 +198,15 @@
         "stars":  2,
         "explanationUrl":  "https://ja.wikipedia.org/wiki/%E5%85%89%E9%80%9F",
         "wordUrl":  "https://ja.wikipedia.org/wiki/%E5%85%89%E9%80%9F"
+    },
+    {
+        "id": 21,
+        "category": "culture",
+        "title": "二十四節気",
+        "description": "1年を24等分した季節の区切り。立春、夏至、秋分、冬至などが有名です。",
+        "content": "立春 (2月4日頃),雨水 (2月19日頃),啓蟄 (3月6日頃),春分 (3月21日頃),清明 (4月5日頃),穀雨 (4月20日頃),立夏 (5月6日頃),小満 (5月21日頃),芒種 (6月6日頃),夏至 (6月21日頃),小暑 (7月7日頃),大暑 (7月23日頃),立秋 (8月8日頃),処暑 (8月23日頃),白露 (9月8日頃),秋分 (9月23日頃),寒露 (10月8日頃),霜降 (10月24日頃),立冬 (11月7日頃),小雪 (11月22日頃),大雪 (12月7日頃),冬至 (12月22日頃),小寒 (1月5日頃),大寒 (1月21日頃)",
+        "stars": 3,
+        "explanationUrl": "https://ja.wikipedia.org/wiki/%E4%BA%8C%E5%8D%81%E5%9B%9B%E7%AF%80%E6%B0%97",
+        "wordUrl": "https://ja.wikipedia.org/wiki/%E4%BA%8C%E5%8D%81%E5%9B%9B%E7%AF%80%E6%B0%97"
     }
 ]
