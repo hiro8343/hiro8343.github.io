@@ -546,6 +546,8 @@
             streakRow.innerHTML = '';
 
             const items = [
+                { icon: '🌟', value: streaks.totalDays, label: '累計学習日数', customMsg: '日々積み重ねてえらい！' },
+                { icon: '👏', value: streaks.restarts, label: 'カムバック回数', customMsg: '戻ってきて最高！' },
                 { icon: '🔥', value: streaks.days, best: streaks.bestDays, label: '日連続' },
                 { icon: '📅', value: streaks.weeks, best: streaks.bestWeeks, label: '週連続' },
                 { icon: '🗓️', value: streaks.months, best: streaks.bestMonths, label: 'ヶ月連続' },
@@ -553,15 +555,22 @@
             ];
 
             items.forEach(item => {
-                // 現在値がベスト値と同じ（かつ0より大きい）場合は金色強調
-                const isBest = item.value > 0 && item.value >= item.best;
+                const isBest = item.best !== undefined && item.value > 0 && item.value >= item.best;
                 const card = document.createElement('div');
                 card.className = `streak-card${isBest ? ' is-best' : ''}`;
+                
+                let subText = '';
+                if (item.customMsg) {
+                    subText = `<span class="streak-best" style="color: var(--accent-pink); font-weight: bold;">${item.customMsg}</span>`;
+                } else {
+                    subText = `<span class="streak-best">過去最高: ${item.best}</span>`;
+                }
+
                 card.innerHTML = `
                     <span class="streak-icon">${item.icon}${isBest ? ' 🏅' : ''}</span>
                     <span class="streak-value">${item.value}</span>
                     <span class="streak-label">${item.label}</span>
-                    <span class="streak-best">過去最高: ${item.best}</span>
+                    ${subText}
                 `;
                 streakRow.appendChild(card);
             });

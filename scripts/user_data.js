@@ -152,6 +152,25 @@ function getStreaks() {
     });
 
     const sortedDates = Array.from(examDates).sort(); // 古い順
+    
+    // ====== 累計学習日数 ======
+    const totalDays = sortedDates.length;
+
+    // ====== 再開回数（途切れた後に再開した回数） ======
+    // 学習した日付を古い順に見て、前回の学習日から1日以上間隔が空いていれば再開とみなす。
+    let restarts = 0;
+    if (sortedDates.length > 0) restarts = 1; // 最初の1回目を再開に含めるか（ここでは「学習を始めた」意味で1から開始するか、0とするかですが、応援目的なので「1回目のスタート」として1にします）
+    
+    for (let i = 1; i < sortedDates.length; i++) {
+        const prev = new Date(sortedDates[i - 1]);
+        const curr = new Date(sortedDates[i]);
+        const diffMs = curr - prev;
+        const diffDays = Math.round(diffMs / 86400000);
+        
+        if (diffDays > 1) { // 1日以上空いて再開した場合
+            restarts++;
+        }
+    }
 
     // ====== 現在の連続日数の計算 ======
     let dayStreak = 0;
@@ -327,7 +346,11 @@ function getStreaks() {
     }
     if (yearStreak > bestYears) bestYears = yearStreak;
 
-    return { days: dayStreak, weeks: weekStreak, months: monthStreak, years: yearStreak, bestDays, bestWeeks, bestMonths, bestYears };
+    return { 
+        days: dayStreak, weeks: weekStreak, months: monthStreak, years: yearStreak, 
+        bestDays, bestWeeks, bestMonths, bestYears,
+        totalDays, restarts
+    };
 }
 
 // Badge Definitions (Metadata)
