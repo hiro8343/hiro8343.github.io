@@ -354,21 +354,40 @@
                     const others = selectedList.pairs.filter(p => p.a !== pair.a);
                     const incorrects = others.sort(() => Math.random() - 0.5).slice(0, 3).map(p => p.a);
                     const options = [...incorrects, pair.a].sort(() => Math.random() - 0.5);
-                    return { ...pair, options };
+                    return { ...pair, options, missCount: 0 }; // 失敗回数を追跡
                 });
 
                 setQuestions(quizQuestions);
                 setCurrentIdx(0);
                 setScore(0);
                 setPhase(PHASES.QUIZ);
+                
+                // 最初の問題数を記録
+                window.initialQuestionCount = quizQuestions.length;
             };
 
             const handleSelect = (option) => {
                 if (selectedOption !== null) return;
                 setSelectedOption(option);
-                const correct = option === questions[currentIdx].a;
+                const q = questions[currentIdx];
+                const correct = option === q.a;
                 setIsCorrect(correct);
-                if (correct) setScore(s => s + 1);
+                
+                if (correct) {
+                    // 正解した場合、間違えた回数に応じてスコアを計算
+                    const gainedScore = 1 / Math.pow(2, q.missCount || 0);
+                    setScore(s => s + gainedScore);
+                } else {
+                    // 不正解の場合、この問題を配列の最後に追加（復習）
+                    // 選択肢をシャッフルし直す
+                    const newOptions = [...q.options].sort(() => Math.random() - 0.5);
+                    const retryQuestion = {
+                        ...q, 
+                        options: newOptions,
+                        missCount: (q.missCount || 0) + 1
+                    };
+                    setQuestions(prev => [...prev, retryQuestion]);
+                }
 
                 // 正解なら1秒、不正解なら3秒待機
                 const waitTime = correct ? 1000 : 3000;
@@ -380,16 +399,17 @@
                         setIsCorrect(null);
                     } else {
                         // スコアを保存（クイズタイプ）
-                        const percent = ((score + (correct ? 1 : 0)) / questions.length) * 100;
+                        const maxScore = window.initialQuestionCount || questions.length;
+                        const percent = (score / maxScore) * 100;
                         let rank = 'C';
-                        if (percent === 100) rank = 'S';
+                        if (percent >= 100) rank = 'S';
                         else if (percent >= 80) rank = 'A';
                         else if (percent >= 50) rank = 'B';
 
                         UserData.addResult({
                             title: selectedList.title,
-                            score: score + (correct ? 1 : 0),
-                            max: questions.length,
+                            score: score,
+                            max: maxScore,
                             rank: rank,
                             type: 'quiz'
                         });
@@ -435,7 +455,11 @@
                     <div className="card animate-fade-in" key={currentIdx}>
                         <div className="quiz-header">
                             <span>{selectedList.title}</span>
-                            <span>第 {currentIdx + 1} 問 / 全 {questions.length} 問</span>
+                            <span>
+                                第 {currentIdx + 1} 問 
+                                {currentIdx >= window.initialQuestionCount ? ' (復習)' : ''} / 
+                                最初の {window.initialQuestionCount} 問
+                            </span>
                         </div>
                         <div className="progress-bar">
                             <div className="progress-fill" style={{width: `${((currentIdx + 1) / questions.length) * 100}%`}}></div>
@@ -468,18 +492,21 @@
             };
 
             const renderResult = () => {
-                const percent = (score / questions.length) * 100;
-                let msg = "お疲れ様でした！";
-                if (percent === 100) msg = "完璧ですね！季節の達人です！✨";
+                const maxScore = window.initialQuestionCount || questions.length;
+                const displayScore = Number.isInteger(score) ? score : score.toFixed(2).replace(/\.?0+$/, '');
+                const percent = (score / maxScore) * 100;
+                
+                let msg = "お疲れ様でした！復習もバッチリですね！";
+                if (percent >= 100) msg = "完璧ですね！一発で全問正解です！✨";
                 else if (percent >= 80) msg = "素晴らしい成績です！👏";
-                else if (percent >= 50) msg = "いい感じです！もっと上を目指しましょう。";
+                else if (percent >= 50) msg = "いい感じです！復習でしっかり覚えられましたね。";
 
                 const currentTotalScore = UserData.get().totalScore;
 
                 return (
                     <div className="card animate-fade-in">
                         <h2 style={{fontSize: '1.5rem'}}>テスト結果</h2>
-                        <div className="result-score">{score} / {questions.length}</div>
+                        <div className="result-score">{displayScore} / {maxScore}</div>
                         <p className="result-msg">{msg}</p>
                         
                         <div style={{
@@ -491,7 +518,7 @@
                             textAlign: 'center'
                         }}>
                             <span style={{color: '#aaa', fontSize: '0.8rem', display: 'block', marginBottom: '0.3rem'}}>現在の累計スコア</span>
-                            <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent-cyan)'}}>✨ {currentTotalScore} <small style={{fontSize: '0.9rem', marginLeft: '4px'}}>(+{score})</small> ✨</span>
+                            <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--accent-cyan)'}}>✨ {currentTotalScore} <small style={{fontSize: '0.9rem', marginLeft: '4px'}}>(+{displayScore})</small> ✨</span>
                         </div>
 
                         <div style={{display: 'grid', gap: '1rem'}}>
