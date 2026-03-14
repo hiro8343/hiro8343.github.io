@@ -406,11 +406,14 @@
                 // Settings
                 const [count, setCount] = useState(5);
                 const [waitTime, setWaitTime] = useState(30);
+                const [gameMode, setGameMode] = useState('input'); // 'input' or 'select'
 
                 // Game State
                 const [targets, setTargets] = useState([]);
                 const [timeLeft, setTimeLeft] = useState(0);
                 const [inputs, setInputs] = useState([]);
+                const [selectOptions, setSelectOptions] = useState([]); // 選択モード用の選択肢
+                const [selectedItems, setSelectedItems] = useState([]); // 選択モードで選ばれた項目
                 const [results, setResults] = useState([]); // Array of { item, isCorrect, hintsRequired }
                 const [promptIndex, setPromptIndex] = useState(0);
                 const [isLoading, setIsLoading] = useState(true);
@@ -507,7 +510,25 @@
 
                     const selected = selectItems(curList.items, srsData, actualCount);
                     setTargets(selected);
-                    setInputs(Array(selected.length).fill(''));
+                    
+                    if (gameMode === 'input') {
+                        setInputs(Array(selected.length).fill(''));
+                    } else {
+                        // 選択モード用: 全項目からダミーを選出し、正解と混ぜてシャッフル
+                        const dummiesNeeded = Math.max(0, 10 - selected.length);
+                        let dummies = [];
+                        if (dummiesNeeded > 0) {
+                            const availableDummies = curList.items.filter(item => !selected.includes(item));
+                            // シャッフルして必要な数だけ取得
+                            const shuffledDummies = [...availableDummies].sort(() => Math.random() - 0.5);
+                            dummies = shuffledDummies.slice(0, dummiesNeeded);
+                        }
+                        const options = [...selected, ...dummies].sort(() => Math.random() - 0.5);
+                        setSelectOptions(options);
+                        setSelectedItems([]);
+                        setInputs([]);
+                    }
+                    
                     setPhase(PHASES.MEMORIZE);
                 };
 
@@ -546,7 +567,13 @@
                 }, [phase]);
 
                 const checkAnswers = () => {
-                    const answerList = inputs.map(i => i.trim()).filter(i => i !== '');
+                    let answerList = [];
+                    if (gameMode === 'input') {
+                        answerList = inputs.map(i => i.trim()).filter(i => i !== '');
+                    } else {
+                        answerList = selectedItems; 
+                    }
+                    
                     let newSrsData = { ...srsData };
 
                     // For simplicity, ANY order is matched. We need to match each target to one input.
@@ -661,6 +688,18 @@
                                     ))}
                                 </div>
                             </div>
+                            
+                            <div style={{ marginBottom: '3rem' }}>
+                                <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>解答方法</p>
+                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                    <button onClick={() => setGameMode('input')} className={`btn ${gameMode === 'input' ? 'btn-primary' : 'btn-secondary'}`} style={{ flex: 1 }}>
+                                        ✍️ 手入力
+                                    </button>
+                                    <button onClick={() => setGameMode('select')} className={`btn ${gameMode === 'select' ? 'btn-primary' : 'btn-secondary'}`} style={{ flex: 1 }}>
+                                        👆 選択肢
+                                    </button>
+                                </div>
+                            </div>
 
                             <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.2rem' }} onClick={startNewGame}>
                                 スタート 🚀
@@ -722,36 +761,89 @@
                         }
                     };
 
+                    const handleSelectOption = (opt) => {
+                        if (selectedItems.includes(opt)) {
+                            setSelectedItems(selectedItems.filter(item => item !== opt));
+                        } else {
+                            if (selectedItems.length < targets.length) {
+                                setSelectedItems([...selectedItems, opt]);
+                            }
+                        }
+                    };
+
                     return (
                         <div className="card animate-fade-in" style={{ width: '100%' }}>
                             <h2 style={{ color: 'var(--accent-cyan)', marginBottom: '2rem' }}>解答入力</h2>
-                            <p style={{ color: '#aaa', marginBottom: '1.5rem', textAlign: 'center' }}>
-                                思い出した項目を順不同で入力してください。
-                            </p>
-
-                            <div style={{ marginBottom: '2rem' }}>
-                                {inputs.map((val, idx) => (
-                                    <input
-                                        key={idx}
-                                        id={`input-${idx}`}
-                                        className="input-field"
-                                        type="text"
-                                        value={val}
-                                        onChange={(e) => {
-                                            const newIns = [...inputs];
-                                            newIns[idx] = e.target.value;
-                                            setInputs(newIns);
-                                        }}
-                                        onKeyDown={(e) => handleKeyDown(e, idx)}
-                                        placeholder={`${idx + 1}つ目`}
-                                        autoComplete="off"
-                                    />
-                                ))}
-                            </div>
-
-                            <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }} onClick={checkAnswers}>
-                                答え合わせ 🔍
-                            </button>
+                            
+                            {gameMode === 'input' ? (
+                                <>
+                                    <p style={{ color: '#aaa', marginBottom: '1.5rem', textAlign: 'center' }}>
+                                        思い出した項目を順不同で入力してください。
+                                    </p>
+                                    <div style={{ marginBottom: '2rem' }}>
+                                        {inputs.map((val, idx) => (
+                                            <input
+                                                key={idx}
+                                                id={`input-${idx}`}
+                                                className="input-field"
+                                                type="text"
+                                                value={val}
+                                                onChange={(e) => {
+                                                    const newIns = [...inputs];
+                                                    newIns[idx] = e.target.value;
+                                                    setInputs(newIns);
+                                                }}
+                                                onKeyDown={(e) => handleKeyDown(e, idx)}
+                                                placeholder={`${idx + 1}つ目`}
+                                                autoComplete="off"
+                                            />
+                                        ))}
+                                    </div>
+                                    <button className="btn btn-primary" style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }} onClick={checkAnswers}>
+                                        答え合わせ 🔍
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <p style={{ color: '#aaa', marginBottom: '1.5rem', textAlign: 'center' }}>
+                                        出題された項目を {targets.length}個 選んでください ({selectedItems.length}/{targets.length})
+                                    </p>
+                                    <div style={{ 
+                                        display: 'grid', 
+                                        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', 
+                                        gap: '10px', 
+                                        marginBottom: '2rem' 
+                                    }}>
+                                        {selectOptions.map((opt, idx) => {
+                                            const isSelected = selectedItems.includes(opt);
+                                            return (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => handleSelectOption(opt)}
+                                                    className={`btn ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
+                                                    style={{ 
+                                                        padding: '1rem 0.5rem', 
+                                                        fontSize: '0.9rem', 
+                                                        wordBreak: 'break-word',
+                                                        whiteSpace: 'normal',
+                                                        height: '100%'
+                                                    }}
+                                                >
+                                                    {opt}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                    <button 
+                                        className="btn btn-primary" 
+                                        style={{ width: '100%', padding: '1rem', fontSize: '1.1rem', opacity: selectedItems.length === targets.length ? 1 : 0.5 }} 
+                                        onClick={checkAnswers}
+                                        disabled={selectedItems.length !== targets.length}
+                                    >
+                                        答え合わせ 🔍
+                                    </button>
+                                </>
+                            )}
                         </div>
                     );
                 };
@@ -783,23 +875,44 @@
                                     <div key={idx} style={{ background: 'rgba(255, 71, 87, 0.1)', padding: '1rem', borderRadius: '12px', marginBottom: '1rem', border: '1px solid rgba(255,71,87,0.3)' }}>
                                         <p style={{ color: '#ff4757', margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>❌ 不正解 / 未入力</p>
                                         <p style={{ color: '#aaa', margin: '0 0 1rem 0', fontSize: '0.9rem' }}>ヒント: <span style={{ color: '#fff', fontWeight: 'bold' }}>{hintStr}</span></p>
-                                        <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                            <input
-                                                id={`retry-${idx}`}
-                                                className="input-field"
-                                                style={{ marginBottom: 0 }}
-                                                placeholder="もう一度入力"
-                                                autoComplete="off"
-                                                onKeyDown={(e) => {
-                                                    if (e.key === 'Enter') submitRetry(idx, e.target.value);
-                                                }}
-                                            />
-                                            <button className="btn btn-secondary" onClick={() => {
-                                                const el = document.getElementById(`retry-${idx}`);
-                                                submitRetry(idx, el.value);
-                                                el.value = '';
-                                            }}>確認</button>
-                                        </div>
+                                        
+                                        {gameMode === 'input' ? (
+                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                <input
+                                                    id={`retry-${idx}`}
+                                                    className="input-field"
+                                                    style={{ marginBottom: 0 }}
+                                                    placeholder="もう一度入力"
+                                                    autoComplete="off"
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') submitRetry(idx, e.target.value);
+                                                    }}
+                                                />
+                                                <button className="btn btn-secondary" onClick={() => {
+                                                    const el = document.getElementById(`retry-${idx}`);
+                                                    submitRetry(idx, el.value);
+                                                    el.value = '';
+                                                }}>確認</button>
+                                            </div>
+                                        ) : (
+                                            <div style={{ 
+                                                display: 'grid', 
+                                                gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', 
+                                                gap: '8px',
+                                                marginTop: '0.5rem'
+                                            }}>
+                                                {selectOptions.map((opt, optIdx) => (
+                                                    <button
+                                                        key={`retry-${idx}-${optIdx}`}
+                                                        onClick={() => submitRetry(idx, opt)}
+                                                        className="btn btn-secondary"
+                                                        style={{ padding: '0.5rem', fontSize: '0.8rem', whiteSpace: 'normal', wordBreak: 'break-word', height: '100%' }}
+                                                    >
+                                                        {opt}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 );
                             })}
