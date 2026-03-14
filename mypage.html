@@ -530,8 +530,62 @@
 
     <script src="scripts/user_data.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // スプレッドシートのCSVをロードしてカタログとして保持
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精總化';
+        window.ITEM_CATALOG = null;
+
+        async function loadItemCatalog() {
+            if (window.ITEM_CATALOG) return window.ITEM_CATALOG;
+            try {
+                const res = await fetch(SHEET_CSV_URL);
+                if (!res.ok) throw new Error();
+                const text = await res.text();
+                // 簡易CSVパーサ
+                const rows = [];
+                let row = [], cell = '', inQ = false;
+                const clean = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+                for (let i = 0; i < clean.length; i++) {
+                    const ch = clean[i];
+                    if (ch === '"') inQ = !inQ;
+                    else if (ch === ',' && !inQ) { row.push(cell); cell = ''; }
+                    else if (ch === '\n' && !inQ) { row.push(cell); rows.push(row); row = []; cell = ''; }
+                    else cell += ch;
+                }
+                row.push(cell); rows.push(row);
+                const catalog = {};
+                rows.slice(1).forEach(r => {
+                    if (r.length >= 4 && r[1]) catalog[r[1].trim()] = r[3] || '';
+                });
+                window.ITEM_CATALOG = catalog;
+                return catalog;
+            } catch {
+                window.ITEM_CATALOG = {};
+                return {};
+            }
+        }
+
+        function getAvailableModes(title, catalog) {
+            const content = catalog ? catalog[title] : null;
+            if (!content) {
+                // カタログがない場合は全部表示
+                return { cool: true, quiz: true, list: true, exam: true };
+            }
+            const items = content.split(/,|、|\n/).map(s => s.trim()).filter(s => s);
+            // クイズ: q(あ) 形式が4件以上
+            const quizPairs = items.filter(s => /^.+[\(\uff08].+[\)\uff09]$/.test(s));
+            const hasQuiz = quizPairs.length >= 4;
+            // リスト: 項目が2件以上
+            const hasList = items.length >= 2;
+            return { cool: true, quiz: hasQuiz, list: hasList, exam: true };
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
             renderMyPage();
+            // カタログを非同期でロードし、完了後にお気に入り部分だけ再描画
+            loadItemCatalog().then(() => {
+                const data = UserData.get();
+                if (data.favorites && data.favorites.length > 0) renderFavorites(data);
+            });
         });
 
         function renderMyPage() {
@@ -654,6 +708,19 @@
                         </div>`;
                 }
 
+                // 利用可能なゲームモードを判定
+                const modes = getAvailableModes(fav.title, window.ITEM_CATALOG);
+                
+                // 各リンクのHTMLを条件付きで生成
+                const coolLink = modes.cool ? `<a href="cool.html?title=${encodeURIComponent(fav.title)}" class="link-cool"><span style="font-size:1.2rem;">📖</span>解説</a>` : '';
+                const quizLink = modes.quiz ? `<a href="quiz_game.html?title=${encodeURIComponent(fav.title)}" class="link-quiz"><span style="font-size:1.2rem;">🎯</span>クイズ</a>` : '';
+                const listLink = modes.list ? `<a href="list_game.html?title=${encodeURIComponent(fav.title)}" class="link-list"><span style="font-size:1.2rem;">📝</span>リスト</a>` : '';
+                const examLink = modes.exam ? `<a href="exam.html?title=${encodeURIComponent(fav.title)}" class="link-exam"><span style="font-size:1.2rem;">🏆</span>検定</a>` : '';
+                
+                // 表示するリンク数に応じてグリッド列数を調整
+                const linkCount = [modes.cool, modes.quiz, modes.list, modes.exam].filter(Boolean).length;
+                const gridCols = linkCount > 0 ? `repeat(${linkCount}, 1fr)` : '1fr';
+
                 const item = document.createElement('div');
                 item.className = 'fav-item';
                 item.innerHTML = `
@@ -667,24 +734,7 @@
                         </div>
                         <button class="fav-remove-btn" onclick="removeFav('${fav.title.replace(/'/g, "\\'")}')" title="お気に入りから削除">✕</button>
                     </div>
-                    <div class="fav-actions">
-                        <a href="cool.html?title=${encodeURIComponent(fav.title)}" class="link-cool">
-                            <span style="font-size:1.2rem;">📖</span>
-                            解説
-                        </a>
-                        <a href="quiz_game.html?title=${encodeURIComponent(fav.title)}" class="link-quiz">
-                            <span style="font-size:1.2rem;">🎯</span>
-                            クイズ
-                        </a>
-                        <a href="list_game.html?title=${encodeURIComponent(fav.title)}" class="link-list">
-                            <span style="font-size:1.2rem;">📝</span>
-                            リスト
-                        </a>
-                        <a href="exam.html?title=${encodeURIComponent(fav.title)}" class="link-exam">
-                            <span style="font-size:1.2rem;">🏆</span>
-                            検定
-                        </a>
-                    </div>
+                    ${linkCount > 0 ? `<div class="fav-actions" style="grid-template-columns:${gridCols};">${coolLink}${quizLink}${listLink}${examLink}</div>` : ''}
                 `;
                 favList.appendChild(item);
             });
