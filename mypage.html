@@ -203,48 +203,73 @@
 
         .fav-item {
             background: rgba(255, 255, 255, 0.03);
-            padding: 1rem;
-            border-radius: var(--radius-sm);
+            padding: 1.2rem;
+            border-radius: var(--radius-md);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .fav-item-info {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 1rem;
+            justify-content: space-between;
         }
 
         .fav-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 0.5rem;
+            width: 100%;
         }
 
-        .fav-actions a,
-        .fav-actions button {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .fav-actions a {
+            padding: 8px 4px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: transform 0.2s, background 0.2s;
             text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        
+        .fav-actions a:hover {
+            transform: translateY(-2px);
         }
 
-        .fav-exam-link {
-            background: rgba(188, 19, 254, 0.2);
-            color: #e0aaff;
-        }
+        .link-cool { background: rgba(0, 243, 255, 0.1); color: var(--accent-cyan); border-color: rgba(0, 243, 255, 0.2); }
+        .link-cool:hover { background: rgba(0, 243, 255, 0.2); }
+        
+        .link-quiz { background: rgba(255, 215, 0, 0.1); color: #ffd700; border-color: rgba(255, 215, 0, 0.2); }
+        .link-quiz:hover { background: rgba(255, 215, 0, 0.2); }
+        
+        .link-list { background: rgba(46, 213, 115, 0.1); color: #2ed573; border-color: rgba(46, 213, 115, 0.2); }
+        .link-list:hover { background: rgba(46, 213, 115, 0.2); }
+
+        .link-exam { background: rgba(188, 19, 254, 0.1); color: #e0aaff; border-color: rgba(188, 19, 254, 0.2); }
+        .link-exam:hover { background: rgba(188, 19, 254, 0.2); }
 
         .fav-remove-btn {
             background: rgba(255, 0, 85, 0.1);
             color: var(--accent-pink);
-        }
-
-        .fav-exam-link:hover {
-            background: rgba(188, 19, 254, 0.4);
+            border: 1px solid rgba(255, 0, 85, 0.2);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
         .fav-remove-btn:hover {
@@ -633,15 +658,32 @@
                 item.className = 'fav-item';
                 item.innerHTML = `
                     <div class="fav-item-info">
-                        ${bestHtml}
-                        <div>
-                            <div style="font-weight:bold;">${fav.title}</div>
-                            <div style="font-size:0.8rem; color:var(--text-muted);">${fav.category || ''}</div>
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            ${bestHtml}
+                            <div>
+                                <div style="font-weight:bold; font-size:1.1rem; margin-bottom:0.2rem;">${fav.title}</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted);">${fav.category || ''}</div>
+                            </div>
                         </div>
+                        <button class="fav-remove-btn" onclick="removeFav('${fav.title.replace(/'/g, "\\'")}')" title="お気に入りから削除">✕</button>
                     </div>
                     <div class="fav-actions">
-                        <a href="exam.html?title=${encodeURIComponent(fav.title)}" class="fav-exam-link">🎯 検定へ</a>
-                        <button class="fav-remove-btn" onclick="removeFav('${fav.title.replace(/'/g, "\\'")}')">✕</button>
+                        <a href="cool.html?title=${encodeURIComponent(fav.title)}" class="link-cool">
+                            <span style="font-size:1.2rem;">📖</span>
+                            解説
+                        </a>
+                        <a href="quiz_game.html?title=${encodeURIComponent(fav.title)}" class="link-quiz">
+                            <span style="font-size:1.2rem;">🎯</span>
+                            クイズ
+                        </a>
+                        <a href="list_game.html?title=${encodeURIComponent(fav.title)}" class="link-list">
+                            <span style="font-size:1.2rem;">📝</span>
+                            リスト
+                        </a>
+                        <a href="exam.html?title=${encodeURIComponent(fav.title)}" class="link-exam">
+                            <span style="font-size:1.2rem;">🏆</span>
+                            検定
+                        </a>
                     </div>
                 `;
                 favList.appendChild(item);
