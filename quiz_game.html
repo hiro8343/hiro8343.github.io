@@ -349,10 +349,46 @@
                 const actualLimit = num === 0 ? selectedList.pairs.length : Math.min(num, selectedList.pairs.length);
                 const shuffled = [...selectedList.pairs].sort(() => Math.random() - 0.5).slice(0, actualLimit);
                 
+                // 語尾を取得するヘルパー関数
+                const getSuffix = (str) => {
+                    if (!str) return '';
+                    if (str.endsWith('共和国')) return '共和国';
+                    if (str.endsWith('諸島')) return '諸島';
+                    if (str.endsWith('連邦')) return '連邦';
+                    if (str.endsWith('王国')) return '王国';
+                    if (str.endsWith('国')) return '国';
+                    return str.slice(-2); // 該当しない場合は最後の2文字
+                };
+
                 // Create choices for each question
                 const quizQuestions = shuffled.map(pair => {
                     const others = selectedList.pairs.filter(p => p.a !== pair.a);
-                    const incorrects = others.sort(() => Math.random() - 0.5).slice(0, 3).map(p => p.a);
+                    const targetSuffix = getSuffix(pair.a);
+                    
+                    let incorrects = [];
+                    let usedSuffixes = new Set([targetSuffix]);
+
+                    // まず、語尾が被らないものを優先して選ぶ（3つまで）
+                    const candidatesPool = [...others].sort(() => Math.random() - 0.5);
+                    for (const cand of candidatesPool) {
+                        const suf = getSuffix(cand.a);
+                        if (!usedSuffixes.has(suf)) {
+                            incorrects.push(cand.a);
+                            usedSuffixes.add(suf);
+                            if (incorrects.length === 3) break;
+                        }
+                    }
+
+                    // 候補が足りない（リスト全体が似た語尾ばかり等）場合は、残りをランダムに補充
+                    if (incorrects.length < 3) {
+                        for (const cand of candidatesPool) {
+                            if (!incorrects.includes(cand.a)) {
+                                incorrects.push(cand.a);
+                                if (incorrects.length === 3) break;
+                            }
+                        }
+                    }
+
                     const options = [...incorrects, pair.a].sort(() => Math.random() - 0.5);
                     return { ...pair, options, missCount: 0 }; // 失敗回数を追跡
                 });
