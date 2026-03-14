@@ -515,7 +515,10 @@
                         setInputs(Array(selected.length).fill(''));
                     } else {
                         // 選択モード用: 全項目からダミーを選出し、正解と混ぜてシャッフル
-                        const dummiesNeeded = Math.max(0, 10 - selected.length);
+                        // 出題数の2倍の選択肢を用意（ただしリストの最大件数を超えない）
+                        const targetOptionsCount = Math.min(selected.length * 2, curList.items.length);
+                        const dummiesNeeded = Math.max(0, targetOptionsCount - selected.length);
+                        
                         let dummies = [];
                         if (dummiesNeeded > 0) {
                             const availableDummies = curList.items.filter(item => !selected.includes(item));
@@ -851,6 +854,7 @@
 
             const renderResult = () => {
                 const score = results.filter(r => r.isCorrect).length;
+                const allCorrect = score === targets.length;
 
                 return (
                     <div className="card animate-fade-in" style={{ width: '100%' }}>
