@@ -411,6 +411,8 @@
                 const correct = option === q.a;
                 setIsCorrect(correct);
                 
+                let willAddRetry = false;
+                
                 if (correct) {
                     // 正解した場合、間違えた回数に応じてスコアを計算
                     const gainedScore = 1 / Math.pow(2, q.missCount || 0);
@@ -425,13 +427,17 @@
                         missCount: (q.missCount || 0) + 1
                     };
                     setQuestions(prev => [...prev, retryQuestion]);
+                    willAddRetry = true;
                 }
 
                 // 正解なら1秒、不正解なら3秒待機
                 const waitTime = correct ? 1000 : 3000;
 
                 setTimeout(() => {
-                    if (currentIdx < questions.length - 1) {
+                    // 次へ進む条件:
+                    // 1. 現時点でのインデックスが「元の長さ-1」より小さい
+                    // 2. または、今回不正解で復習問題が追加されることが確定している
+                    if (currentIdx < questions.length - 1 || willAddRetry) {
                         setCurrentIdx(i => i + 1);
                         setSelectedOption(null);
                         setIsCorrect(null);
