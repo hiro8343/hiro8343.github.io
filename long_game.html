@@ -932,12 +932,17 @@
                                 {selectedItem.icon} {selectedItem.title}
                             </p>
 
-                            {/* コンテキスト + 判定プレビュー */}
+                            {/* コンテキスト（selStart直前まで）＋判定後は選択範囲も表示 */}
                             <div className="long-name-display">
-                                {content.split('').map((ch, i) => (
+                                {content.split('').slice(0, judgment ? selEnd + 1 : selStart).map((ch, i) => (
                                     <span key={i} className={`char-span ${getCharTestClass(i)}`}>{ch}</span>
                                 ))}
+                                {/* 未判定時：末尾に「▼ ここから入力」インジケーター */}
+                                {!judgment && selStart > 0 && (
+                                    <span style={{ color: '#f0932b', fontWeight: 'bold', marginLeft: '4px', fontSize: '0.9em' }}>▼</span>
+                                )}
                             </div>
+
 
                             {/* テスト入力欄 */}
                             <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop: '1rem', marginBottom: '0.4rem' }}>
