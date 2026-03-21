@@ -941,13 +941,14 @@
                                 type="text"
                                 autoFocus
                                 value={currentInputValue}
+                                onChange={e => {
+                                    setCurrentInputValue(e.target.value);
+                                    if (!isComposing) checkInput(e.target.value);
+                                }}
                                 onCompositionStart={() => setIsComposing(true)}
                                 onCompositionEnd={(e) => {
                                     setIsComposing(false);
                                     checkInput(e.target.value);
-                                }}
-                                onInput={e => {
-                                    if (!isComposing) checkInput(e.target.value);
                                 }}
                                 style={{
                                     borderColor: isError ? '#ff4757' : (judgment ? '#2ed573' : 'rgba(255,255,255,0.2)'),
