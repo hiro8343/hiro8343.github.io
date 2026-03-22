@@ -258,6 +258,9 @@
         .link-exam { background: rgba(188, 19, 254, 0.1); color: #e0aaff; border-color: rgba(188, 19, 254, 0.2); }
         .link-exam:hover { background: rgba(188, 19, 254, 0.2); }
 
+        .link-long { background: rgba(255, 170, 0, 0.1); color: #ffaa00; border-color: rgba(255, 170, 0, 0.2); }
+        .link-long:hover { background: rgba(255, 170, 0, 0.2); }
+
         .fav-remove-btn {
             background: rgba(255, 0, 85, 0.1);
             color: var(--accent-pink);
@@ -554,7 +557,12 @@
                 row.push(cell); rows.push(row);
                 const catalog = {};
                 rows.slice(1).forEach(r => {
-                    if (r.length >= 4 && r[1]) catalog[r[1].trim()] = r[3] || '';
+                    if (r.length >= 4 && r[1]) {
+                        catalog[r[1].trim()] = {
+                            content: r[3] || '',
+                            type: r.length > 4 ? r[4].trim() : ''
+                        };
+                    }
                 });
                 window.ITEM_CATALOG = catalog;
                 return catalog;
@@ -565,18 +573,23 @@
         }
 
         function getAvailableModes(title, catalog) {
-            const content = catalog ? catalog[title] : null;
-            if (!content) {
+            const info = catalog ? catalog[title] : null;
+            if (!info) {
                 // カタログがない場合は全部表示
-                return { cool: true, quiz: true, list: true, exam: true };
+                return { cool: true, quiz: true, list: true, exam: true, long: true };
             }
+            const content = info.content || '';
+            const type = info.type || '';
+
             const items = content.split(/,|、|\n/).map(s => s.trim()).filter(s => s);
             // クイズ: q(あ) 形式が4件以上
             const quizPairs = items.filter(s => /^.+[\(\uff08].+[\)\uff09]$/.test(s));
             const hasQuiz = quizPairs.length >= 4;
             // リスト: 項目が2件以上
             const hasList = items.length >= 2;
-            return { cool: true, quiz: hasQuiz, list: hasList, exam: true };
+            const hasLong = type === '1';
+
+            return { cool: true, quiz: hasQuiz, list: hasList, exam: true, long: hasLong };
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -716,9 +729,10 @@
                 const quizLink = modes.quiz ? `<a href="quiz_game.html?title=${encodeURIComponent(fav.title)}" class="link-quiz"><span style="font-size:1.2rem;">🎯</span>クイズ</a>` : '';
                 const listLink = modes.list ? `<a href="list_game.html?title=${encodeURIComponent(fav.title)}" class="link-list"><span style="font-size:1.2rem;">📝</span>リスト</a>` : '';
                 const examLink = modes.exam ? `<a href="exam.html?title=${encodeURIComponent(fav.title)}" class="link-exam"><span style="font-size:1.2rem;">🏆</span>検定</a>` : '';
+                const longLink = modes.long ? `<a href="long_game.html?title=${encodeURIComponent(fav.title)}" class="link-long"><span style="font-size:1.2rem;">🧠</span>長文</a>` : '';
                 
                 // 表示するリンク数に応じてグリッド列数を調整
-                const linkCount = [modes.cool, modes.quiz, modes.list, modes.exam].filter(Boolean).length;
+                const linkCount = [modes.cool, modes.quiz, modes.list, modes.exam, modes.long].filter(Boolean).length;
                 const gridCols = linkCount > 0 ? `repeat(${linkCount}, 1fr)` : '1fr';
 
                 const item = document.createElement('div');
@@ -734,7 +748,7 @@
                         </div>
                         <button class="fav-remove-btn" onclick="removeFav('${fav.title.replace(/'/g, "\\'")}')" title="お気に入りから削除">✕</button>
                     </div>
-                    ${linkCount > 0 ? `<div class="fav-actions" style="grid-template-columns:${gridCols};">${coolLink}${quizLink}${listLink}${examLink}</div>` : ''}
+                    ${linkCount > 0 ? `<div class="fav-actions" style="grid-template-columns:${gridCols};">${coolLink}${quizLink}${listLink}${examLink}${longLink}</div>` : ''}
                 `;
                 favList.appendChild(item);
             });

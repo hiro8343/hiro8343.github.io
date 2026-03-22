@@ -427,6 +427,7 @@
                         title: r[1],
                         description: r[2],
                         content: r[3],          // セル内改行も含む生テキスト
+                        type: r.length > 4 ? r[4].trim() : '', // 種類
                         stars: 3,
                         explanationUrl: r[7] || null,
                         wordUrl: null
@@ -580,6 +581,16 @@
                 a.className = 'link-btn link-btn-exp';
                 a.textContent = '📖 解説を見る';
                 linksContainer.appendChild(a);
+            }
+
+            // 長文記憶ゲームへのリンクを追加（種類=1 の場合）
+            if (item.type === '1') {
+                const longGameBtn = document.createElement('a');
+                longGameBtn.href = `long_game.html?title=${encodeURIComponent(item.title)}`;
+                longGameBtn.className = 'link-btn';
+                longGameBtn.style.cssText = 'background: rgba(255, 165, 0, 0.2); color: #ffaa00; border-color: #ffaa00;';
+                longGameBtn.textContent = '🧠 この長文を覚える（ゲーム）';
+                linksContainer.appendChild(longGameBtn);
             }
 
             if (item.wordUrl) {

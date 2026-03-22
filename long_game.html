@@ -394,11 +394,20 @@
                             .filter(item => item.content.length >= 3);  // 内容が3文字以上のもの
 
                         setLongItems(items);
-                        // 最初のアイテムを選択
+                        
+                        // URLパラメータをチェック
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const targetTitle = urlParams.get('title');
+
                         if (items.length > 0) {
-                            setSelectedItem(items[0]);
-                            setSelEnd(Math.min(9, items[0].content.length - 1));
-                            setInputEnd(String(Math.min(9, items[0].content.length - 1)));
+                            let initItem = items[0];
+                            if (targetTitle) {
+                                const found = items.find(i => i.title === targetTitle);
+                                if (found) initItem = found;
+                            }
+                            setSelectedItem(initItem);
+                            setSelEnd(Math.min(9, initItem.content.length - 1));
+                            setInputEnd(String(Math.min(9, initItem.content.length - 1)));
                         }
                     } catch (err) {
                         console.error('データ読み込み失敗:', err);
