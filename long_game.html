@@ -324,6 +324,14 @@
             return rows;
         }
 
+        // 記号や空白を無視（自動スキップ）する判定
+        function isAutoSkip(char) {
+            if (!char) return false;
+            if (char === ' ' || char === '　' || char === '\n' || char === '\r') return true;
+            const skipChars = '・·•･、。,.?!:;「」『』()（）[]［］【】=＝-';
+            return skipChars.includes(char);
+        }
+
         // ================================================================
         // フェーズ定数
         // ================================================================
@@ -357,12 +365,19 @@
             const [phase, setPhase]     = useState(PHASE.SETUP);
             const [reviewLen, setReviewLen] = useState(0); // 今回の"復習"部分の長さ
             const [timeLeft, setTimeLeft]   = useState(TIMER_SEC);
-            const [userInput, setUserInput] = useState('');
+            
+            // 入力状態（今回はuserInputではなく、元文字列で何文字目まで正解したかの「物理長」を記録）
+            const [matchPhysicalLen, setMatchPhysicalLen] = useState(0); 
+
             const [currentInputValue, setCurrentInputValue] = useState(''); // リアルタイム入力用
             const [isComposing, setIsComposing] = useState(false);
             const [isError, setIsError] = useState(false);
             const [judgment, setJudgment]   = useState(null); // null | 'perfect' | 'amazing' | 'clear' | 'partial' | 'wrong'
             const [judgeMsg, setJudgeMsg]   = useState('');
+
+            // ----- 論理・物理 インデックス変換 -----
+            const [logicalToPhysical, setLogicalToPhysical] = useState([]);
+            const [physicalToLogical, setPhysicalToLogical] = useState([]);
 
             // ----- スプシからデータ読み込み -----
             useEffect(() => {
@@ -389,7 +404,7 @@
                                 title: r[1],
                                 subtitle: r[2] || r[1],  // 解説列をsubtitleに
                                 icon: CATEGORY_ICON[r[0]] || '📝',
-                                content: r[3] ? r[3].replace(/\s+/g, '') : ''  // 空白を除去
+                                content: r[3] ? r[3].replace(/[\r\n]+/g, ' ').trim() : '' // 改行はスペースに
                             }))
                             .filter(item => item.content.length >= 3);  // 内容が3文字以上のもの
 
@@ -419,6 +434,31 @@
                 load();
             }, []);
 
+            // ----- 論理・物理マッピングの構築 -----
+            useEffect(() => {
+                if (!selectedItem) return;
+                const text = selectedItem.content;
+                const l2p = [];
+                const p2l = [];
+                let logicalCount = 0;
+                for (let i = 0; i < text.length; i++) {
+                    if (!isAutoSkip(text[i])) {
+                        l2p.push(i);
+                        p2l.push(logicalCount);
+                        logicalCount++;
+                    } else {
+                        p2l.push(-1); // 無視文字は-1
+                    }
+                }
+                setLogicalToPhysical(l2p);
+                setPhysicalToLogical(p2l);
+                
+                // 初回読み込み・変更時に、selStart, selEndが範囲外なら調整
+                if (l2p.length > 0) {
+                    // もし selEnd が未設定なら最初の10文字分にする
+                }
+            }, [selectedItem]);
+
             // ----- ドラッグ選択 -----
             const isDragging  = useRef(false);
             const dragStart   = useRef(null);
@@ -435,8 +475,11 @@
                 const e = Math.max(dragStart.current, charIndex);
                 setSelStart(s);
                 setSelEnd(e);
-                setInputStart(String(s));
-                setInputEnd(String(e));
+                // Inoutには論理インデックス(1-indexed)で表示
+                const lStart = physicalToLogical[s] !== -1 ? physicalToLogical[s] + 1 : (physicalToLogical.slice(s).find(v => v !== -1) ?? 0) + 1;
+                const lEnd = physicalToLogical[e] !== -1 ? physicalToLogical[e] + 1 : (physicalToLogical.slice(0, e + 1).reverse().find(v => v !== -1) ?? 0) + 1;
+                setInputStart(String(lStart));
+                setInputEnd(String(lEnd));
             };
 
             const getCharIndexFromPoint = (clientX, clientY) => {
@@ -452,7 +495,8 @@
                 isDragging.current = true;
                 dragStart.current  = ci;
                 setSelStart(ci); setSelEnd(ci);
-                setInputStart(String(ci)); setInputEnd(String(ci));
+                const lIdx = physicalToLogical[ci] !== -1 ? physicalToLogical[ci] + 1 : (physicalToLogical.slice(ci).find(v => v !== -1) ?? 0) + 1;
+                setInputStart(String(lIdx)); setInputEnd(String(lIdx));
                 e.preventDefault();
             };
 
@@ -469,7 +513,8 @@
                 isDragging.current = true;
                 dragStart.current  = ci;
                 setSelStart(ci); setSelEnd(ci);
-                setInputStart(String(ci)); setInputEnd(String(ci));
+                const lIdx = physicalToLogical[ci] !== -1 ? physicalToLogical[ci] + 1 : (physicalToLogical.slice(ci).find(v => v !== -1) ?? 0) + 1;
+                setInputStart(String(lIdx)); setInputEnd(String(lIdx));
             };
 
             const onTouchMove = (e) => {
@@ -487,36 +532,52 @@
                 return () => window.removeEventListener('mouseup', onMouseUp);
             }, []);
 
-            // 数字入力から選択範囲を更新
+            // 数字入力から選択範囲を更新 (論理インデックス 1-indexed)
             const handleStartInput = (v) => {
                 setInputStart(v);
                 const n = parseInt(v, 10);
-                if (!isNaN(n) && n >= 0 && n < content.length) {
-                    setSelStart(n);
-                    if (n > selEnd) { setSelEnd(n); setInputEnd(String(n)); }
+                if (!isNaN(n) && n > 0) {
+                    const lIdx = n - 1; // 0-indexed logic
+                    if (lIdx >= 0 && lIdx < logicalToPhysical.length) {
+                        const pIdx = logicalToPhysical[lIdx];
+                        setSelStart(pIdx);
+                        if (pIdx > selEnd) {
+                            setSelEnd(pIdx);
+                            setInputEnd(String(n));
+                        }
+                    }
                 }
             };
 
             const handleEndInput = (v) => {
                 setInputEnd(v);
                 const n = parseInt(v, 10);
-                if (!isNaN(n) && n >= 0 && n < content.length) {
-                    setSelEnd(n);
-                    if (n < selStart) { setSelStart(n); setInputStart(String(n)); }
+                if (!isNaN(n) && n > 0) {
+                    const lIdx = n - 1;
+                    if (lIdx >= 0 && lIdx < logicalToPhysical.length) {
+                        const pIdx = logicalToPhysical[lIdx];
+                        setSelEnd(pIdx);
+                        if (pIdx < selStart) {
+                            setSelStart(pIdx);
+                            setInputStart(String(n));
+                        }
+                    }
                 }
             };
 
-            // 選択中のヒント情報
+            // 選択中のヒント情報 (表示用)
             const selectedText = content.slice(selStart, selEnd + 1);
-            const selLen = selectedText.length;
+            
+            // 実質的な文字数（無視文字を除いた長さ）を算出
+            const lStart = physicalToLogical.slice(selStart).find(v => v !== -1) ?? 0;
+            const lEnd = physicalToLogical.slice(0, selEnd + 1).reverse().find(v => v !== -1) ?? 0;
+            const logicalLength = lEnd >= lStart ? lEnd - lStart + 1 : 0;
 
             // ================================================================
             // スタート！ （セットアップ → STUDY）
             // ================================================================
             const handleStart = (withReview = false) => {
-                // withReview = true の場合は前半をreviewとして引き継ぐ
-                // （「次の範囲へ」から来たとき）
-                setUserInput('');
+                setMatchPhysicalLen(0);
                 setCurrentInputValue('');
                 setIsComposing(false);
                 setIsError(false);
@@ -549,35 +610,36 @@
             // ================================================================
             const checkInput = (val) => {
                 if (judgment || !val) return;
-                
-                const ans = selectedText;
-                const expectedNext = ans.slice(userInput.length);
-                
-                let matchCount = 0;
-                for(let i=0; i<val.length; i++) {
-                    // 大文字小文字などを許容する場合はここで toLowerCase()
-                    if (val[i].toLowerCase() === expectedNext[i].toLowerCase()) {
-                        matchCount++;
-                    } else {
-                        break;
-                    }
+
+                let currentP = selStart + matchPhysicalLen;
+
+                // 入力前に無視文字があればスキップ
+                while (currentP <= selEnd && isAutoSkip(content[currentP])) {
+                    currentP++;
                 }
-                
-                if (matchCount > 0) {
-                    const newUserInput = userInput + expectedNext.slice(0, matchCount);
-                    setUserInput(newUserInput);
-                    setCurrentInputValue('');
+
+                if (currentP > selEnd) return; // 既に完了済み
+
+                const expectedChar = content[currentP];
+                const inputChar = val.slice(-1); // 最後に入力された文字
+
+                if (inputChar.toLowerCase() === expectedChar.toLowerCase()) {
+                    currentP++;
+                    // その後続く無視文字をすべてスキップ
+                    while (currentP <= selEnd && isAutoSkip(content[currentP])) {
+                        currentP++;
+                    }
+
+                    const newMatchLen = currentP - selStart;
+                    setMatchPhysicalLen(newMatchLen);
                     setIsError(false);
-                    
-                    if (newUserInput.length >= ans.length) {
+                    setCurrentInputValue('');
+
+                    if (currentP > selEnd) {
                         setJudgment('perfect');
                         setJudgeMsg('🎉 PERFECT!');
-                    } else if (matchCount < val.length) {
-                        // 途中まで合ってて間違えた文字が含まれる
-                        triggerError();
                     }
                 } else {
-                    // 最初から違う
                     triggerError();
                     setCurrentInputValue('');
                 }
@@ -591,10 +653,14 @@
             // 成功判定かどうか
             const isSuccess = ['perfect','amazing','clear'].includes(judgment);
 
-            // 成功時のスコアを計算（正解した文字数）
+            // 成功時のスコアを計算（正解した論理文字数）
             const calcScore = () => {
-                if (judgment === 'perfect') return selLen;
-                if (judgment === 'partial') return userInput.length;
+                if (judgment === 'perfect') return logicalLength;
+                if (judgment === 'partial') {
+                    const lEndP = physicalToLogical.slice(selStart, selStart + matchPhysicalLen).reverse().find(v => v !== -1) ?? -1;
+                    if (lEndP === -1) return 0;
+                    return lEndP - lStart + 1;
+                }
                 return 0;
             };
 
@@ -615,26 +681,29 @@
             // 次の範囲へ（reviewLen を自動設定）
             // ================================================================
             const handleNextRange = () => {
-                const curLen   = selLen;
-                const newReview = Math.ceil(curLen / 2); // 今の後半 ceil(len/2) を復習へ
-                const newNew    = Math.floor(curLen / 2); // 新しく覚える = floor(len/2)
+                const curLogicalLen = logicalLength;
+                const newReviewL = Math.ceil(curLogicalLen / 2); // 今の後半 ceil(len/2) を復習へ
 
-                // 新しい選択範囲の start/end
-                const newSelStart = selEnd + 1 - newReview + curLen - (curLen - newReview); // = selEnd + 1 - newReview + newReview - 0
-                // サンプル計算：
-                // selEnd+1 が次の開始位置
-                // 次の範囲 = (現在の後半 newReview) + (新しい newNew) = ceil(cur/2) + floor(cur/2) = curLen
-                // 開始は selEnd+1-newReview（現在の後半の先頭）
-                const nextStart = selEnd + 1 - newReview;
-                const nextEnd   = Math.min(nextStart + curLen - 1, content.length - 1);
+                const nextLogicalStart = lStart + newReviewL; // 今の後半から
+                const nextLogicalEnd   = nextLogicalStart + curLogicalLen - 1; // 常に同じ論理長を覚える
 
-                setReviewLen(newReview);
-                setSelStart(nextStart);
-                setSelEnd(nextEnd);
-                setInputStart(String(nextStart));
-                setInputEnd(String(nextEnd));
+                // 論理 -> 物理 に変換
+                const nextStartP = logicalToPhysical[nextLogicalStart] ?? (content.length - 1);
+                const endL = Math.min(nextLogicalEnd, logicalToPhysical.length - 1);
+                const nextEndP = logicalToPhysical[endL] ?? (content.length - 1);
+                
+                // 新しい復習部分の物理長を計算
+                const reviewEndLogical = nextLogicalStart + newReviewL - 1;
+                const reviewEndP = logicalToPhysical[Math.min(reviewEndLogical, logicalToPhysical.length - 1)] ?? nextStartP;
+                const newReviewPhysicalLen = reviewEndP >= nextStartP ? reviewEndP - nextStartP + 1 : 0;
 
-                setUserInput('');
+                setReviewLen(newReviewPhysicalLen);
+                setSelStart(nextStartP);
+                setSelEnd(nextEndP);
+                setInputStart(String(nextLogicalStart + 1));
+                setInputEnd(String(endL + 1));
+
+                setMatchPhysicalLen(0);
                 setCurrentInputValue('');
                 setIsComposing(false);
                 setIsError(false);
@@ -648,7 +717,7 @@
             // ================================================================
             const handleRetry = () => {
                 setReviewLen(0);
-                setUserInput('');
+                setMatchPhysicalLen(0);
                 setCurrentInputValue('');
                 setIsComposing(false);
                 setIsError(false);
@@ -742,10 +811,10 @@
 
                             {/* 選択ヒント */}
                             <div className="selection-hint">
-                                {selLen > 0
-                                    ? <>📍 <b>{selStart + 1}〜{selEnd + 1}文字目</b>（<b>{selLen}文字</b>）：
+                                {logicalLength > 0
+                                    ? <>📍 <b>{lStart + 1}〜{lEnd + 1}文字目</b>（<b>実質 {logicalLength} 文字</b>）：
                                         <span style={{ fontFamily: 'monospace', marginLeft: '0.4em', wordBreak: 'break-all' }}>
-                                            {selectedText}
+                                            {selectedText.slice(0, 50)}{selectedText.length > 50 ? '...' : ''}
                                         </span>
                                     </>
                                     : '← 文字をドラッグして選択してください'
@@ -757,8 +826,8 @@
                                 <span style={{ color: '#aaa', fontSize: '0.9rem' }}>または桁で直接指定：</span>
                                 <input
                                     type="number"
-                                    min="0"
-                                    max={content.length - 1}
+                                    min="1"
+                                    max={logicalToPhysical.length}
                                     value={inputStart}
                                     onChange={e => handleStartInput(e.target.value)}
                                     style={{ width: '70px', padding: '0.4rem 0.5rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '8px', fontSize: '1rem' }}
@@ -766,13 +835,13 @@
                                 <span style={{ color: '#aaa' }}>〜</span>
                                 <input
                                     type="number"
-                                    min="0"
-                                    max={content.length - 1}
+                                    min="1"
+                                    max={logicalToPhysical.length}
                                     value={inputEnd}
                                     onChange={e => handleEndInput(e.target.value)}
                                     style={{ width: '70px', padding: '0.4rem 0.5rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '8px', fontSize: '1rem' }}
                                 />
-                                <span style={{ color: '#666', fontSize: '0.85rem' }}>（0〜{content.length - 1}）</span>
+                                <span style={{ color: '#666', fontSize: '0.85rem' }}>（1〜{logicalToPhysical.length}文字目）</span>
                             </div>
 
                             {/* スタートボタン */}
@@ -780,7 +849,7 @@
                                 className="btn btn-primary"
                                 style={{ width: '100%', padding: '1rem', fontSize: '1.2rem', marginTop: '2rem' }}
                                 onClick={() => handleStart()}
-                                disabled={selLen === 0}
+                                disabled={logicalLength === 0}
                             >
                                 スタート 🚀
                             </button>
@@ -925,11 +994,11 @@
                                     <span key={`ctx-${i}`} className="char-span char-context">{ch}</span>
                                 ))}
                                 {/* ユーザーが入力して正解した部分 */}
-                                {content.slice(selStart, selStart + userInput.length).split('').map((ch, i) => (
+                                {content.slice(selStart, selStart + matchPhysicalLen).split('').map((ch, i) => (
                                     <span key={`ans-${i}`} className="char-span char-correct">{ch}</span>
                                 ))}
                                 {/* カーソル（TEST中は未入力部分を伏せる） */}
-                                {!judgment && userInput.length < selLen && (
+                                {!judgment && matchPhysicalLen < (selEnd - selStart + 1) && (
                                     <span style={{ 
                                         color: isError ? '#ff4757' : '#f0932b', 
                                         fontWeight: 'bold', 
@@ -940,10 +1009,9 @@
                                 )}
                             </div>
 
-
                             {/* テスト入力欄 */}
                             <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop: '1rem', marginBottom: '0.4rem' }}>
-                                {selStart + 1}文字目から{selEnd + 1}文字目を入力：
+                                {lStart + 1}文字目から{lEnd + 1}文字目を入力：
                             </p>
                             <input
                                 className="test-input"
@@ -988,9 +1056,10 @@
                                     <>
                                         <button className="btn btn-secondary" onClick={() => {
                                             // 諦めて部分点で終了する
-                                            if (userInput.length > 0) {
+                                            if (matchPhysicalLen > 0) {
+                                                const correctLogicalLen = calcScore();
                                                 setJudgment('partial');
-                                                setJudgeMsg(`😅 ${userInput.length}文字まで正解！`);
+                                                setJudgeMsg(`😅 実質 ${correctLogicalLen} 文字まで正解！`);
                                             } else {
                                                 setJudgment('wrong');
                                                 setJudgeMsg('❌ 最初から違います…');
