@@ -667,11 +667,15 @@
             // 成功画面へ進む
             const handleSuccess = () => {
                 const score = calcScore();
+                // ランク判定: perfect/amazing → S, clear/partial → A, wrong → C
+                const rank = (judgment === 'perfect' || judgment === 'amazing')
+                    ? 'S'
+                    : (judgment === 'partial' ? 'A' : 'C');
                 UserData.addResult({
                     title: `長い名前: ${selectedItem.title}`,
                     score: score,
-                    max: selLen,
-                    rank: judgment === 'perfect' ? 'S' : (judgment === 'amazing' ? 'S' : 'A'),
+                    max: logicalLength,  // selLen → logicalLength に修正（未定義変数バグ修正）
+                    rank: rank,
                     type: 'long'
                 });
                 setPhase(PHASE.SUCCESS);
