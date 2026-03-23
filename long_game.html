@@ -645,6 +645,14 @@
                     }
                 }
 
+                // 最後に連続する無視文字（・など）も先読みスキップして表示に反映させる
+                // 例：「パブロ」と打った後に「パブロ・」と表示される
+                if (!hasError) {
+                    while (currentP <= selEnd && isAutoSkip(content[currentP])) {
+                        currentP++;
+                    }
+                }
+
                 const newMatchLen = currentP - selStart;
 
                 if (newMatchLen > matchPhysicalLen) {
@@ -1081,7 +1089,13 @@
                                         <button className="btn btn-secondary" onClick={() => {
                                             // ここまでで採点して終了
                                             if (matchPhysicalLen > 0) {
-                                                const correctLogicalLen = calcScore();
+                                                // calcScore()はjudgmentステートに依存するため、
+                                                // クリック時点（ステート未反映）では直接計算する
+                                                const lEndPhys = physicalToLogical
+                                                    .slice(selStart, selStart + matchPhysicalLen)
+                                                    .reverse()
+                                                    .find(v => v !== -1) ?? -1;
+                                                const correctLogicalLen = lEndPhys !== -1 ? lEndPhys - lStart + 1 : 0;
                                                 setJudgment('partial');
                                                 // 正解した文字数をポジティブに伝える
                                                 if (correctLogicalLen > 0) {
