@@ -178,6 +178,8 @@
         .char-correct  { background: rgba(46,213,115,0.3); color: #2ed573; }
         .char-wrong    { background: rgba(255,71,87,0.3); color: #ff4757; }
         .char-pending  { color: #777; }
+        /* 採点後に正解を表示するスタイル */
+        .char-revealed { background: rgba(240,147,43,0.22); color: #f0932b; border-bottom: 2px solid #f0932b; }
 
         /* SVGタイマーリング */
         .timer-wrap {
@@ -1025,10 +1027,16 @@
                                 {content.slice(0, selStart).split('').map((ch, i) => (
                                     <span key={`ctx-${i}`} className="char-span char-context">{ch}</span>
                                 ))}
-                                {/* ユーザーが入力して正解した部分 */}
+                                {/* ユーザーが入力して正解した部分（緑） */}
                                 {content.slice(selStart, selStart + matchPhysicalLen).split('').map((ch, i) => (
                                     <span key={`ans-${i}`} className="char-span char-correct">{ch}</span>
                                 ))}
+                                {/* 採点後：残りの正解をオレンジで表示 */}
+                                {judgment && judgment !== 'perfect' && (
+                                    content.slice(selStart + matchPhysicalLen, selEnd + 1).split('').map((ch, i) => (
+                                        <span key={`rev-${i}`} className="char-span char-revealed">{ch}</span>
+                                    ))
+                                )}
                                 {/* カーソル（TEST中は未入力部分を伏せる） */}
                                 {!judgment && matchPhysicalLen < (selEnd - selStart + 1) && (
                                     <span style={{ 
