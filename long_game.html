@@ -618,7 +618,7 @@
                 let hasError = false;
 
                 while (inputIdx < val.length) {
-                    // 無視文字（スペース・記号など）は自動でスキップ
+                    // コンテンツ側の無視文字（スペース・中点・記号など）は自動でスキップ
                     while (currentP <= selEnd && isAutoSkip(content[currentP])) {
                         currentP++;
                     }
@@ -627,6 +627,12 @@
 
                     const expectedChar = content[currentP];
                     const inputChar = val[inputIdx];
+
+                    // ユーザーが・などの無視文字を入力した場合も読み飛ばす
+                    if (isAutoSkip(inputChar)) {
+                        inputIdx++;
+                        continue;
+                    }
 
                     if (inputChar.toLowerCase() === expectedChar.toLowerCase()) {
                         // 正解：次の文字へ進む
@@ -1073,14 +1079,19 @@
                                 {!judgment ? (
                                     <>
                                         <button className="btn btn-secondary" onClick={() => {
-                                            // 諦めて部分点で終了する
+                                            // ここまでで採点して終了
                                             if (matchPhysicalLen > 0) {
                                                 const correctLogicalLen = calcScore();
                                                 setJudgment('partial');
-                                                setJudgeMsg(`😅 実質 ${correctLogicalLen} 文字まで正解！`);
+                                                // 正解した文字数をポジティブに伝える
+                                                if (correctLogicalLen > 0) {
+                                                    setJudgeMsg(`🌟 ${correctLogicalLen}文字も正解！すごい！`);
+                                                } else {
+                                                    setJudgeMsg('✨ チャレンジしたことが素晴らしい！');
+                                                }
                                             } else {
                                                 setJudgment('wrong');
-                                                setJudgeMsg('❌ 最初から違います…');
+                                                setJudgeMsg('💪 挑戦した勇気が素晴らしい！次はきっとうまくいく！');
                                             }
                                         }}>
                                             ここまでで採点して終了 ✅
@@ -1117,9 +1128,14 @@
 
                 // モードによってアイコン・タイトル・メッセージを変える
                 const modeInfo = {
-                    perfect: { icon: '🎉', title: 'PERFECT!',  msg: 'ぴったり完璧！素晴らしい！' },
-                    amazing: { icon: '🌟', title: 'AMAZING!!', msg: '先まで合ってる！天才かも？！' },
-                    clear:   { icon: '✅', title: 'CLEAR!',    msg: '今回の範囲はバッチリ！次も頑張ろう！' },
+                    perfect: { icon: '🎉', title: 'PERFECT!',       msg: 'ぴったり完璧！素晴らしい！' },
+                    amazing: { icon: '🌟', title: 'AMAZING!!',      msg: '先まで合ってる！天才かも？！' },
+                    clear:   { icon: '✅', title: 'CLEAR!',         msg: '今回の範囲はバッチリ！次も頑張ろう！' },
+                    // 途中まで正解・0点でもポジティブに応援
+                    partial: { icon: '🌟', title: `${score}文字正解！`,
+                               msg: score > 0 ? `${logicalLength}文字中${score}文字も正解！チャレンジが素晴らしい！` : '挑戦した気持ちが大事！次はきっと正解できる！' },
+                    wrong:   { icon: '💪', title: 'ナイスチャレンジ！',
+                               msg: '挑戦したことが素晴らしい！何度でも挑もう！' },
                 };
                 const info = modeInfo[judgment] || { icon: '🎊', title: 'CLEAR!', msg: 'お疲れさまでした！' };
 
