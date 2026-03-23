@@ -377,6 +377,29 @@
             const [judgment, setJudgment]   = useState(null); // null | 'perfect' | 'amazing' | 'clear' | 'partial' | 'wrong'
             const [judgeMsg, setJudgeMsg]   = useState('');
 
+            // 初期選択用のselEndを計算する関数（区切りがあれば2チャンク、なければ先頭10文字）
+            const getInitialSelEnd = (text) => {
+                if (!text) return 0;
+                let chunkCount = 0;
+                let inWord = false;
+                for (let i = 0; i < text.length; i++) {
+                    const skip = isAutoSkip(text[i]);
+                    if (!skip) {
+                        inWord = true;
+                    } else if (skip && inWord) {
+                        // 1つのチャンクの終わり（例：名前の後の「・」や「 」）
+                        chunkCount++;
+                        inWord = false;
+                        if (chunkCount === 2) {
+                            // 2チャンク目の終わりの区切り文字の「直前」を返す
+                            return i - 1;
+                        }
+                    }
+                }
+                // 区切りがない、または2チャンク未満の場合は最大10文字（物理）まで
+                return Math.min(9, text.length - 1);
+            };
+
             // ----- 論理・物理 インデックス変換 -----
             const [logicalToPhysical, setLogicalToPhysical] = useState([]);
             const [physicalToLogical, setPhysicalToLogical] = useState([]);
@@ -423,8 +446,11 @@
                                 if (found) initItem = found;
                             }
                             setSelectedItem(initItem);
-                            setSelEnd(Math.min(9, initItem.content.length - 1));
-                            setInputEnd(String(Math.min(9, initItem.content.length - 1)));
+                            const initialEnd = getInitialSelEnd(initItem.content);
+                            setSelEnd(initialEnd);
+                            // この時点では physicalToLogical がまだ無いので、仮で physical 値を入れておく
+                            // 次の useEffect で logical 値に補正される
+                            setInputEnd(String(initialEnd + 1));
                         }
                     } catch (err) {
                         console.error('データ読み込み失敗:', err);
@@ -455,9 +481,12 @@
                 setLogicalToPhysical(l2p);
                 setPhysicalToLogical(p2l);
                 
-                // 初回読み込み・変更時に、selStart, selEndが範囲外なら調整
+                // 初回読み込み・変更時に inputEnd を論理値に補正する
                 if (l2p.length > 0) {
-                    // もし selEnd が未設定なら最初の10文字分にする
+                    const initialEndPhys = getInitialSelEnd(selectedItem.content);
+                    const lIdx = p2l.slice(0, initialEndPhys + 1).reverse().find(v => v !== -1) ?? 0;
+                    setInputStart('1');
+                    setInputEnd(String(lIdx + 1));
                 }
             }, [selectedItem]);
 
@@ -871,8 +900,13 @@
                                     const item = longItems.find(i => i.id === e.target.value);
                                     if (!item) return;
                                     setSelectedItem(item);
-                                    setSelStart(0); setSelEnd(Math.min(9, item.content.length - 1));
-                                    setInputStart('0'); setInputEnd(String(Math.min(9, item.content.length - 1)));
+                                    const initialEnd = getInitialSelEnd(item.content);
+                                    setSelStart(0);
+                                    setSelEnd(initialEnd);
+                                    // 厳密には p2l が更新される前だが、暫定で実インデックスを入れる
+                                    // 次の useEffect で正確な論理インデックスに補正される
+                                    setInputStart('1');
+                                    setInputEnd(String(initialEnd + 1));
                                     setReviewLen(0);
                                 }}
                             >
