@@ -754,6 +754,8 @@
             });
         }
 
+        let historyShowAll = false; // 履歴をすべて表示するかどうかのフラグ
+
         function renderHistory(data) {
             const historyList = document.getElementById('history-list');
             if (data.history.length === 0) {
@@ -762,11 +764,17 @@
             }
 
             historyList.innerHTML = '';
-            data.history.forEach(h => {
+            
+            // 最新順（配列の最初が最新と想定、もし違えば .slice().reverse() などで調整）
+            // 表示する件数を決定
+            const displayLimit = 10;
+            const itemsToShow = historyShowAll ? data.history : data.history.slice(0, displayLimit);
+
+            itemsToShow.forEach(h => {
                 const date = new Date(h.date).toLocaleDateString();
-                const typeLabel = h.type === 'quiz' ? '［クイズ］' : (h.type === 'list' ? '［リスト］' : '［検定］');
-                const typeColor = h.type === 'quiz' ? 'var(--accent-cyan)' : (h.type === 'list' ? 'var(--accent-purple)' : 'var(--accent-green)');
-                const retryUrl = h.type === 'quiz' ? `quiz_game.html?title=${encodeURIComponent(h.title)}` : (h.type === 'list' ? `list_game.html?title=${encodeURIComponent(h.title)}` : `exam.html?title=${encodeURIComponent(h.title)}`);
+                const typeLabel = h.type === 'quiz' ? '［クイズ］' : (h.type === 'list' ? '［リスト］' : (h.type === 'long' ? '［長文］' : '［検定］'));
+                const typeColor = h.type === 'quiz' ? 'var(--accent-cyan)' : (h.type === 'list' ? 'var(--accent-purple)' : (h.type === 'long' ? '#ffaa00' : 'var(--accent-green)'));
+                const retryUrl = h.type === 'quiz' ? `quiz_game.html?title=${encodeURIComponent(h.title)}` : (h.type === 'list' ? `list_game.html?title=${encodeURIComponent(h.title)}` : (h.type === 'long' ? `long_game.html?title=${encodeURIComponent(h.title)}` : `exam.html?title=${encodeURIComponent(h.title)}`));
 
                 const isFav = data.favorites && data.favorites.some(f => f.title === h.title);
                 const favIcon = isFav ? '❤️' : '🤍';
@@ -787,6 +795,27 @@
                 `;
                 historyList.appendChild(item);
             });
+
+            // もっと見るボタンの追加
+            if (!historyShowAll && data.history.length > displayLimit) {
+                const moreBtnContainer = document.createElement('div');
+                moreBtnContainer.style.textAlign = 'center';
+                moreBtnContainer.style.marginTop = '1rem';
+                
+                const moreBtn = document.createElement('button');
+                moreBtn.className = 'btn btn-secondary';
+                moreBtn.style.padding = '8px 24px';
+                moreBtn.style.borderRadius = '20px';
+                moreBtn.style.fontSize = '0.9rem';
+                moreBtn.innerHTML = `もっと見る（あと ${data.history.length - displayLimit} 件） 🔽`;
+                moreBtn.onclick = () => {
+                    historyShowAll = true;
+                    renderHistory(data); // 再描画して全件表示
+                };
+                
+                moreBtnContainer.appendChild(moreBtn);
+                historyList.appendChild(moreBtnContainer);
+            }
         }
 
         function editName() {
