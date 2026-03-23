@@ -742,8 +742,12 @@
                         // 直前の「新規チャンク」部分（selStart+reviewLen〜selEnd）だけを
                         // 次回の復習にする（前の範囲一つだけが復習＝ユーザー希望）
                         // 例: A練習後→[A復習+B新規] → B練習後→[B復習+C新規]（Aは外れる）
-                        const newChunkStart = selStart + reviewLen; // 前回の新規チャンクの開始点
-                        const newReviewPhysLen = selEnd - newChunkStart + 1; // 前回の新規チャンク長
+                        let newChunkStart = selStart + reviewLen;
+                        // ・などの区切り文字をスキップして最初の実文字から開始する
+                        while (newChunkStart < content.length && isAutoSkip(content[newChunkStart])) {
+                            newChunkStart++;
+                        }
+                        const newReviewPhysLen = selEnd - newChunkStart + 1; // 直前の新規チャンク長
 
                         // inputStart のために論理インデックスを求める
                         const newStartLogical = physicalToLogical.slice(newChunkStart).find(v => v !== -1) ?? 0;
@@ -970,13 +974,17 @@
                                 </div>
                             )}
 
-                            {/* 文字列表示 */}
+                            {/* 文字列表示：selStartより前は非表示（前チャンクを見せない） */}
                             <div className="long-name-display" style={{ userSelect: 'text' }}>
+                                {/* selStartより前の文字がある場合は「…」で省略表示 */}
+                                {selStart > 0 && (
+                                    <span className="char-span char-context" style={{ opacity: 0.4, fontSize: '0.85em' }}>…</span>
+                                )}
                                 {content.split('').map((ch, i) => {
+                                    // selStartより前の文字は非表示
+                                    if (i < selStart) return null;
                                     let cls = 'char-span';
-                                    if (i < selStart) {
-                                        cls += ' char-context'; // 前のコンテキスト（グレー）
-                                    } else if (i <= selEnd) {
+                                    if (i <= selEnd) {
                                         if (reviewLen > 0 && i <= reviewEnd) {
                                             cls += ' char-review'; // 復習（水色）
                                         } else {
