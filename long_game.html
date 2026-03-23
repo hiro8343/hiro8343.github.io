@@ -611,37 +611,51 @@
             const checkInput = (val) => {
                 if (judgment || !val) return;
 
+                // 入力された文字列を先頭から1文字ずつ順番に照合する
+                // 日本語IMEで複数文字を一度に確定してもまとめて正解判定できるように対応
                 let currentP = selStart + matchPhysicalLen;
+                let inputIdx = 0;
+                let hasError = false;
 
-                // 入力前に無視文字があればスキップ
-                while (currentP <= selEnd && isAutoSkip(content[currentP])) {
-                    currentP++;
-                }
-
-                if (currentP > selEnd) return; // 既に完了済み
-
-                const expectedChar = content[currentP];
-                const inputChar = val.slice(-1); // 最後に入力された文字
-
-                if (inputChar.toLowerCase() === expectedChar.toLowerCase()) {
-                    currentP++;
-                    // その後続く無視文字をすべてスキップ
+                while (inputIdx < val.length) {
+                    // 無視文字（スペース・記号など）は自動でスキップ
                     while (currentP <= selEnd && isAutoSkip(content[currentP])) {
                         currentP++;
                     }
 
-                    const newMatchLen = currentP - selStart;
+                    if (currentP > selEnd) break; // 全部正解済み
+
+                    const expectedChar = content[currentP];
+                    const inputChar = val[inputIdx];
+
+                    if (inputChar.toLowerCase() === expectedChar.toLowerCase()) {
+                        // 正解：次の文字へ進む
+                        currentP++;
+                        inputIdx++;
+                    } else {
+                        // 不正解：ここで止める
+                        hasError = true;
+                        break;
+                    }
+                }
+
+                const newMatchLen = currentP - selStart;
+
+                if (newMatchLen > matchPhysicalLen) {
+                    // 何文字か正解した場合は進める
                     setMatchPhysicalLen(newMatchLen);
                     setIsError(false);
-                    setCurrentInputValue('');
+                }
 
-                    if (currentP > selEnd) {
-                        setJudgment('perfect');
-                        setJudgeMsg('🎉 PERFECT!');
-                    }
-                } else {
+                setCurrentInputValue('');
+
+                if (currentP > selEnd) {
+                    // 全部正解！
+                    setJudgment('perfect');
+                    setJudgeMsg('🎉 PERFECT!');
+                } else if (hasError) {
+                    // 途中で不正解が出た
                     triggerError();
-                    setCurrentInputValue('');
                 }
             };
 
