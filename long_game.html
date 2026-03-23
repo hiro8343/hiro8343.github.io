@@ -715,18 +715,62 @@
             // 次の範囲へ（reviewLen を自動設定）
             // ================================================================
             const handleNextRange = () => {
+                // ── 区切り文字チャンク判定 ──
+                // selEnd の直後が区切り文字（・ スペース等）なら、選択が自然な区切りに
+                // 揃っていると判断し、"チャンク積み上げ"モードを使う。
+                // 例）「パブロ」→「パブロ・ディエゴ」→「パブロ・ディエゴ・ホセ」と累積
+                const afterSelEnd = selEnd + 1;
+                const isChunkBoundary =
+                    afterSelEnd < content.length &&
+                    isAutoSkip(content[afterSelEnd]);
+
+                if (isChunkBoundary) {
+                    // selEnd 後の区切り文字群（・ など）をすべてスキップ
+                    let scanP = afterSelEnd;
+                    while (scanP < content.length && isAutoSkip(content[scanP])) {
+                        scanP++;
+                    }
+
+                    if (scanP < content.length) {
+                        // 次のチャンク終端（次の区切り or コンテンツ末尾）を探す
+                        let chunkEnd = scanP;
+                        while (chunkEnd < content.length && !isAutoSkip(content[chunkEnd])) {
+                            chunkEnd++;
+                        }
+                        const nextEndP = chunkEnd - 1;
+
+                        // 今の選択全体（selStart〜selEnd）を復習エリアにして
+                        // selEnd+1以降の次チャンクを新規エリアとして追加
+                        const newReviewPhysLen = selEnd - selStart + 1;
+
+                        setReviewLen(newReviewPhysLen);
+                        // selStart はそのまま（変えない）
+                        setSelEnd(nextEndP);
+                        setInputEnd(String(physicalToLogical[nextEndP] + 1));
+
+                        setMatchPhysicalLen(0);
+                        setCurrentInputValue('');
+                        setIsComposing(false);
+                        setIsError(false);
+                        setJudgment(null);
+                        setJudgeMsg('');
+                        setPhase(PHASE.STUDY);
+                        return;
+                    }
+                }
+
+                // ── 通常モード（区切りなし / コンテンツ末尾） ──
+                // 現在の範囲の後半 ceil(len/2) を復習に回し、同じ長さだけ前進
                 const curLogicalLen = logicalLength;
-                const newReviewL = Math.ceil(curLogicalLen / 2); // 今の後半 ceil(len/2) を復習へ
+                const newReviewL = Math.ceil(curLogicalLen / 2);
 
-                const nextLogicalStart = lStart + newReviewL; // 今の後半から
-                const nextLogicalEnd   = nextLogicalStart + curLogicalLen - 1; // 常に同じ論理長を覚える
+                const nextLogicalStart = lStart + newReviewL;
+                const nextLogicalEnd   = nextLogicalStart + curLogicalLen - 1;
 
-                // 論理 -> 物理 に変換
                 const nextStartP = logicalToPhysical[nextLogicalStart] ?? (content.length - 1);
                 const endL = Math.min(nextLogicalEnd, logicalToPhysical.length - 1);
                 const nextEndP = logicalToPhysical[endL] ?? (content.length - 1);
-                
-                // 新しい復習部分の物理長を計算
+
                 const reviewEndLogical = nextLogicalStart + newReviewL - 1;
                 const reviewEndP = logicalToPhysical[Math.min(reviewEndLogical, logicalToPhysical.length - 1)] ?? nextStartP;
                 const newReviewPhysicalLen = reviewEndP >= nextStartP ? reviewEndP - nextStartP + 1 : 0;
