@@ -980,17 +980,13 @@
                                 </div>
                             )}
 
-                            {/* 文字列表示：selStartより前は非表示（前チャンクを見せない） */}
+                            {/* 文字列表示 */}
                             <div className="long-name-display" style={{ userSelect: 'text' }}>
-                                {/* selStartより前の文字がある場合は「…」で省略表示 */}
-                                {selStart > 0 && (
-                                    <span className="char-span char-context" style={{ opacity: 0.4, fontSize: '0.85em' }}>…</span>
-                                )}
                                 {content.split('').map((ch, i) => {
-                                    // selStartより前の文字は非表示
-                                    if (i < selStart) return null;
                                     let cls = 'char-span';
-                                    if (i <= selEnd) {
+                                    if (i < selStart) {
+                                        cls += ' char-context'; // 前のコンテキスト（グレー）
+                                    } else if (i <= selEnd) {
                                         if (reviewLen > 0 && i <= reviewEnd) {
                                             cls += ' char-review'; // 復習（水色）
                                         } else {
