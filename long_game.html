@@ -739,15 +739,21 @@
                         }
                         const nextEndP = chunkEnd - 1;
 
-                        // 直前の「新規チャンク」部分（selStart+reviewLen〜selEnd）だけを
-                        // 次回の復習にする（前の範囲一つだけが復習＝ユーザー希望）
-                        // 例: A練習後→[A復習+B新規] → B練習後→[B復習+C新規]（Aは外れる）
-                        let newChunkStart = selStart + reviewLen;
-                        // ・などの区切り文字をスキップして最初の実文字から開始する
+                        // 現在の選択内を逆スキャンして「最後の区切り文字」を探す
+                        // → 最後のチャンクが何かを動的に特定する
+                        // 例: 「パブロ・ディエゴ」を最初から選んだ場合も
+                        //     「ディエゴ」が復習になる（reviewLenに依存しない）
+                        let lastDelimPos = -1;
+                        for (let p = selEnd; p >= selStart; p--) {
+                            if (isAutoSkip(content[p])) { lastDelimPos = p; break; }
+                        }
+                        // 最後の区切り文字の次から → 最後チャンクの先頭
+                        let newChunkStart = lastDelimPos !== -1 ? lastDelimPos + 1 : selStart;
+                        // さらに連続する区切り文字もスキップ
                         while (newChunkStart < content.length && isAutoSkip(content[newChunkStart])) {
                             newChunkStart++;
                         }
-                        const newReviewPhysLen = selEnd - newChunkStart + 1; // 直前の新規チャンク長
+                        const newReviewPhysLen = selEnd - newChunkStart + 1; // 最後チャンクの長さ
 
                         // inputStart のために論理インデックスを求める
                         const newStartLogical = physicalToLogical.slice(newChunkStart).find(v => v !== -1) ?? 0;
