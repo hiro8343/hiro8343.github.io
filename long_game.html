@@ -739,13 +739,19 @@
                         }
                         const nextEndP = chunkEnd - 1;
 
-                        // 今の選択全体（selStart〜selEnd）を復習エリアにして
-                        // selEnd+1以降の次チャンクを新規エリアとして追加
-                        const newReviewPhysLen = selEnd - selStart + 1;
+                        // 直前の「新規チャンク」部分（selStart+reviewLen〜selEnd）だけを
+                        // 次回の復習にする（前の範囲一つだけが復習＝ユーザー希望）
+                        // 例: A練習後→[A復習+B新規] → B練習後→[B復習+C新規]（Aは外れる）
+                        const newChunkStart = selStart + reviewLen; // 前回の新規チャンクの開始点
+                        const newReviewPhysLen = selEnd - newChunkStart + 1; // 前回の新規チャンク長
 
-                        setReviewLen(newReviewPhysLen);
-                        // selStart はそのまま（変えない）
+                        // inputStart のために論理インデックスを求める
+                        const newStartLogical = physicalToLogical.slice(newChunkStart).find(v => v !== -1) ?? 0;
+
+                        setSelStart(newChunkStart);
                         setSelEnd(nextEndP);
+                        setReviewLen(newReviewPhysLen);
+                        setInputStart(String(newStartLogical + 1));
                         setInputEnd(String(physicalToLogical[nextEndP] + 1));
 
                         setMatchPhysicalLen(0);
