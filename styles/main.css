@@ -52,12 +52,7 @@ body {
     background-attachment: fixed;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     color: #fff;
     line-height: 1.2;
@@ -128,33 +123,32 @@ ul {
     box-shadow: var(--shadow-card);
 }
 
-/* Floating My Page Button */
-.nav-mypage-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-    font-weight: bold;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+/* Floating My Page Button - High Priority */
+.nav-mypage-btn, a[href="mypage.html"] {
+    position: fixed !important;
+    bottom: 2rem !important;
+    right: 2rem !important;
+    background: #bc13fe !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    padding: 12px 24px !important;
+    border-radius: 50px !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    z-index: 9999 !important;
+    font-weight: bold !important;
+    font-size: 0.9rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(188, 19, 254, 0.4) !important;
 }
 
-.nav-mypage-btn:hover {
-    background: var(--accent-purple);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(186, 85, 211, 0.4);
-    border-color: var(--accent-pink);
+.nav-mypage-btn:hover, a[href="mypage.html"]:hover {
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(188, 19, 254, 0.6) !important;
+    border-color: #ffffff !important;
 }
 
 /* Floating Back Button */
