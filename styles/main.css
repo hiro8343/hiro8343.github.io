@@ -127,6 +127,7 @@ ul {
 .nav-mypage-btn, a[href="mypage.html"] {
     position: fixed !important;
     bottom: 2rem !important;
+    top: auto !important; /* To prevent vertical stretching */
     right: 2rem !important;
     background: #bc13fe !important;
     color: #ffffff !important;
