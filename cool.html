@@ -2,18 +2,16 @@
 <html lang="ja">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-80TMBGVND6"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-80TMBGVND6');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>暗記したらかっこいい | 楽しい暗記サイト</title>
+    <meta name="description" content="円周率100桁、いろはうた、88星座、歴代元号など、暗記したらかっこいいロマンあふれる知識のコレクション。">
+    <meta name="keywords" content="暗記, 記憶術, かっこいい, 教養, いろはうた, 円周率100桁, 88星座, 歴代元号, 素数">
+    <meta property="og:title" content="暗記したらかっこいい | 楽しい暗記サイト">
+    <meta property="og:description" content="円周率100桁、いろはうた、88星座、歴代元号など、暗記したらかっこいいロマンあふれる知識のコレクション。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://hiro8343.github.io/cool.html">
+    <meta name="twitter:card" content="summary_large_image">
     <!-- Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
@@ -67,7 +65,6 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            cursor: pointer;
         }
 
         .cool-card:hover {
@@ -101,183 +98,13 @@
             margin-top: 1rem;
             color: #ffd700;
             font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .char-count {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-
-        /* Modal Styles */
-        dialog {
-            background: transparent;
-            border: none;
-            padding: 0;
-            max-width: 90vw;
-            width: 600px;
-            color: var(--text-main);
-            margin: auto;
-        }
-
-        dialog::backdrop {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: #1a1a24;
-            border: 1px solid var(--accent-purple);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            box-shadow: 0 0 50px rgba(188, 19, 254, 0.3);
-            position: relative;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 2rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: #fff;
-        }
-
-        .modal-body {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            margin-top: 1rem;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            font-family: monospace;
-            line-height: 1.8;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-meta {
-            margin-bottom: 1rem;
-            color: var(--accent-cyan);
-            font-size: 0.9rem;
-        }
-
-        .modal-links {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .link-btn {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: bold;
-            transition: all 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .link-btn-exp {
-            background: rgba(188, 19, 254, 0.2);
-            color: #e0aaff;
-            border-color: var(--accent-purple);
-        }
-
-        .link-btn-word {
-            background: rgba(0, 255, 255, 0.1);
-            color: #aaffff;
-            border-color: var(--accent-cyan);
-        }
-
-        .link-btn:hover {
-            opacity: 0.8;
-            transform: translateY(-2px);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .cool-header {
-                padding: 2rem 0 1.5rem;
-            }
-
-            .cool-header h1 {
-                font-size: 2rem;
-            }
-
-            .filters {
-                gap: 0.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .filter-btn {
-                padding: 6px 14px;
-                font-size: 0.85rem;
-            }
-
-            .card-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            dialog {
-                width: 95vw;
-                max-width: none;
-            }
-
-            .modal-content {
-                padding: 1.5rem 1rem;
-                max-height: 90vh;
-            }
-
-            .modal-content h2 {
-                font-size: 1.5rem;
-                padding-right: 2rem;
-            }
-
-            .modal-body {
-                font-size: 0.95rem;
-                line-height: 1.6;
-                padding: 0.8rem;
-            }
-
-            .modal-links {
-                gap: 8px;
-            }
-
-            .link-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                flex: 1 1 calc(50% - 8px);
-                text-align: center;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .link-btn {
-                flex: 1 1 100%;
-            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <a href="index.html" class="nav-back">← Topに戻る</a>
+        <a href="index.html" class="nav-back" style="position:absolute; top:2rem; left:2rem;">← Topに戻る</a>
 
         <header class="cool-header animate-fade-in">
             <span style="color: var(--accent-purple); font-weight: bold;">AREA 4: THE COLLECTION</span>
@@ -287,210 +114,130 @@
 
         <main>
             <!-- Filters -->
-            <div class="filters animate-fade-in delay-100">
+            <div class="filters animate-fade-in delay-100" id="filter-container">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="space">宇宙・自然</button>
-                <button class="filter-btn" data-filter="history">時間・歴史</button>
-                <button class="filter-btn" data-filter="math">数とことば</button>
-                <button class="filter-btn" data-filter="world">世界・文化</button>
-                <button class="filter-btn" data-filter="literature">文学</button>
-                <button class="filter-btn" data-filter="manga_anime">漫画・アニメ</button>
+                <!-- Buttons will be injected by JS -->
             </div>
 
             <!-- Grid -->
             <div class="card-grid animate-fade-in delay-200" id="grid">
-                <!-- Items will be injected by JS -->
-                <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading data...</p>
+                <div style="text-align: center; grid-column: 1/-1; padding: 3rem; color: var(--text-muted);">
+                    データを読み込み中...
+                </div>
             </div>
         </main>
     </div>
 
-    <!-- Modal -->
-    <dialog id="detail-modal">
-        <div class="modal-content">
-            <button id="close-modal" class="close-btn">&times;</button>
-            <span class="card-cat" id="modal-cat">CATEGORY</span>
-            <h2 id="modal-title" style="margin-bottom: 0.5rem; color: #fff;">Title</h2>
-            <div class="modal-meta">
-                <span>文字数: <span id="modal-length">0</span>文字</span>
-            </div>
-            <div id="modal-links" class="modal-links"></div>
-            <p id="modal-desc" style="color: var(--text-muted); margin-bottom: 1rem;">Description</p>
-            <div class="modal-body custom-scrollbar" id="modal-content">
-                Content...
-            </div>
-        </div>
-    </dialog>
-
-    <script src="scripts/user_data.js"></script>
     <script>
-        const grid = document.getElementById('grid');
-        const buttons = document.querySelectorAll('.filter-btn');
-        const modal = document.getElementById('detail-modal');
-        const closeModal = document.getElementById('close-modal');
+        const SPREADSHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/export?format=csv&gid=1782876609';
         let coolItems = [];
+        const grid = document.getElementById('grid');
+        const filterContainer = document.getElementById('filter-container');
 
-        // DJB2 Hash Function for URL Shortening
-        function generateHash(str) {
-            let hash = 5381;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) + hash) + str.charCodeAt(i);
-            }
-            return (hash >>> 0).toString(16);
-        }
-
-        // Google Sheet CSV URL
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
-
-        // Category Mapping (Japanese in Sheet -> ID in App)
-        const CATEGORY_MAP = {
-            '言語': 'math',   // 数とことば
-            '数学': 'math',
-            '歴史': 'history', // 時間・歴史
-            '地理': 'world',   // 世界・文化
-            '公民': 'world',
-            '理科': 'space',   // 宇宙・自然
-            '生物': 'space',
-            '地学': 'space',
-            '宇宙': 'space',   // Added '宇宙'
-            '雑学': 'culture', // その他
-            '文化': 'culture'
-        };
-
-        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
+        // Robust CSV Parser (handles quotes and newlines within cells)
         function parseCSV(text) {
-            // テキスト全体を文字単位で走査し、行とセルに分割する
-            const rows = [];
+            const result = [];
             let row = [];
-            let cell = '';
-            let inQuote = false;
-
-            // CRLF → LF に正規化
-            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-
+            let field = '';
+            let inQuotes = false;
             for (let i = 0; i < text.length; i++) {
-                const ch = text[i];
-
-                if (inQuote) {
-                    if (ch === '"') {
-                        // 次も " なら エスケープ("")→ 実際の "
-                        if (text[i + 1] === '"') {
-                            cell += '"';
-                            i++; // 次の " をスキップ
-                        } else {
-                            // クォート終了
-                            inQuote = false;
-                        }
+                const char = text[i];
+                const nextChar = text[i + 1];
+                if (inQuotes) {
+                    if (char === '"' && nextChar === '"') {
+                        field += '"';
+                        i++;
+                    } else if (char === '"') {
+                        inQuotes = false;
                     } else {
-                        // クォート内では改行もそのままセル値に含める
-                        cell += ch;
+                        field += char;
                     }
                 } else {
-                    if (ch === '"') {
-                        inQuote = true;
-                    } else if (ch === ',') {
-                        // セル区切り
-                        row.push(cell);
-                        cell = '';
-                    } else if (ch === '\n') {
-                        // 行区切り
-                        row.push(cell);
-                        cell = '';
-                        rows.push(row);
+                    if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        row.push(field);
+                        field = '';
+                    } else if (char === '\n' || char === '\r') {
+                        row.push(field);
+                        if (row.length > 1 || row[0] !== '') {
+                            result.push(row);
+                        }
                         row = [];
+                        field = '';
+                        if (char === '\r' && nextChar === '\n') {
+                            i++;
+                        }
                     } else {
-                        cell += ch;
+                        field += char;
                     }
                 }
             }
-            // 末尾のセル・行を追加
-            row.push(cell);
-            if (row.some(c => c !== '')) rows.push(row);
-
-            // 行データをアイテムに変換
-            const result = [];
-            for (let i = 0; i < rows.length; i++) {
-                const r = rows[i];
-                if (r.length < 4) continue;
-
-                // ヘッダー行スキップ
-                if (i === 0 && (r[0] === 'カテゴリ' || r[0] === 'カテゴリー' || r[0] === 'Category' || r[0] === 'ジャンル')) continue;
-
-                const catKey = CATEGORY_MAP[r[0]] || 'culture';
-                const isActive = r[6] === '◯' || r[6] === '○' || !r[6];
-
-                if (isActive) {
-                    result.push({
-                        id: i,
-                        category: catKey,
-                        originalCategory: r[0],
-                        title: r[1],
-                        description: r[2],
-                        content: r[3],          // セル内改行も含む生テキスト
-                        type: r.length > 4 ? r[4].trim() : '', // 種類
-                        stars: 3,
-                        explanationUrl: r[7] || null,
-                        wordUrl: null
-                    });
-                }
+            if (row.length > 0 || field !== '') {
+                row.push(field);
+                result.push(row);
             }
             return result;
         }
 
-        // Fetch Data
         async function loadData() {
             try {
-                // Show loading state
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading data from Google Sheets...</p>';
-
-                const response = await fetch(SHEET_CSV_URL);
+                const response = await fetch(SPREADSHEET_CSV_URL);
                 if (!response.ok) throw new Error('Network response was not ok');
-                const text = await response.text();
+                const csvText = await response.text();
+                const data = parseCSV(csvText);
 
-                coolItems = parseCSV(text);
+                // Assuming Header: カテゴリー, タイトル, 解説, 内容, ...
+                // skip header
+                coolItems = data.slice(1).map((row, index) => ({
+                    id: index,
+                    cat: row[0] || 'その他',
+                    title: row[1] || '無題',
+                    desc: row[2] || '',
+                    stars: 3 // Default stars as spreadsheet doesn't have it
+                }));
+
+                createFilters();
                 render('all');
-                checkUrlParam();
             } catch (error) {
-                console.error('Error loading data:', error);
-
-                // Fallback to local JSON
-                try {
-                    console.log('Falling back to local JSON...');
-                    const response = await fetch('data/cool_items.json');
-                    coolItems = await response.json();
-                    render('all');
-                    checkUrlParam();
-                } catch (e) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-pink);">データの読み込みに失敗しました。</p>';
-                }
+                console.error('Fetch error:', error);
+                grid.innerHTML = `<div style="text-align: center; grid-column: 1/-1; padding: 3rem; color: #ff5555;">データの読み込みに失敗しました。</div>`;
             }
         }
 
-        function checkUrlParam() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetTitle = urlParams.get('title');
-            const targetHash = urlParams.get('h');
+        function createFilters() {
+            const cats = [...new Set(coolItems.map(i => i.cat))];
+            
+            // Re-render "All" then append others
+            filterContainer.innerHTML = '<button class="filter-btn active" data-filter="all">All</button>';
+            
+            cats.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.dataset.filter = cat;
+                btn.textContent = cat;
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    render(cat);
+                });
+                filterContainer.appendChild(btn);
+            });
 
-            if (coolItems.length > 0) {
-                let targetItem;
-                if (targetHash) {
-                    targetItem = coolItems.find(item => generateHash(item.title) === targetHash);
-                } else if (targetTitle) {
-                    targetItem = coolItems.find(item => item.title === targetTitle);
-                }
-
-                if (targetItem) {
-                    openModal(targetItem);
-                }
-            }
+            // Re-bind "All"
+            filterContainer.querySelector('[data-filter="all"]').addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                render('all');
+            });
         }
 
         function render(filter) {
             grid.innerHTML = '';
-            const items = filter === 'all' ? coolItems : coolItems.filter(i => i.category === filter || (filter === 'world' && i.category === 'culture'));
+            const items = filter === 'all' ? coolItems : coolItems.filter(i => i.cat === filter);
 
             if (items.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">アイテムがありません。</p>';
+                grid.innerHTML = `<div style="text-align: center; grid-column: 1/-1; padding: 3rem; color: var(--text-muted);">アイテムがありません。</div>`;
                 return;
             }
 
@@ -498,281 +245,19 @@
                 const div = document.createElement('div');
                 div.className = 'cool-card animate-fade-in';
                 div.style.animationDelay = `${index * 0.05}s`;
-                div.style.position = 'relative';
-
-                // 項目数と文字数の計算
-                const parts = item.content ? item.content.split(/,|、/).map(s => s.trim()).filter(s => s !== '') : [];
-                const itemCount = parts.length;
-                const cleanContent = item.content ? item.content.replace(/\(.*?\)|（.*?）/g, '').replace(/,|、|\n|\r|\s/g, '') : '';
-                const length = cleanContent.length;
-
                 div.innerHTML = `
-                    <span class="card-cat">${item.category}</span>
+                    <span class="card-cat">${item.cat}</span>
                     <h3 class="card-title">${item.title}</h3>
-                    <p class="card-desc">${item.description}</p>
-                    <div class="coolness">
-                        <span>${itemCount > 0 ? itemCount + '項目' : 'かっこよさ ' + '★'.repeat(item.stars) + '☆'.repeat(5 - item.stars)}</span>
-                        <span class="char-count">${length}文字</span>
-                    </div>
-                    <button onclick="event.stopPropagation(); toggleFav('${item.title.replace(/'/g, "\\'")}',' ${item.category}', this)" style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; font-size:1.3rem; opacity:0.7; transition:all 0.3s;">
-                        ${UserData.isFavorite(item.title) ? '❤️' : '🤍'}
-                    </button>
+                    <p class="card-desc">${item.desc}</p>
+                    <div class="coolness">重要度 ${'★'.repeat(item.stars)}${'☆'.repeat(5 - item.stars)}</div>
                 `;
-
-                // Add click event for modal
-                div.addEventListener('click', () => openModal(item));
-
                 grid.appendChild(div);
             });
         }
 
-        function openModal(item) {
-            const parts = item.content ? item.content.split(/,|、/).map(s => s.trim()).filter(s => s !== '') : [];
-            const itemCount = parts.length;
-            const cleanContent = item.content ? item.content.replace(/\(.*?\)|（.*?）/g, '').replace(/,|、|\n|\r|\s/g, '') : '';
-
-            document.getElementById('modal-cat').textContent = `${item.category}${itemCount > 0 ? ' (' + itemCount + '項目)' : ''}`;
-            document.getElementById('modal-title').textContent = item.title;
-            document.getElementById('modal-desc').textContent = item.description;
-            document.getElementById('modal-content').innerText = item.content || 'データがありません';
-            document.getElementById('modal-length').textContent = cleanContent.length;
-
-            // Render Links
-            const linksContainer = document.getElementById('modal-links');
-            linksContainer.innerHTML = ''; // Clear previous links
-
-            // 検定へのリンクを追加
-            const examBtn = document.createElement('a');
-            examBtn.href = `exam.html?title=${encodeURIComponent(item.title)}`;
-            examBtn.className = 'link-btn';
-            examBtn.style.cssText = 'background: rgba(10, 255, 104, 0.2); color: var(--accent-green); border-color: var(--accent-green);';
-            examBtn.textContent = '🎯 検定に挑戦する';
-            linksContainer.appendChild(examBtn);
-
-            // リスト記憶ゲームへのリンクを追加（要素数が2個以上の場合のみ）
-            if (item.content) {
-                const listItems = item.content.split(',').map(s => s.trim()).filter(s => s !== '');
-                if (listItems.length >= 2) {
-                    const listGameBtn = document.createElement('a');
-                    listGameBtn.href = `list_game.html?title=${encodeURIComponent(item.title)}`;
-                    listGameBtn.className = 'link-btn';
-                    listGameBtn.style.cssText = 'background: rgba(255, 100, 150, 0.2); color: #ff6b81; border-color: #ff6b81;';
-                    listGameBtn.textContent = '📝 このリストを覚える（ゲーム）';
-                    linksContainer.appendChild(listGameBtn);
-
-                    // 括弧を含む項目がある場合、クイズリンクを追加
-                    const hasParens = listItems.some(s => s.includes('(') || s.includes('（'));
-                    if (hasParens) {
-                        const quizBtn = document.createElement('a');
-                        quizBtn.href = `quiz_game.html?title=${encodeURIComponent(item.title)}`;
-                        quizBtn.className = 'link-btn';
-                        quizBtn.style.cssText = 'background: rgba(188, 19, 254, 0.2); color: #e0aaff; border-color: var(--accent-purple);';
-                        quizBtn.textContent = '🎯 このリストでクイズに挑戦';
-                        linksContainer.appendChild(quizBtn);
-                    }
-                }
-            }
-
-            if (item.explanationUrl) {
-                const a = document.createElement('a');
-                a.href = item.explanationUrl;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                a.className = 'link-btn link-btn-exp';
-                a.textContent = '📖 解説を見る';
-                linksContainer.appendChild(a);
-            }
-
-            // 長文記憶ゲームへのリンクを追加（種類=1 の場合）
-            if (item.type === '1') {
-                const longGameBtn = document.createElement('a');
-                longGameBtn.href = `long_game.html?title=${encodeURIComponent(item.title)}`;
-                longGameBtn.className = 'link-btn';
-                longGameBtn.style.cssText = 'background: rgba(255, 165, 0, 0.2); color: #ffaa00; border-color: #ffaa00;';
-                longGameBtn.textContent = '🧠 この長文を覚える（ゲーム）';
-                linksContainer.appendChild(longGameBtn);
-            }
-
-            if (item.wordUrl) {
-                const a = document.createElement('a');
-                a.href = item.wordUrl;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                a.className = 'link-btn link-btn-word';
-                a.textContent = '✨ 暗記リストを見る';
-                linksContainer.appendChild(a);
-            }
-
-            // お気に入りボタンをモーダルに追加
-            const favBtn = document.createElement('button');
-            favBtn.style.cssText = 'background:none; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; border-radius:20px; cursor:pointer; font-size:0.9rem; transition:all 0.3s; color:#fff;';
-            favBtn.textContent = UserData.isFavorite(item.title) ? '❤️ お気に入り済み' : '🤍 お気に入りに追加';
-            favBtn.onclick = () => {
-                if (UserData.isFavorite(item.title)) {
-                    UserData.removeFavorite(item.title);
-                    favBtn.textContent = '🤍 お気に入りに追加';
-                } else {
-                    UserData.addFavorite({ title: item.title, category: item.category });
-                    favBtn.textContent = '❤️ お気に入り済み';
-                }
-            };
-            linksContainer.appendChild(favBtn);
-
-            // X (Twitter) でシェアボタン
-            const xBtn = document.createElement('button');
-            xBtn.className = 'link-btn';
-            xBtn.style.cssText = 'background: #000; color: #fff; border-color: #333; display: flex; align-items: center; gap: 0.5rem;';
-            xBtn.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-                𝕏 でポストする
-            `;
-            xBtn.onclick = () => shareOnX();
-            linksContainer.appendChild(xBtn);
-
-            // 汎用シェアボタン
-            const genericShareBtn = document.createElement('button');
-            genericShareBtn.className = 'link-btn';
-            genericShareBtn.style.cssText = 'background: rgba(0, 243, 255, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 0.5rem;';
-            genericShareBtn.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                    <polyline points="16 6 12 2 8 6"></polyline>
-                    <line x1="12" y1="2" x2="12" y2="15"></line>
-                </svg>
-                🔗 その他へシェア
-            `;
-            genericShareBtn.onclick = () => shareItem();
-            linksContainer.appendChild(genericShareBtn);
-
-            modal.showModal();
-        }
-
-        function getShareInfo() {
-            const title = document.getElementById('modal-title').textContent;
-            const desc = document.getElementById('modal-desc').textContent;
-            const content = document.getElementById('modal-content').innerText;
-
-            const hash = generateHash(title);
-            const url = new URL(window.location.origin + window.location.pathname);
-            url.searchParams.set('h', hash);
-            const shareUrl = url.toString();
-
-            // Xの制限に配慮したリッチなテキスト構成 (ターゲット: 日本語140文字程度)
-            // URL(約23文字固定) + タグ + 改行などを除き、自由に使えるのは約100文字程度
-            const tags = "\n\n#暗記 #かっこいい";
-            const currentTitle = `「${title}」\n`;
-            
-            // 内容のリスト化
-            const contentLines = content.split('\n').filter(l => l.trim() !== '');
-            const previewAll = "---\n" + contentLines.join('、');
-            
-            let fullText = `${currentTitle}${desc}\n${previewAll}${tags}`;
-            
-            // 文字数制限チェック（簡易版: 日本語は140文字、実際はURLを除いて判定）
-            // XのWeb IntentはURLを自動でリンクとして扱うため、textパラメータの長さ制限に注意
-            const MAX_TOTAL_LEN = 135; // 少し余裕を持たせる
-            
-            if (fullText.length > MAX_TOTAL_LEN) {
-                // 1. まずは「内容の抜粋」を短くしてみる
-                let partialPreview = "---\n" + contentLines.slice(0, 2).join('、') + (contentLines.length > 2 ? '...' : '');
-                fullText = `${currentTitle}${desc}\n${partialPreview}${tags}`;
-                
-                if (fullText.length > MAX_TOTAL_LEN) {
-                    // 2. まだ長いなら「説明文」を削る
-                    let shortDesc = desc.length > 30 ? desc.substring(0, 27) + "..." : desc;
-                    fullText = `${currentTitle}${shortDesc}\n${partialPreview}${tags}`;
-                    
-                    if (fullText.length > MAX_TOTAL_LEN) {
-                        // 3. 最終手段：内容をなくす
-                        fullText = `${currentTitle}${shortDesc}${tags}`;
-                        
-                        if (fullText.length > MAX_TOTAL_LEN) {
-                            // 4. タイトルも短く（ありえないとは思うが）
-                            let shortTitle = title.length > 20 ? title.substring(0, 17) + "..." : title;
-                            fullText = `「${shortTitle}」${tags}`;
-                        }
-                    }
-                }
-            }
-
-            return { title, desc, shareUrl, shareText: fullText };
-        }
-
-        function shareOnX() {
-            const info = getShareInfo();
-            const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(info.shareText)}&url=${encodeURIComponent(info.shareUrl)}`;
-            window.open(xUrl, '_blank');
-        }
-
-        async function shareItem() {
-            const info = getShareInfo();
-
-            const shareData = {
-                title: `${info.title} - 楽しい暗記サイト`,
-                text: info.shareText,
-                url: info.shareUrl
-            };
-
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-                    alert('リンクをコピーしました！お友達にシェアしてね✨');
-                }
-            } catch (err) {
-                console.error('Share failed:', err);
-            }
-        }
-
         // Init
         loadData();
-
-        // Event Listeners
-        window.addEventListener('DOMContentLoaded', () => {
-            // URLパラメータで特定のアイテムが指定されていれば自動でモーダルを開く
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetTitle = urlParams.get('title');
-            if (targetTitle) {
-                // coolItemsがロードされるまで少し待つ処理を下で呼び出す
-            }
-        });
-
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                buttons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                render(btn.dataset.filter);
-            });
-        });
-
-        closeModal.addEventListener('click', () => {
-            modal.close();
-        });
-
-        // Close on backdrop click
-        modal.addEventListener('click', (e) => {
-            const rect = modal.getBoundingClientRect();
-            const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
-                rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
-            if (!isInDialog) {
-                modal.close();
-            }
-        });
-        // お気に入りトグル（カード用）
-        function toggleFav(title, category, btn) {
-            if (UserData.isFavorite(title)) {
-                UserData.removeFavorite(title);
-                btn.textContent = '🤍';
-            } else {
-                UserData.addFavorite({ title: title, category: category.trim() });
-                btn.textContent = '❤️';
-            }
-        }
     </script>
-    <a href="mypage.html" class="nav-mypage-btn">👤 マイページ</a>
 </body>
 
 </html>
