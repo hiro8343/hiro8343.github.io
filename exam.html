@@ -359,14 +359,9 @@
             </h2>
 
             <!-- Category Filters -->
-            <div class="filters" style="margin-bottom: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <div class="filters" id="filter-container" style="margin-bottom: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                 <button class="filter-btn active" data-filter="all">すべて</button>
-                <button class="filter-btn" data-filter="space">宇宙・自然</button>
-                <button class="filter-btn" data-filter="history">時間・歴史</button>
-                <button class="filter-btn" data-filter="math">数とことば</button>
-                <button class="filter-btn" data-filter="world">世界・文化</button>
-                <button class="filter-btn" data-filter="literature">文学</button>
-                <button class="filter-btn" data-filter="manga_anime">漫画・アニメ</button>
+                <!-- Javascript will populate this -->
             </div>
 
             <div class="theme-grid" id="theme-grid">
@@ -484,7 +479,6 @@
         const viewPlay = document.getElementById('view-play');
         const viewResult = document.getElementById('view-result');
         const themeGrid = document.getElementById('theme-grid');
-        const filterBtns = document.querySelectorAll('.filter-btn');
 
         // Game UI
         const questionTitle = document.getElementById('question-title');
@@ -503,32 +497,10 @@
         // Init
         window.addEventListener('DOMContentLoaded', loadData);
 
-        // Filter Handlers
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderThemeSelect(btn.dataset.filter);
-            });
-        });
-
         // Google Sheet CSV URL
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
 
-        // Category Mapping (Japanese in Sheet -> ID in App)
-        const CATEGORY_MAP = {
-            '言語': 'math',   // 数とことば
-            '数学': 'math',
-            '歴史': 'history', // 時間・歴史
-            '地理': 'world',   // 世界・文化
-            '公民': 'world',
-            '理科': 'space',   // 宇宙・自然
-            '生物': 'space',
-            '地学': 'space',
-            '宇宙': 'space',
-            '雑学': 'culture', // その他
-            '文化': 'culture'
-        };
+
 
         // CSV Parser（セル内改行対応版 / RFC 4180準拠）
         function parseCSV(text) {
@@ -577,7 +549,7 @@
                 if (r.length < 4) continue;
                 if (i === 0 && (r[0] === 'カテゴリ' || r[0] === 'カテゴリー' || r[0] === 'Category' || r[0] === 'ジャンル')) continue;
 
-                const catKey = CATEGORY_MAP[r[0]] || 'culture';
+                const catKey = r[0] || 'その他';
                 const isActive = r[6] === '◯' || r[6] === '○' || !r[6];
 
                 if (isActive) {
@@ -603,6 +575,7 @@
                 if (!response.ok) throw new Error('Network response was not ok');
                 const text = await response.text();
                 itemsData = parseCSV(text);
+                createFilters();
                 renderThemeSelect('all');
 
                 // URLパラメータで検定タイトルが指定されていれば自動開始
@@ -619,6 +592,7 @@
                 try {
                     const res = await fetch('data/cool_items.json');
                     itemsData = await res.json();
+                    createFilters();
                     renderThemeSelect('all');
 
                     const urlParams = new URLSearchParams(window.location.search);
@@ -636,15 +610,39 @@
             }
         }
 
+        function createFilters() {
+            const container = document.getElementById('filter-container');
+            if (!container) return;
+            const cats = [...new Set(itemsData.map(i => i.category))];
+            
+            container.innerHTML = '<button class="filter-btn active" data-filter="all">すべて</button>';
+            
+            cats.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.dataset.filter = cat;
+                btn.textContent = cat;
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('#filter-container .filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderThemeSelect(cat);
+                });
+                container.appendChild(btn);
+            });
+
+            container.querySelector('[data-filter="all"]').addEventListener('click', (e) => {
+                document.querySelectorAll('#filter-container .filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderThemeSelect('all');
+            });
+        }
+
         function renderThemeSelect(filter) {
             themeGrid.innerHTML = '';
 
             const filtered = filter === 'all'
                 ? itemsData
-                : itemsData.filter(item => {
-                    if (filter === 'world') return item.category === 'world' || item.category === 'culture';
-                    return item.category === filter;
-                });
+                : itemsData.filter(item => item.category === filter);
 
             if (filtered.length === 0) {
                 themeGrid.innerHTML = '<p style="color:var(--text-muted)">該当する検定はありません</p>';
