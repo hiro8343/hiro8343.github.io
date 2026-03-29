@@ -614,9 +614,8 @@
             const content = document.getElementById('modal-content').innerText;
 
             const hash = generateHash(title);
-            const url = new URL(window.location.origin + window.location.pathname);
-            url.searchParams.set('h', hash);
-            const shareUrl = url.toString();
+            // 専用の静的OGP生成ページを利用
+            const shareUrl = `https://hiro8343.github.io/shares/${hash}.html`;
 
             const tags = "\n\n#暗記 #かっこいい";
             const currentTitle = `「${title}」\n`;
