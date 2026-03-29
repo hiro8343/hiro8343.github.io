@@ -124,7 +124,7 @@ ul {
 }
 
 /* Floating My Page Button - High Priority */
-.nav-mypage-btn, a[href="mypage.html"] {
+.nav-mypage-btn {
     position: fixed !important;
     bottom: 2rem !important;
     top: auto !important; /* To prevent vertical stretching */
@@ -146,7 +146,7 @@ ul {
     box-shadow: 0 4px 15px rgba(188, 19, 254, 0.4) !important;
 }
 
-.nav-mypage-btn:hover, a[href="mypage.html"]:hover {
+.nav-mypage-btn:hover {
     transform: translateY(-3px) scale(1.05) !important;
     box-shadow: 0 6px 20px rgba(188, 19, 254, 0.6) !important;
     border-color: #ffffff !important;
