@@ -1,0 +1,36 @@
+name: Weekly Share Pages Update
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # 毎週月曜日 00:00 UTC (日本時間 09:00)
+  workflow_dispatch: # 手動実行用
+
+permissions:
+  contents: write
+
+jobs:
+  update-shares:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run generation script
+        run: node scripts/generate_shares.js
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add shares/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update share pages from spreadsheet"
+            git push
+          fi
