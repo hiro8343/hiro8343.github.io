@@ -13,108 +13,190 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>暗記の攻略本 | 楽しい暗記サイト</title>
-    <meta name="description" content="チャンキング、記憶の宮殿、間隔反復（Spaced Repetition）など、科学的に証明された強力な記憶術・テクニックを大公開。">
-    <meta name="keywords" content="暗記, 記憶術, チャンキング, 記憶の宮殿, 間隔反復, フェインマン・テクニック">
-    <meta property="og:title" content="暗記の攻略本 | 楽しい暗記サイト">
-    <meta property="og:description" content="チャンキング、記憶の宮殿、間隔反復（Spaced Repetition）など、科学的に証明された強力な記憶術・テクニックを大公開。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://hiro8343.github.io/guide.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- Fonts -->
+    <title>攻略ガイド | 楽しい暗記サイト</title>
+    <meta name="description" content="暗記検定、クイズ、リスト記憶、長文記憶。各ゲームモードの遊び方からマイページの活用術まで、暗記を完全攻略するための究極ガイド。">
+    <meta name="keywords" content="暗記, 記憶術, 暗記検定, 遊び方, 攻略法, 勉強法, マイページ, 学習習慣">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
         rel="stylesheet">
+    
     <!-- Styles -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
+
     <style>
-        .guide-header {
-            text-align: center;
-            padding: 4rem 0 2rem;
+        :root {
+            --guide-border: rgba(255, 255, 255, 0.08);
+            --guide-bg-card: rgba(20, 20, 31, 1);
         }
 
-        .section-title {
+        .guide-nav {
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 4rem 0 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid var(--guide-border);
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .guide-nav a {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
-        .skill-card {
-            background: rgba(20, 20, 31, 0.6);
-            border: 1px solid rgba(0, 243, 255, 0.1);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-        }
-
-        .skill-header {
-            padding: 1.5rem;
-            background: rgba(0, 243, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .skill-body {
-            padding: 1.5rem;
-        }
-
-        .skill-icon {
-            font-size: 2rem;
-        }
-
-        .skill-tag {
-            font-size: 0.8rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .tag-basic {
-            color: var(--accent-green);
-            border: 1px solid var(--accent-green);
-        }
-
-        .tag-advanced {
-            color: var(--accent-purple);
-            border: 1px solid var(--accent-purple);
-        }
-
-        .try-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 8px 20px;
+        .guide-nav a:hover,
+        .guide-nav a.active {
             background: var(--accent-cyan);
             color: #000;
             font-weight: bold;
-            border-radius: 4px;
+        }
+
+        .guide-section {
+            padding: 6rem 0;
+            border-bottom: 1px solid var(--guide-border);
+        }
+
+        .guide-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-tag {
+            color: var(--accent-cyan);
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .mode-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--guide-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--card-accent);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .mode-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--card-accent);
+        }
+
+        .mode-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-bullets li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.8rem;
             font-size: 0.9rem;
-            opacity: 0.8;
+            color: var(--text-main);
         }
 
-        .try-btn:hover {
-            opacity: 1;
+        .feature-bullets li::before {
+            content: '▫️';
+            position: absolute;
+            left: 0;
+            color: var(--card-accent);
         }
 
-        /* Modal Styles */
+        .mode-exam { --card-accent: #FFD700; }
+        .mode-list { --card-accent: #2ed573; }
+        .mode-quiz { --card-accent: #f0932b; }
+        .mode-long { --card-accent: #e056fd; }
+        .mode-cool { --card-accent: #00f3ff; }
+
+        /* Step Section */
+        .step-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .step-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--guide-border);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            position: relative;
+            text-align: center;
+        }
+
+        .step-num {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-cyan);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        /* Skills integration */
+        .skill-list-container {
+            margin-top: 4rem;
+        }
+
+        /* Modal Styles (Same as old for consistency) */
         .modal {
             display: none;
             position: fixed;
@@ -122,103 +204,210 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
         .modal-content {
-            background: var(--bg-card);
+            background: #11111a;
             border: 1px solid var(--accent-cyan);
             border-radius: var(--radius-lg);
-            padding: 2rem;
-            max-width: 600px;
+            padding: 3rem;
+            max-width: 650px;
             width: 90%;
             position: relative;
         }
 
         .close-modal {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.5rem;
+            right: 1.5rem;
             cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        /* Filter Styles */
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 50px;
+            font-size: 2rem;
             color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
         }
 
-        .filter-btn.active,
-        .filter-btn:hover {
-            border-color: var(--accent-cyan);
-            color: #fff;
-            background: rgba(0, 243, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        @media (max-width: 768px) {
+            .guide-nav {
+                border-radius: 12px;
+                padding: 0.8rem;
+            }
+            .guide-section {
+                padding: 4rem 1rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <a href="index.html" class="nav-back">← Topに戻る</a>
+    <div class="container" style="position: relative;">
+        <a href="index.html" class="nav-back" style="position: sticky; top: 1rem; z-index: 150;">← Topに戻る</a>
 
         <header class="guide-header animate-fade-in">
-            <span style="color: var(--accent-cyan); font-weight: bold;">AREA 2: STRATEGY GUIDE</span>
-            <h1 class="text-gradient">暗記の攻略本</h1>
-            <p>記憶をハックする「武器」を選ぼう。</p>
+            <span class="section-tag">Master Guide</span>
+            <h1 class="text-gradient">暗記サイトの歩き方</h1>
+            <p>暗記を「才能」から「技術」へ。最短で達人になるためのロードマップ。</p>
         </header>
 
+        <!-- Navigation -->
+        <nav class="guide-nav animate-fade-in delay-100">
+            <a href="#how-to-start" class="active">始め方</a>
+            <a href="#game-modes">ゲーム攻略</a>
+            <a href="#mypage">マイページ</a>
+            <a href="#skills">記憶術</a>
+        </nav>
+
         <main>
-            <!-- SEO/クローラー向け＆初回訪問者向けのサイトコンセプト説明 -->
-            <section class="guide-description animate-fade-in" style="max-width: 800px; margin: 0 auto 3rem; padding: 2rem; background: rgba(0,243,255,0.05); border-radius: var(--radius-md); border-left: 4px solid var(--accent-cyan);">
-                <h2 style="font-size: 1.3rem; margin-bottom: 1rem; color: #fff;">最強の「記憶術」を見つける</h2>
-                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 1rem;">暗記は「気合と根性」ではありません。「どのように情報を処理するか」という技術の問題です。ここでは、古くから伝わる「場所法」や、音の響きを利用する「語呂合わせ」、そして最新の脳科学に基づく「間隔反復（Spaced Repetition）」など、さまざまな記憶術（メモリースポーツのテクニック）を紹介しています。</p>
-                <p style="color: var(--text-muted); line-height: 1.8;">自分に合ったテクニックを見つけたら、ぜひ<a href="quiz_game.html" style="color: var(--accent-cyan);">暗記クイズ</a>や<a href="long_game.html" style="color: var(--accent-cyan);">長い名前記憶ゲーム</a>で実践してみてください。「知っている」のと「実際に使える」のは別物です。</p>
+            <!-- 1. How to start -->
+            <section id="how-to-start" class="guide-section animate-fade-in">
+                <span class="section-tag">Step 01</span>
+                <h2>挫折しない、最強の始め方</h2>
+                <p style="color: var(--text-muted); max-width: 700px;">「何からやればいいか分からない」という方は、この3ステップを試してみてください。</p>
+                
+                <div class="step-container">
+                    <div class="step-box">
+                        <div class="step-num">1</div>
+                        <h4 style="margin-top: 0.5rem;">タイプ診断</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">「暗記というゲーム」ページで自分の得意なプレイスタイルを見つけましょう。</p>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-num">2</div>
+                        <h4 style="margin-top: 0.5rem;">興味を覚える</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">「暗記したらかっこいいリスト」から、ワクワクする項目を1つ選びます。</p>
+                    </div>
+                    <div class="step-box">
+                        <div class="step-num">3</div>
+                        <h4 style="margin-top: 0.5rem;">検定で腕試し</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">覚えたら「暗記検定」でスコアを出し、マイページに記録を刻みます。</p>
+                    </div>
+                </div>
             </section>
-            <!-- フィルタ -->
-            <div class="animate-fade-in delay-100">
-                <div class="filters" id="filters">
-                    <button class="filter-btn active" onclick="filterItems('all')">All</button>
+
+            <!-- 2. Game Modes -->
+            <section id="game-modes" class="guide-section">
+                <span class="section-tag">Step 02</span>
+                <h2>5つのゲームモードを攻略する</h2>
+                <p style="color: var(--text-muted);">各ゲームには、それぞれ鍛えられる「記憶の筋肉」が異なります。</p>
+
+                <div class="guide-grid">
+                    <!-- Exam -->
+                    <div class="mode-card mode-exam">
+                        <span class="mode-icon">🏆</span>
+                        <h3>暗記検定</h3>
+                        <p>「多答形式」で記憶の持久力を試します。時間制限内にどれだけ多くの正解を引き出せるかが勝負。ランクSを目指して限界に挑もう。</p>
+                        <ul class="feature-bullets">
+                            <li><strong>想起訓練</strong>：脳から情報を引き出すスピードが上がります。</li>
+                            <li><strong>ランクシステム</strong>：DからSまで、実力を可視化。</li>
+                        </ul>
+                    </div>
+
+                    <!-- List Game -->
+                    <div class="mode-card mode-list">
+                        <span class="mode-icon">📝</span>
+                        <h3>リスト記憶ゲーム</h3>
+                        <p>科学的に証明された「間隔反復（Spaced Repetition）」を自動化。覚えたいリストをカード形式で効率よく脳に定着させます。</p>
+                        <ul class="feature-bullets">
+                            <li><strong>忘却曲線の攻略</strong>：忘れそうなタイミングで再学習。</li>
+                            <li><strong>進捗管理</strong>：覚えた項目が「緑」に変わる快感。</li>
+                        </ul>
+                    </div>
+
+                    <!-- Quiz -->
+                    <div class="mode-card mode-quiz">
+                        <span class="mode-icon">🎯</span>
+                        <h3>暗記クイズ</h3>
+                        <p>初心者におすすめの4択形式。まだあやふやな知識も、クイズを解きながら「選ぶ」ことで、確実に記憶のフックを増やせます。</p>
+                        <ul class="feature-bullets">
+                            <li><strong>気楽にスタート</strong>：入力不要でサクサク進む。</li>
+                            <li><strong>正解の快感</strong>：正解音と共にドーパミンを放出。</li>
+                        </ul>
+                    </div>
+
+                    <!-- Long Name -->
+                    <div class="mode-card mode-long">
+                        <span class="mode-icon">🧠</span>
+                        <h3>長い名前記憶ゲーム</h3>
+                        <p>円周率100桁やピカソの本名など、圧倒的な長さを誇る文字列に特化。情報を小さな塊に分ける「チャンキング」を習得できます。</p>
+                        <ul class="feature-bullets">
+                            <li><strong>短期記憶の拡張</strong>：脳のキャッシュメモリを広げます。</li>
+                            <li><strong>リズム暗記</strong>：文字列をメロディとして覚える練習に。</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cool List -->
+                    <div class="mode-card mode-cool">
+                        <span class="mode-icon">✨</span>
+                        <h3>暗記コレクション</h3>
+                        <p>このサイトの「知識の源泉」です。歴代元号から88星座まで、実用性よりロマンを重視した「かっこいい知識」が詰まっています。</p>
+                        <ul class="feature-bullets">
+                            <li><strong>選べる教材</strong>：興味があるものをお気に入りへ。</li>
+                            <li><strong>背景を知る</strong>：解説を読み、知識に深みを与える。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. My Page -->
+            <section id="mypage" class="guide-section">
+                <span class="section-tag">Step 03</span>
+                <h2>マイページで「継続」をデザインする</h2>
+                <div style="display: flex; gap: 3rem; flex-wrap: wrap; margin-top: 2rem;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h3 style="color: var(--accent-purple); margin-bottom: 1rem;">🔥 ストリーク（連続記録）</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+                            人間の脳は「積み上げたものを失いたくない」という本能があります。1日1回でもサイトを訪れて暗記することで、ストリーク（火のアイコン）が燃え続けます。この火を絶やさないことが、達人への第一歩です。
+                        </p>
+                    </div>
+                    <div style="flex: 1; min-width: 300px;">
+                        <h3 style="color: var(--accent-pink); margin-bottom: 1rem;">🏅 コレクションバッジ</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+                            特定のスコア達成や、毎日プレイなどの条件を満たすと、限定バッジが解放されます。バッジはあなたの努力の証であり、プロフィールを彩る勲章です。
+                        </p>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem; background: rgba(255,255,255,0.02); padding: 2rem; border-radius: var(--radius-lg); border: 1px dashed var(--guide-border);">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 1rem;">❤️ 自分だけの「暗記帳」</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        各リストの ❤️ ボタンを押すと、マイページに「お気に入り」として登録されます。これにより、複数のゲームを横断して「自分がいま覚えたいもの」にすぐアクセスできるようになります。
+                    </p>
+                </div>
+            </section>
+
+            <!-- 4. Expert Skills (Former Content) -->
+            <section id="skills" class="guide-section">
+                <span class="section-tag">Step 04</span>
+                <h2>最強の武器（記憶術）を選ぶ</h2>
+                <p style="color: var(--text-muted);">記憶をさらに高速化・長期化するためのテクニック集です。</p>
+
+                <!-- Filter -->
+                <div class="filters" style="margin-top: 2rem;">
+                    <button class="filter-btn active" onclick="filterItems('all')">すべて表示</button>
                     <button class="filter-btn" onclick="filterItems('image')">イメージ・発想</button>
                     <button class="filter-btn" onclick="filterItems('repeat')">反復・出力</button>
                     <button class="filter-btn" onclick="filterItems('logic')">整理・理解</button>
                 </div>
-            </div>
 
-            <!-- Skill Grid -->
-            <div class="skill-grid animate-fade-in delay-200" id="skill-grid">
-                <!-- Data will be injected here -->
-                <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading strategies...</p>
-            </div>
+                <!-- Skill Grid -->
+                <div class="skill-grid" id="skill-grid" style="margin-top: 2rem;">
+                    <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading strategies...</p>
+                </div>
+            </section>
         </main>
+
+        <footer style="padding: 4rem 0; text-align: center; border-top: 1px solid var(--guide-border); margin-top: 4rem;">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">さあ、あなただけの「暗記というゲーム」を攻略しに行きましょう。</p>
+            <a href="index.html" class="btn btn-primary" style="margin-top: 2rem;">トップへ戻ってプレイする</a>
+        </footer>
     </div>
 
     <!-- Modal Template -->
     <div id="modal" class="modal" onclick="if(event.target === this) closeModal()">
         <div class="modal-content animate-pop-in">
             <span class="close-modal" onclick="closeModal()">×</span>
-            <div id="modal-body">
-                <!-- Content injected by JS -->
-            </div>
+            <div id="modal-body"></div>
         </div>
     </div>
 
@@ -226,82 +415,40 @@
         const grid = document.getElementById('skill-grid');
         const modal = document.getElementById('modal');
         let guideData = [];
-        let currentFilter = 'all';
 
-        // Google Sheet CSV URL (Guide sheet)
-        // Using gviz URL for better CSV output
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&gid=1225737060';
 
-        // カテゴリ定義
         const CATEGORY_GROUPS = {
             'image': ['イメージ系', '変換系', '創造系', '創作系', '音楽系'],
             'repeat': ['反復系', '音声系', '思い出し系', '身体系'],
             'logic': ['構造系', '整理系', '論理系', 'その他']
         };
 
-        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
         function parseCSV(text) {
             const rows = [];
             let row = [];
             let cell = '';
             let inQuote = false;
-
-            // CRLF → LF に正規化
             text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-
             for (let i = 0; i < text.length; i++) {
                 const ch = text[i];
-
                 if (inQuote) {
                     if (ch === '"') {
-                        if (text[i + 1] === '"') {
-                            cell += '"';
-                            i++;
-                        } else {
-                            inQuote = false;
-                        }
-                    } else {
-                        cell += ch; // クォート内の改行もセル値として保持
-                    }
+                        if (text[i + 1] === '"') { cell += '"'; i++; } else inQuote = false;
+                    } else cell += ch;
                 } else {
-                    if (ch === '"') {
-                        inQuote = true;
-                    } else if (ch === ',') {
-                        row.push(cell);
-                        cell = '';
-                    } else if (ch === '\n') {
-                        row.push(cell);
-                        cell = '';
-                        rows.push(row);
-                        row = [];
-                    } else {
-                        cell += ch;
-                    }
+                    if (ch === '"') inQuote = true;
+                    else if (ch === ',') { row.push(cell); cell = ''; }
+                    else if (ch === '\n') { row.push(cell); cell = ''; rows.push(row); row = []; }
+                    else cell += ch;
                 }
             }
-            // 末尾のセル・行を追加
-            row.push(cell);
-            if (row.some(c => c !== '')) rows.push(row);
-
+            row.push(cell); if (row.some(c => c !== '')) rows.push(row);
             const result = [];
-            for (let i = 0; i < rows.length; i++) {
+            for (let i = 1; i < rows.length; i++) {
                 const r = rows[i];
-
-                // ヘッダー行スキップ
-                if (i === 0) continue;
-                if (r.length < 6) continue;
-
-                // IDが数値でない行はスキップ
-                if (isNaN(parseInt(r[0]))) continue;
-
-                result.push({
-                    id: r[0],
-                    title: r[1],
-                    category: r[2],
-                    target: r[3],
-                    usage: r[4],
-                    example: r[5]
-                });
+                if (r.length < 6 || isNaN(parseInt(r[0]))) continue;
+                result.push({ id: r[0], title: r[1], category: r[2], target: r[3], usage: r[4], example: r[5] });
             }
             return result;
         }
@@ -315,145 +462,82 @@
                 filterItems('all');
             } catch (error) {
                 console.error('Error loading sheet data:', error);
-                // Fallback
-                try {
-                    const response = await fetch('data/guide_methods.json');
-                    guideData = await response.json();
-                    filterItems('all');
-                } catch (e) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-pink);">データの読み込みに失敗しました。</p>';
-                }
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-pink);">データの読み込みに失敗しました。</p>';
             }
         }
 
         function filterItems(group) {
-            currentFilter = group;
-
-            // Update buttons
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(group)) {
-                    btn.classList.add('active');
-                }
+                if (btn.getAttribute('onclick').includes(group)) btn.classList.add('active');
             });
-
-            if (group === 'all') {
-                render(guideData);
-                return;
-            }
-
-            const targetCategories = CATEGORY_GROUPS[group] || [];
-            const filtered = guideData.filter(item => {
-                // 部分一致も含める（例: "イメージ系" で "イメージ" を含むものなど）
-                // ここでは単純に配列に含まれるかで判定しつつ、柔軟性も持たせる
-                if (targetCategories.includes(item.category)) return true;
-
-                // データ側のカテゴリ表記が微妙に違う場合の救済
-                // 例: "イメージ" とかが来ても拾えるように
+            const filtered = (group === 'all') ? guideData : guideData.filter(item => {
+                const targetCategories = CATEGORY_GROUPS[group] || [];
                 return targetCategories.some(cat => item.category.includes(cat.replace('系', '')));
             });
-
             render(filtered);
         }
 
         function render(items) {
             grid.innerHTML = '';
-
             if (items.length === 0) {
                 grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">該当する暗記法が見つかりませんでした。</p>';
                 return;
             }
-
             items.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'skill-card';
-                // アニメーション適用（CSS側で定義された fadeInUp を使用）
-                div.style.opacity = '0'; // 初期状態は非表示
-                div.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.05}s`;
-
-                // アイコンの自動割り当て (簡易的)
+                div.style.cssText = 'background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(0, 243, 255, 0.1); border-radius: 8px; cursor: pointer; padding: 1.5rem; transition: all 0.3s;';
+                div.onmouseover = () => { div.style.borderColor = 'var(--accent-cyan)'; div.style.transform = 'translateY(-5px)'; };
+                div.onmouseout = () => { div.style.borderColor = 'rgba(0, 243, 255, 0.1)'; div.style.transform = 'translateY(0)'; };
+                
                 let icon = '📝';
-                if (item.category.includes('イメージ') || item.category.includes('音楽') || item.category.includes('創造')) icon = '🖼️';
-                else if (item.category.includes('反復') || item.category.includes('音声')) icon = '🔁';
-                else if (item.category.includes('構造') || item.category.includes('整理')) icon = '🏗️';
-                else if (item.category.includes('身体')) icon = '💪';
-                else if (item.category.includes('物語')) icon = '📖';
-
-                // タグの色分け
-                let tagClass = 'tag-basic';
-                if (item.category.includes('構造') || item.category.includes('整理') || item.category.includes('論理')) tagClass = 'tag-advanced';
+                if (item.category.includes('イメージ')) icon = '🖼️';
+                else if (item.category.includes('反復')) icon = '🔁';
+                else if (item.category.includes('構造')) icon = '🏗️';
 
                 div.innerHTML = `
-                    <div class="skill-header">
-                        <span class="skill-icon">${icon}</span>
-                        <span class="skill-tag ${tagClass}">${item.category}</span>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+                        <span style="font-size:1.5rem;">${icon}</span>
+                        <span style="font-size:0.7rem; border:1px solid var(--accent-cyan); color:var(--accent-cyan); padding:2px 8px; border-radius:10px;">${item.category}</span>
                     </div>
-                    <div class="skill-body">
-                        <h3>${item.title}</h3>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                            ${item.usage}
-                        </p>
-                        <span class="try-btn">詳細を見る</span>
-                    </div>
+                    <h4 style="margin-bottom:0.5rem; color:#fff;">${item.title}</h4>
+                    <p style="font-size:0.8rem; color:var(--text-muted); display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.usage}</p>
                 `;
-
                 div.addEventListener('click', () => openModal(item));
                 grid.appendChild(div);
             });
         }
 
         function openModal(data) {
-            const modalBody = document.getElementById('modal-body');
-
-            modalBody.innerHTML = `
-                <div style="margin-bottom: 1.5rem;">
-                    <span style="background: rgba(0, 243, 255, 0.1); color: var(--accent-cyan); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; border: 1px solid rgba(0, 243, 255, 0.3);">
-                        ${data.category}
-                    </span>
+            document.getElementById('modal-body').innerHTML = `
+                <h2 style="color:#fff; margin-bottom:1rem;">${data.title}</h2>
+                <p style="color:var(--accent-cyan); font-size:0.9rem; margin-bottom:1.5rem;">カテゴリー: ${data.category}</p>
+                <div style="margin-bottom:1.5rem;">
+                    <h5 style="color:var(--text-muted);">⚔️ 使い方</h5>
+                    <p style="color:#fff; line-height:1.6;">${data.usage}</p>
                 </div>
-                <h2 style="margin-bottom: 1.5rem; color: #fff; font-size: 1.8rem;">${data.title}</h2>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--accent-green); margin-bottom: 0.5rem;">👤 向いている人</h4>
-                    <p style="color: var(--text-main); font-size: 0.95rem;">${data.target}</p>
+                <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:8px;">
+                    <h5 style="color:var(--accent-purple);">💡 具体例</h5>
+                    <p style="color:var(--text-muted); font-size:0.9rem;">${data.example}</p>
                 </div>
-
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;">⚔️ 使い方</h4>
-                    <p style="color: var(--text-main); line-height: 1.6;">${data.usage}</p>
-                </div>
-
-                <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--accent-purple);">
-                    <h4 style="color: var(--accent-purple); margin-bottom: 0.5rem; font-size: 0.9rem;">💡 具体例</h4>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">${data.example}</p>
-                </div>
-
-                <button onclick="closeModal()" class="btn btn-primary" style="margin-top: 2rem; width: 100%; padding: 12px; background: var(--hover-card); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
-                    閉じる
-                </button>
             `;
-
-            // ボタンのホバーエフェクト（インラインでも書けるがJSで制御してもよい）
-            const btn = modalBody.querySelector('button');
-            btn.onmouseover = () => {
-                btn.style.background = 'var(--accent-cyan)';
-                btn.style.color = '#000';
-            };
-            btn.onmouseout = () => {
-                btn.style.background = 'var(--hover-card)';
-                btn.style.color = 'var(--accent-cyan)';
-            };
-
             modal.style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
+        function closeModal() { modal.style.display = 'none'; }
 
-        // Init
+        // Smooth Scroll
+        document.querySelectorAll('.guide-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.guide-nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
         loadData();
-
     </script>
     <a href="mypage.html" class="nav-mypage-btn">👤 マイページ</a>
 </body>

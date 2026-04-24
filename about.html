@@ -5,130 +5,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>このサイトについて | 楽しい暗記サイト</title>
-    <meta name="description" content="「楽しい暗記サイト」の目的・コンセプト・運営者についてご紹介します。">
+    <meta name="description" content="「楽しい暗記サイト」の誕生秘話、コンセプト、そして運営者の想い。暗記を「苦痛」から「エンタメ」へ変える挑戦の記録。">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
         rel="stylesheet">
+    
     <!-- スタイル -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
+    
     <style>
-        /* このサイトについてページ専用スタイル */
         .about-container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
-            padding: 4rem 2rem;
-            line-height: 1.9;
+            padding: 5rem 2rem;
+            line-height: 2;
         }
 
-        .about-container h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .about-header {
+            text-align: center;
+            margin-bottom: 5rem;
         }
 
-        .about-container .subtitle {
+        .about-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-section {
+            margin-bottom: 6rem;
+        }
+
+        .story-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             color: var(--accent-cyan);
-            font-weight: bold;
-            letter-spacing: 0.1em;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            display: inline-block;
+            padding-bottom: 0.5rem;
         }
 
-        .about-container .lead {
-            font-size: 1.2rem;
+        .story-section p {
+            margin-bottom: 1.5rem;
             color: var(--text-muted);
-            margin-bottom: 3rem;
-            border-left: 3px solid var(--accent-pink);
-            padding-left: 1rem;
+            font-size: 1.05rem;
         }
 
-        .about-container h2 {
-            font-size: 1.3rem;
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--accent-purple);
-            padding-left: 0.8rem;
-        }
-
-        .about-container p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .about-container a {
-            color: var(--accent-cyan);
-            text-decoration: underline;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            display: grid;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .feature-list li {
+        .highlight-box {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 1.2rem 1.5rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            border-left: 4px solid var(--accent-pink);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border-radius: 0 12px 12px 0;
         }
 
-        .feature-list li span {
-            font-size: 1.4rem;
-            margin-right: 0.5rem;
+        .highlight-box h3 {
+            color: var(--accent-pink);
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
         }
 
         .back-link {
             display: inline-block;
-            margin-top: 3rem;
+            margin-top: 4rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-decoration: none;
             transition: color 0.2s;
+            border-bottom: 1px solid transparent;
         }
 
         .back-link:hover {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .philosophy-tag {
+            font-size: 0.75rem;
+            background: var(--accent-purple);
             color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 10px;
         }
     </style>
 </head>
 
 <body>
     <main class="about-container animate-fade-in">
-        <span class="subtitle">ABOUT THIS SITE</span>
-        <h1>🧠 このサイトについて</h1>
-        <p class="lead">「暗記」って、辛くて苦しいものだと思っていませんか？<br>
-            このサイトは、暗記をゲームに変える場所です。</p>
+        <header class="about-header">
+            <span style="color: var(--accent-pink); font-weight: bold; letter-spacing: 0.2em; display: block; margin-bottom: 1rem;">OUR STORY</span>
+            <h1 class="text-gradient">暗記を「苦痛」から<br>「エンタメ」へ変える挑戦</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem;">
+                なぜ私たちは、わざわざ「暗記」なんて面倒なことをするのでしょうか？
+            </p>
+        </header>
 
-        <h2>サイトのコンセプト</h2>
-        <p>「楽しい暗記サイト（Memorization is a Game）」は、<strong>「暗記は覚える作業じゃなくて、遊び方を発見するゲーム」</strong>というコンセプトで作られた学習支援サイトです。</p>
-        <p>詰め込みや根性論ではなく、認知科学・記憶メカニズムに基づいたテクニックを使い、<br>誰もが自分なりの「楽しさ」で知識を吸収できることを目指しています。</p>
+        <section class="story-section">
+            <h2>誕生のきっかけ</h2>
+            <p>
+                「明日のテストのために覚えなきゃ…」「資格試験のためにこれを詰め込まなきゃ…」<br>
+                多くの人にとって、暗記は「やりたくないけどやらなきゃいけない作業」の代名詞かもしれません。
+            </p>
+            <p>
+                しかし、ふと考えてみてください。子供の頃、大好きなゲームのキャラクター名や攻略法、好きな歌の歌詞を覚えるのは、決して「作業」ではなかったはずです。そこには**「好奇心」という強力なエンジン**がありました。
+            </p>
+            <p>
+                「もし、勉強や教養の暗記も、ゲームを攻略するように楽しめたら？」<br>
+                そんな素朴な疑問から、この「楽しい暗記サイト」は産声を上げました。
+            </p>
+        </section>
 
-        <h2>このサイトでできること</h2>
-        <ul class="feature-list">
-            <li><span>🕹️</span>暗記タイプ診断 — 自分に合った攻略法を見つける</li>
-            <li><span>📘</span>暗記ノウハウ集 — 使える記憶術を学ぶ</li>
-            <li><span>🧠</span>暗記の基本原理 — 科学的に証明された25の法則</li>
-            <li><span>🔬</span>暗記研究所 — 脳と記憶の不思議を探る</li>
-            <li><span>✨</span>暗記したらかっこいいリスト — ロマンあふれる知識のコレクション</li>
-            <li><span>🏆</span>暗記検定 — クイズ形式でアウトプット</li>
-            <li><span>📝</span>リスト記憶ゲーム — 间隔反復で定着させる</li>
-        </ul>
+        <div class="highlight-box">
+            <h3>「覚えること」は、世界を広げること</h3>
+            <p>
+                知識が1つ増えるたびに、世界の見え方は少しずつ変わります。夜空の星の名前を知れば、見上げる空は物語で溢れます。歴史の背景を知れば、街の景色に深みが生まれます。暗記は決して退屈な作業ではなく、**「自分の世界をより鮮やかにするための冒険」**なのです。
+            </p>
+        </div>
 
-        <h2>運営者について</h2>
-        <p>このサイトは <strong>hiro8343</strong> が個人で開発・運営しています。<br>
-            「もっと楽しく学べる場所を作りたい」という思いで、AIのアシスタントと一緒に日々アップデートしています。</p>
-        <p>ご意見・ご感想は大歓迎です。<a href="contact.html">お問い合わせ</a>からお気軽にどうぞ！</p>
+        <section class="story-section">
+            <h2>私たちのフィロソフィー</h2>
+            <p>
+                このサイトでは、ただ情報を並べるだけでなく、以下の3つの柱を大切にしています。
+            </p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🎮</span>
+                    <h4 style="color: #fff;">Gamification</h4>
+                    <p style="font-size: 0.9rem;">スコア、ストリーク、バッジ。脳が心地よく感じる報酬系を刺激し、モチベーションを科学的にサポートします。</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🧠</span>
+                    <h4 style="color: #fff;">Cognitive Science</h4>
+                    <p style="font-size: 0.9rem;">間隔反復やチャンキングなど、認知科学に基づいた効率的な記憶の仕組みをシステムとして組み込んでいます。</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🤖</span>
+                    <h4 style="color: #fff;">AI Partnership</h4>
+                    <p style="font-size: 0.9rem;">運営者の想いを形にするため、AIアシスタントと共に日々アップデートを行い、常に「新しい楽しさ」を追求しています。</p>
+                </div>
+            </div>
+        </section>
 
-        <a href="index.html" class="back-link">← トップページへ戻る</a>
+        <section class="story-section">
+            <h2>運営者メッセージ</h2>
+            <p>
+                こんにちは、運営者の **hiro8343** です。
+            </p>
+            <p>
+                私はもともと、暗記が得意だったわけではありません。むしろ、意味のない記号を覚えるのは苦痛でした。しかし、暗記を「技術」として捉え直し、遊び心を持って接するようになってから、学ぶことが圧倒的に楽しくなりました。
+            </p>
+            <p>
+                このサイトを通じて、一人でも多くの人が「暗記＝楽しい！」と感じ、自分自身の可能性を広げていくお手伝いができれば、これ以上の喜びはありません。
+            </p>
+            <p style="text-align: right; font-weight: bold; color: var(--accent-cyan); margin-top: 2rem;">
+                Enjoy the Game of Memorization!
+            </p>
+        </section>
+
+        <a href="index.html" class="back-link">← 冒険（ゲーム）に戻る</a>
     </main>
 </body>
 
