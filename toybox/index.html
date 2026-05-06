@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>僕が創ったアプリ達 ✿ ひろ の おもちゃばこ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #5a3d52;
+  --pink: #FF9FC4;
+  --yellow: #FFD56B;
+  --blue: #A0E1F5;
+  --green: #B8E994;
+  --purple: #C9A9F0;
+  --orange: #FFB088;
+  --bg1: #FFF6F0;
+  --bg2: #FFEEF4;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', "Hiragino Maru Gothic ProN", system-ui, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle, #FFC8DC 1.5px, transparent 2px);
+  background-size: 24px 24px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+.wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 50px 40px 80px; }
+
+/* ===== Header ===== */
+.header { text-align: center; padding-bottom: 30px; }
+.title-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.title-char {
+  font-size: 38px; font-weight: 900;
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--ink);
+  background: #fff;
+}
+.title-char.heart { background: #fff; font-size: 32px; }
+.subtitle { margin-top: 22px; }
+.pill {
+  display: inline-block;
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 13px; font-weight: 700;
+  box-shadow: 0 3px 0 var(--ink);
+}
+.intro { font-size: 14px; line-height: 1.8; margin-top: 18px; font-weight: 500; }
+
+/* ===== Sections ===== */
+.section { margin-bottom: 56px; }
+.section-title {
+  text-align: center; font-size: 22px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin: 0 0 22px;
+}
+.section-title .star { color: var(--pink); font-size: 18px; }
+.section-hint { text-align: center; font-size: 13px; opacity: 0.6; margin: -10px 0 20px; }
+
+/* ===== Featured ===== */
+.featured {
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 0 var(--ink);
+  display: flex; gap: 22px; align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(.5,1.6,.4,1);
+}
+.featured:hover { transform: translateY(-4px); }
+.featured-emoji {
+  font-size: 60px;
+  width: 110px; height: 110px;
+  background: linear-gradient(135deg, #FFD6E7 0%, #FFE8B0 100%);
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 -4px 0 #00000010;
+}
+.featured-title { font-size: 26px; font-weight: 900; line-height: 1.3; }
+.featured-sub { font-size: 12px; opacity: 0.6; font-style: italic; margin-top: 2px; }
+.featured-desc { font-size: 14px; line-height: 1.7; margin-top: 10px; }
+.featured-btn {
+  display: inline-block; margin-top: 14px;
+  background: var(--pink); color: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-weight: 800; font-size: 13px;
+  box-shadow: 0 3px 0 var(--ink);
+}
+.sparkle { position: absolute; pointer-events: none; }
+.sparkle.s1 { top: 14px; right: 18px; font-size: 22px; color: var(--yellow); }
+.sparkle.s2 { bottom: 14px; right: 30px; font-size: 18px; color: var(--pink); }
+
+/* ===== Card grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 18px;
+}
+.card {
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 18px 14px 16px;
+  box-shadow: 0 6px 0 var(--ink);
+  display: flex; flex-direction: column; align-items: center;
+  min-height: 200px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(.5,1.6,.4,1), box-shadow 0.2s;
+  text-align: center;
+  background: #fff;
+}
+.card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+  box-shadow: 0 12px 0 var(--ink), 0 14px 22px #5a3d5230;
+}
+.card-emoji-wrap { position: relative; width: 70px; height: 70px; margin-top: 4px; }
+.card-emoji-bg {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 2.5px solid var(--ink);
+}
+.card-emoji {
+  position: absolute; inset: 0;
+  font-size: 34px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-title { font-size: 14px; font-weight: 800; margin-top: 14px; line-height: 1.4; }
+.card-desc { font-size: 11px; opacity: 0.7; margin-top: 6px; line-height: 1.5; flex: 1; }
+.card-tag { margin-top: 10px; }
+.tag-bubble {
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 10px; font-weight: 700;
+}
+
+/* ===== WIP ===== */
+.wip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+.wip-card {
+  border: 2.5px dashed var(--ink);
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: 0 5px 0 #5a3d5260;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.25s cubic-bezier(.5,1.6,.4,1), box-shadow 0.2s;
+  position: relative;
+}
+.wip-card:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 9px 0 var(--ink), 0 12px 18px #5a3d5230;
+}
+.wip-emoji {
+  font-size: 26px;
+  width: 44px; height: 44px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wip-title { font-size: 13px; font-weight: 800; line-height: 1.4; }
+.wip-desc { font-size: 11px; line-height: 1.55; opacity: 0.75; margin-top: 4px; }
+.wip-badge {
+  position: absolute; top: -8px; right: 10px;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 9px; font-weight: 800; letter-spacing: 1px;
+  transform: rotate(4deg);
+}
+
+/* ===== About ===== */
+.about-section { max-width: 600px; margin: 60px auto 0; }
+.about-card {
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 22px;
+  display: flex; gap: 18px; align-items: center;
+  box-shadow: 0 6px 0 var(--ink);
+}
+.about-name { font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+.about-text { font-size: 13px; line-height: 1.8; }
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center; margin-top: 50px;
+  font-size: 12px; font-weight: 700; opacity: 0.7;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.heart { color: var(--pink); font-size: 14px; }
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(40, 30, 35, 0.55);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px; z-index: 100;
+  backdrop-filter: blur(2px);
+}
+.modal-overlay.show { display: flex; animation: modFade 0.2s ease; }
+@keyframes modFade { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  width: 100%; max-width: 540px;
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 32px 28px 24px;
+  box-shadow: 0 12px 0 var(--ink), 0 18px 30px #00000030;
+  position: relative;
+  max-height: 90vh; overflow-y: auto;
+  background: #FFE0EC;
+}
+.modal-close {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  background: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  font-size: 14px; font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--ink);
+  color: var(--ink);
+}
+.modal-head { display: flex; gap: 18px; align-items: center; }
+.modal-emoji {
+  font-size: 56px;
+  width: 96px; height: 96px;
+  background: #fff;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 -4px 0 #00000010;
+}
+.modal-tag {
+  background: #fff; border: 2px solid var(--ink); border-radius: 999px;
+  padding: 2px 10px; font-size: 11px; font-weight: 700;
+}
+.modal-title { margin: 6px 0 0; font-size: 22px; font-weight: 900; line-height: 1.3; }
+.modal-sub { font-size: 12px; opacity: 0.6; font-style: italic; margin-top: 4px; }
+.modal-divider {
+  height: 2px; margin: 20px 0 16px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 12px);
+}
+.modal-desc { font-size: 14px; line-height: 1.8; margin: 0; }
+.modal-actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+.btn-primary {
+  flex: 1; min-width: 180px;
+  background: var(--pink); color: #fff;
+  border: 2.5px solid var(--ink); border-radius: 999px;
+  padding: 12px 16px;
+  font-size: 14px; font-weight: 800;
+  text-align: center; text-decoration: none;
+  box-shadow: 0 4px 0 var(--ink);
+  font-family: inherit;
+}
+.btn-secondary {
+  background: #fff; color: var(--ink);
+  border: 2.5px solid var(--ink); border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 var(--ink);
+  font-family: inherit;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .wrap { padding: 30px 18px 60px; }
+  .title-char { width: 44px; height: 44px; font-size: 28px; box-shadow: 0 3px 0 var(--ink); border-width: 2.5px; }
+  .title-char.heart { font-size: 24px; }
+  .featured { flex-direction: column; text-align: center; padding: 22px 18px; gap: 16px; }
+  .featured-emoji { width: 90px; height: 90px; font-size: 50px; }
+  .featured-title { font-size: 22px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .card { padding: 14px 10px 12px; min-height: 180px; }
+  .card-title { font-size: 13px; }
+  .about-card { flex-direction: column; text-align: center; }
+  .section-title { font-size: 18px; }
+  .modal { padding: 26px 18px 18px; }
+  .modal-head { flex-direction: column; text-align: center; gap: 12px; }
+  .modal-emoji { width: 80px; height: 80px; font-size: 46px; }
+  .modal-title { font-size: 19px; }
+}
+</style>
+<script>
+// アプリデータ（実情報版）
+window.APPS_DATA = {
+  released: [
+    {
+      id: 'memorization',
+      title: '暗記は遊び方を発見するゲーム',
+      subtitle: 'Memorization is a Game',
+      desc: '暗記を楽しむサイト。社会貢献とも繋がっていく予定。',
+      url: 'https://hiro8343.github.io/anki/index.html',
+      tag: 'Webサイト',
+      emoji: '🧠',
+      color: '#FFD6E7',
+      tape: '#FFA8C9',
+      featured: true,
+    },
+    {
+      id: 'app1',
+      title: '世界の国々 朗読アプリ',
+      desc: '世界中の国の名前を朗読してくれる。睡眠学習やながら暗記用。',
+      url: 'https://claude.ai/public/artifacts/56bbed93-df9a-4872-a212-2ca68c0d749e',
+      tag: 'アプリ',
+      emoji: '🌍',
+      color: '#D6F0FF',
+      tape: '#92CDF1',
+    },
+    {
+      id: 'app2',
+      title: '妄想旅サイコロ',
+      desc: 'サイコロのように旅の計画を適当に立ててくれる。妄想して遊ぶ。',
+      url: 'https://claude.ai/public/artifacts/1fa164b6-315e-4b4f-a456-d43e4fe572b3',
+      tag: 'アプリ',
+      emoji: '🎲',
+      color: '#FFF5D6',
+      tape: '#F5D578',
+    },
+    {
+      id: 'app3',
+      title: 'ありのままの冒険者診断',
+      desc: 'ありのまま豊かに生きるという観点で自己診断してくれるアプリ。',
+      url: 'https://claude.ai/public/artifacts/9b043a76-86b4-40c4-a4b2-f93e0883d571',
+      tag: 'アプリ',
+      emoji: '🧭',
+      color: '#E6D6FF',
+      tape: '#B89AE8',
+    },
+    {
+      id: 'app4',
+      title: '短期記憶測定アプリ',
+      desc: '自分は一瞬で何個まで覚えられるのかを診断してくれるゲーム。',
+      url: 'https://claude.ai/public/artifacts/c57b47a5-ddd3-4b9e-a3a6-6529fd6a0aa4',
+      tag: 'アプリ',
+      emoji: '🧠',
+      color: '#D6FFE0',
+      tape: '#7FCC95',
+    },
+    {
+      id: 'gem1',
+      title: 'なんでもトレカにしちゃうアプリ',
+      desc: '好きな写真をアップするとトレカに変身。能力やフレーバーテキストもそれっぽく再現。',
+      url: 'https://gemini.google.com/share/5fdb8d0f5b72',
+      tag: 'アプリ',
+      emoji: '🃏',
+      color: '#FFE0EC',
+      tape: '#FFA8C9',
+    },
+    {
+      id: 'gem2',
+      title: '多角形の軌跡が美しい',
+      desc: '観たほうが早いやつ（笑。三角形から順番に多角形を描画してその線上をカラフルな点が動く。',
+      url: 'https://gemini.google.com/share/b18439adebea',
+      tag: 'アプリ',
+      emoji: '🔷',
+      color: '#FFF0D6',
+      tape: '#F5C878',
+    },
+    {
+      id: 'gem3',
+      title: '素数大富豪用のアプリ',
+      desc: 'とてもニッチ。そもそもみんな知らない素数大富豪。トランプの組み合わせでできる数字のうちどれが素数か一覧でわかるアプリ。',
+      url: 'https://gemini.google.com/share/6a08a328c859',
+      tag: 'アプリ',
+      emoji: '♠️',
+      color: '#D6E8FF',
+      tape: '#92BCF1',
+    },
+    {
+      id: 'gem4',
+      title: '日常のめんどいを遊びに変えるアプリ',
+      desc: '困ったことや面倒を入れると、遊び的な見方や、遊びに変えてくれる。',
+      url: 'https://gemini.google.com/share/d19e2340e2de',
+      tag: 'アプリ',
+      emoji: '🎈',
+      color: '#E0FFE6',
+      tape: '#7FCC95',
+    },
+    {
+      id: 'gem5',
+      title: 'しりとり陣取り合戦',
+      desc: '５０音表を使ってしりとり陣取り合戦をする遊びができるアプリ。',
+      url: 'https://gemini.google.com/share/f6cb78ed16c2',
+      tag: 'アプリ',
+      emoji: '🗾',
+      color: '#FFE6D6',
+      tape: '#F5A878',
+    },
+    {
+      id: 'gem6',
+      title: '安心どろぼうガチャ',
+      desc: '自分の安心を妨げている信念を探して、ちょっと管理できるアプリ。',
+      url: 'https://gemini.google.com/share/4a10762e1755',
+      tag: 'アプリ',
+      emoji: '🎰',
+      color: '#EFD6FF',
+      tape: '#B89AE8',
+    },
+    {
+      id: 'gem7',
+      title: 'ひろゆきさんごっこ',
+      desc: 'ひろゆきさんみたいに、視聴者さんからの質問に回答する遊びができるアプリ。',
+      url: 'https://gemini.google.com/share/88654137236d',
+      tag: 'アプリ',
+      emoji: '💬',
+      color: '#FFD6D6',
+      tape: '#F58A8A',
+    },
+  ],
+  wip: [
+    { id: 'w1', title: 'SNS投稿文自動変換器', desc: '投稿文を一つつくると、別のSNS用の記事も同時に創ってくれる。でもほんと作りかけ（笑', url: 'https://gemini.google.com/share/87703d39b440', emoji: '📱', color: '#FFF8E0' },
+    { id: 'w2', title: '対話は世界を広げてくれる', desc: '対話は世界と闇の間で行われ。闇の中に光を見つけ世界を豊かにしていく。そんなイメージを具現化してみたもの。つくりかけでまだまだしっくり来てない（笑', url: 'https://gemini.google.com/share/f8ddb5db49e9', emoji: '💡', color: '#E0F4FF' },
+    { id: 'w3', title: '二十四節気を覚えるゲーム', desc: '二十四節気を覚えるゲーム。', url: 'https://gemini.google.com/share/e9761d77a45e', emoji: '🌸', color: '#FFE0F0' },
+    { id: 'w4', title: '今の気持ちをキャラ化', desc: '今の気持ちをかわいいキャラにしたら愛でられるんじゃないか？という仮説の元つくりかけたアプリ。', url: 'https://gemini.google.com/share/0a4dbe5a7b94', emoji: '🥺', color: '#E8FFE0' },
+    { id: 'w5', title: '平和活動ゲーム', desc: '平和活動をクリッカーゲームにしてみた。面白くない（笑', url: 'https://gemini.google.com/share/ddad4184fd19', emoji: '🕊️', color: '#F0E0FF' },
+    { id: 'w6', title: '無限ウミガメのスープ', desc: 'ウミガメのスープの問題を無限に創ってくれて、遊べる。でも答えがわからないときに教えてもらえる機能がまだないのでもやる。', url: 'https://gemini.google.com/share/68ea8590fbd2', emoji: '🐢', color: '#FFEDE0' },
+    { id: 'w7', title: '遊びのアイデアジェネレーター', desc: '好きなタグをポチポチおすだけで、遊びを考えてくれる。誰かやってみて感想もらえたら嬉しい。', url: 'https://gemini.google.com/share/e628acdeb90a', emoji: '🎲', color: '#E0FFEC' },
+    { id: 'w8', title: '最小公倍数計算ツール', desc: 'なんのために創ったか忘れてしまった（笑', url: 'https://gemini.google.com/share/132e7b6a76c3', emoji: '🔢', color: '#FFF0D0' },
+    { id: 'w9', title: 'かわいいマリオ', desc: 'かわいいマリオみたいなゲーム創ってってお願いしたらできた。コントローラーも使えるスグレモノ。でも1面しかない（笑', url: 'https://gemini.google.com/share/885ff9f28be3', emoji: '🍄', color: '#FFE0E8' },
+    { id: 'w10', title: '村人育成ゲーム', desc: '村人育成のクリッカーゲーム。転生がうまく機能しない。そしてそこまで面白くない（笑', url: 'https://gemini.google.com/share/4fab53b839bf', emoji: '🧑‍🌾', color: '#FFE8D8' },
+    { id: 'w11', title: '村作りゲーム', desc: 'こっちは村作りクリッカー放置ゲーム。相変わらず転生がうまく機能しない。そしてそこまで、、、以下略。', url: 'https://gemini.google.com/share/c5d3a9914ba8', emoji: '🏘️', color: '#E8E0FF' },
+  ],
+};
+
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="header">
+    <div class="title-row">
+      <span class="title-char" style="background:#FF9FC4;transform:rotate(-4deg)">僕</span>
+      <span class="title-char" style="background:#FFD56B;transform:rotate(2deg)">が</span>
+      <span class="title-char" style="background:#A0E1F5;transform:rotate(-2deg)">創</span>
+      <span class="title-char" style="background:#B8E994;transform:rotate(3deg)">っ</span>
+      <span class="title-char" style="background:#C9A9F0;transform:rotate(-3deg)">た</span>
+    </div>
+    <div class="title-row">
+      <span class="title-char" style="background:#FFB088;transform:rotate(2deg)">ア</span>
+      <span class="title-char" style="background:#FF9FC4;transform:rotate(-3deg)">プ</span>
+      <span class="title-char" style="background:#FFD56B;transform:rotate(4deg)">リ</span>
+      <span class="title-char" style="background:#A0E1F5;transform:rotate(-2deg)">達</span>
+      <span class="title-char heart" style="transform:rotate(8deg)">♡</span>
+    </div>
+    <div class="subtitle"><span class="pill">✿ ひろ の おもちゃばこ ✿</span></div>
+    <p class="intro">
+      ぽちぽち ふえていく アプリたち。<br/>
+      きょうは どれと あそぶ？
+    </p>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">
+      <span class="star">✦</span>
+      だいすきな ぼくのサイト
+      <span class="star">✦</span>
+    </h2>
+    <div id="featured-slot"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">
+      <span class="star">✿</span>
+      ちいさな アプリたち
+      <span class="star">✿</span>
+    </h2>
+    <div class="grid" id="apps-grid"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">
+      <span class="star">♪</span>
+      つくりかけの ひきだし
+      <span class="star">♪</span>
+    </h2>
+    <p class="section-hint">まだ できてないけど、こっそり みれます ⌒</p>
+    <div class="wip-grid" id="wip-grid"></div>
+  </section>
+
+  <section class="section about-section">
+    <div class="about-card">
+      <svg viewBox="0 0 100 100" width="76" height="76" style="flex-shrink:0">
+        <circle cx="50" cy="55" r="34" fill="#FFE0EC" stroke="#5a3d52" stroke-width="2.5"/>
+        <ellipse cx="40" cy="52" rx="3" ry="4" fill="#5a3d52"/>
+        <ellipse cx="60" cy="52" rx="3" ry="4" fill="#5a3d52"/>
+        <path d="M 42 64 Q 50 70 58 64" stroke="#5a3d52" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <circle cx="33" cy="62" r="3.5" fill="#FF9FC4" opacity="0.6"/>
+        <circle cx="67" cy="62" r="3.5" fill="#FF9FC4" opacity="0.6"/>
+        <path d="M 28 30 L 38 38" stroke="#5a3d52" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 72 30 L 62 38" stroke="#5a3d52" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="28" cy="30" r="4" fill="#FFD56B" stroke="#5a3d52" stroke-width="2"/>
+        <circle cx="72" cy="30" r="4" fill="#FFD56B" stroke="#5a3d52" stroke-width="2"/>
+      </svg>
+      <div>
+        <div class="about-name">About me ♡</div>
+        <div class="about-text">
+          はじめまして、<b>ひろ</b> です！<br/>
+          ClaudeとGeminiと いっしょに、すこしずつ アプリを つくっています。<br/>
+          暗記とか まなびを たのしくする ものが すき＾＾
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span class="heart">♡</span>
+    © 2026 ひろ ・ thanks for visiting
+    <span class="heart">♡</span>
+  </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-body" onclick="event.stopPropagation()"></div>
+</div>
+
+<script>
+const data = window.APPS_DATA;
+const apps = data.released;
+const wips = data.wip;
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Featured (1つ目のアプリ)
+const featured = apps[0];
+document.getElementById('featured-slot').innerHTML = `
+  <div class="featured" onclick="openModal('${featured.id}')">
+    <div class="featured-emoji">${featured.emoji}</div>
+    <div style="flex:1">
+      <div class="featured-title">${escapeHtml(featured.title)}</div>
+      ${featured.subtitle ? `<div class="featured-sub">${escapeHtml(featured.subtitle)}</div>` : ''}
+      <div class="featured-desc">${escapeHtml(featured.desc)}</div>
+      <div class="featured-btn">あそびに いく ▸</div>
+    </div>
+    <div class="sparkle s1">✦</div>
+    <div class="sparkle s2">♡</div>
+  </div>
+`;
+
+// Cards
+document.getElementById('apps-grid').innerHTML = apps.slice(1).map(app => `
+  <div class="card" style="background:${app.color}" onclick="openModal('${app.id}')">
+    <div class="card-emoji-wrap">
+      <div class="card-emoji-bg" style="background:${app.tape}"></div>
+      <div class="card-emoji">${app.emoji}</div>
+    </div>
+    <div class="card-title">${escapeHtml(app.title)}</div>
+    <div class="card-desc">${escapeHtml(app.desc.length > 36 ? app.desc.slice(0,36)+'…' : app.desc)}</div>
+    <div class="card-tag"><span class="tag-bubble">${escapeHtml(app.tag)}</span></div>
+  </div>
+`).join('');
+
+// WIP
+document.getElementById('wip-grid').innerHTML = wips.map(w => `
+  <a class="wip-card" href="${w.url}" target="_blank" rel="noreferrer" style="background:${w.color}">
+    <span class="wip-badge">WIP</span>
+    <div class="wip-emoji">${w.emoji}</div>
+    <div style="flex:1;min-width:0">
+      <div class="wip-title">${escapeHtml(w.title)}</div>
+      <div class="wip-desc">${escapeHtml(w.desc)}</div>
+    </div>
+  </a>
+`).join('');
+
+// Modal
+function openModal(id) {
+  const app = apps.find(a => a.id === id);
+  if (!app) return;
+  const body = document.getElementById('modal-body');
+  body.style.background = app.color;
+  body.innerHTML = `
+    <button class="modal-close" onclick="closeModal()" aria-label="close">✕</button>
+    <div class="modal-head">
+      <div class="modal-emoji">${app.emoji}</div>
+      <div style="flex:1">
+        <span class="modal-tag">${escapeHtml(app.tag)}</span>
+        <h2 class="modal-title">${escapeHtml(app.title)}</h2>
+        ${app.subtitle ? `<div class="modal-sub">${escapeHtml(app.subtitle)}</div>` : ''}
+      </div>
+    </div>
+    <div class="modal-divider"></div>
+    <p class="modal-desc">${escapeHtml(app.desc)}</p>
+    <div class="modal-actions">
+      <a class="btn-primary" href="${app.url}" target="_blank" rel="noreferrer">▸ あそびに いく</a>
+      <button class="btn-secondary" onclick="closeModal()">とじる</button>
+    </div>
+  `;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal(e) {
+  if (e && e.target.closest && e.target.closest('.modal') && !e.target.classList.contains('modal-overlay')) {
+    if (!e.target.classList.contains('modal-overlay')) return;
+  }
+  document.getElementById('modal').classList.remove('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
