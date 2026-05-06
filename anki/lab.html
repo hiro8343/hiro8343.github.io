@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-80TMBGVND6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-80TMBGVND6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗記研究所 | 楽しい暗記サイト</title>
+    <meta name="description" content="睡眠と記憶の関係、ツァイガルニク効果など、暗記を科学的に攻略する「暗記研究所」。脳の仕組みを利用して効率よく記憶しましょう。">
+    <meta name="keywords" content="暗記, 記憶術, 脳科学, 睡眠, ツァイガルニク効果, 忘却曲線, 効率">
+    <meta property="og:title" content="暗記研究所 | 楽しい暗記サイト">
+    <meta property="og:description" content="睡眠と記憶の関係、ツァイガルニク効果など、暗記を科学的に攻略する「暗記研究所」。脳の仕組みを利用して効率よく記憶しましょう。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://hiro8343.github.io/anki/lab.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <style>
+        .lab-header {
+            text-align: center;
+            padding: 4rem 0 2rem;
+        }
+
+        /* Grid Layout for "Lab" feel */
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .lab-card {
+            background: rgba(20, 20, 31, 0.8);
+            border: 1px solid rgba(10, 255, 104, 0.2);
+            border-radius: 4px;
+            /* Sharper corners for lab feel */
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-green);
+            opacity: 0.5;
+        }
+
+        .lab-card::after {
+            content: 'DATA';
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.6rem;
+            color: var(--accent-green);
+            opacity: 0.5;
+            font-family: monospace;
+        }
+
+        .col-span-4 {
+            grid-column: span 4;
+        }
+
+        .col-span-6 {
+            grid-column: span 6;
+        }
+
+        .col-span-8 {
+            grid-column: span 8;
+        }
+
+        .col-span-12 {
+            grid-column: span 12;
+        }
+
+        @media (max-width: 768px) {
+
+            .col-span-4,
+            .col-span-6,
+            .col-span-8 {
+                grid-column: span 12;
+            }
+        }
+
+        .paper-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .paper-summary {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .tag-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            border-radius: 10px;
+            margin-right: 5px;
+        }
+
+        /* Decoration: Fake Graph */
+        .fake-graph {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 50px;
+            margin-top: 1rem;
+            opacity: 0.5;
+        }
+
+        .bar {
+            width: 10px;
+            background: var(--accent-green);
+        }
+
+        .experiment-box {
+            border: 1px dashed var(--accent-green);
+            padding: 2rem;
+            text-align: center;
+            background: rgba(10, 255, 104, 0.05);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Topに戻る</a>
+
+        <header class="lab-header animate-fade-in">
+            <span style="color: var(--accent-green); font-weight: bold; font-family: monospace;">AREA 3: RESEARCH
+                LAB</span>
+            <h1 class="text-gradient">暗記研究所</h1>
+            <p>根性論を捨てよ。科学を信じよ。</p>
+        </header>
+
+        <main class="lab-grid animate-fade-in delay-100">
+
+            <!-- Research Summary 1 -->
+            <div class="lab-card col-span-4">
+                <span class="tag-pill">脳科学</span>
+                <h3 class="paper-title">なぜ「寝ると覚える」のか？</h3>
+                <p class="paper-summary">
+                    睡眠中に脳（海馬）は記憶の整理を行う。徹夜は効率を40%低下させるというデータも。
+                    <br><br>
+                    <strong>結論：寝るのが仕事。</strong>
+                    <br><br>
+                    記憶を定着させるためには、学習直後に良質な睡眠をとることが不可欠です。逆に言えば、寝る直前の暗記は最も効率が良い「ゴールデンタイム」になります。
+                </p>
+                <div style="margin-top: 1rem; text-align: right;">
+                    <a href="list_game.html" style="color: var(--accent-green); font-size: 0.9rem; text-decoration: none;">📝 リスト記憶で寝る前チェック →</a>
+                </div>
+                <div class="fake-graph">
+                    <div class="bar" style="height: 30%"></div>
+                    <div class="bar" style="height: 50%"></div>
+                    <div class="bar" style="height: 80%"></div>
+                    <div class="bar" style="height: 60%"></div>
+                    <div class="bar" style="height: 90%"></div>
+                </div>
+            </div>
+
+            <!-- Research Summary 2 -->
+            <div class="lab-card col-span-4">
+                <span class="tag-pill">心理学</span>
+                <h3 class="paper-title">ツァイガルニク効果</h3>
+                <p class="paper-summary">
+                    「完了したこと」より「中断したこと」の方が記憶に残る現象。
+                    <br><br>
+                    <strong>結論：勉強はキリの悪いところでやめろ。</strong>
+                    <br><br>
+                    あえて途中で切り上げることで、脳内ではそのタスクへの未練（認知的な緊張状態）が保たれ、無意識下で情報整理が進みます。
+                </p>
+                <div style="margin-top: 1rem; text-align: right;">
+                    <a href="quiz_game.html" style="color: var(--accent-green); font-size: 0.9rem; text-decoration: none;">🎯 クイズを途中でやめてみる →</a>
+                </div>
+            </div>
+
+            <!-- Research Summary 3 -->
+            <div class="lab-card col-span-4">
+                <span class="tag-pill">雑学</span>
+                <h3 class="paper-title">海馬は「嘘つき」？</h3>
+                <p class="paper-summary">
+                    記憶はビデオ録画ではなく、思い出すたびに「再編集」される。
+                    つまり、過去の記憶は現在の感情によって書き換えられている可能性がある。
+                    <br><br>
+                    これを逆手に取れば、思い出すこと（テストすること）で意図的に記憶を強化できるということです。
+                </p>
+                <div style="margin-top: 1rem; text-align: right;">
+                    <a href="exam.html" style="color: var(--accent-green); font-size: 0.9rem; text-decoration: none;">🏆 暗記検定で記憶を強化する →</a>
+                </div>
+            </div>
+
+            <!-- Self Experiment -->
+            <div class="lab-card col-span-8">
+                <h3 class="paper-title" style="font-size: 1.5rem; color: var(--accent-green);">🧪 セルフ実験レポート：円周率100桁</h3>
+                <div style="display: flex; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <div style="flex: 1;">
+                        <p class="paper-summary">
+                            <strong>実験者：</strong> 管理人<br>
+                            <strong>手法：</strong> 語呂合わせ＋場所法<br>
+                            <strong>期間：</strong> 1時間<br>
+                            <strong>結果：</strong> 成功（翌日も98桁保持）
+                        </p>
+                        <p class="paper-summary">
+                            ただ数字を唱えるのではなく、「3.14」を「産医師」のように物語に変換。<br>
+                            記憶の定着率が段違いだった。
+                        </p>
+                    </div>
+                    <div
+                        style="flex: 1; background: #000; padding: 1rem; font-family: monospace; font-size: 0.8rem; opacity: 0.8;">
+                        > START LOG<br>
+                        > 3.1415926535...<br>
+                        > GENERATING STORY...<br>
+                        > SUCCESS.<br>
+                        > MEMORY SAVED.
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="lab-card col-span-4"
+                style="display: flex; align-items: center; justify-content: center; text-align: center;">
+                <div>
+                    <h3>君も研究員になるか？</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 1rem 0;">失敗データ募集中。</p>
+                    <button class="btn"
+                        style="border-color: var(--accent-green); color: var(--accent-green);">実験に参加する</button>
+                    <!-- (Functional button for future) -->
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <a href="mypage.html" class="nav-mypage-btn">👤 マイページ</a>
+</body>
+
+</html>

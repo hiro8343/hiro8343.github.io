@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://hiro8343.github.io/sitemap.xml

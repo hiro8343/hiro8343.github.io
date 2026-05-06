@@ -21,13 +21,13 @@ jobs:
           node-version: '20'
 
       - name: Run generation script
-        run: node scripts/generate_shares.js
+        run: node anki/scripts/generate_shares.js
 
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add shares/
+          git add anki/shares/
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
