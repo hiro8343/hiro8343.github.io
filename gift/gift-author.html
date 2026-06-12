@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>著者にギフト｜ギフトに生きる</title>
+<meta name="description" content="「ギフトしてみたい」——その気持ちを、そのまま循環へ。受け取ったギフトは、ギフトの企画・世界中でのお話会・そして著者の生存（笑）に巡っていきます。月額・スポットでご支援いただけます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== 著者にギフト 固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(56px,8vw,100px) 0 clamp(32px,5vw,56px); text-align:center; }
+.page-hero h1 { font-size: clamp(30px,5vw,54px); line-height:1.5; }
+.page-hero .lead { max-width:44ch; margin:20px auto 0; color:var(--ink-soft); }
+.page-hero .portrait {
+  width:min(240px,62vw); aspect-ratio:1; margin:0 auto 18px;
+}
+.page-hero .portrait img{ width:100%; height:100%; display:block; border-radius:50%; object-fit:cover; object-position:50% 32%; box-shadow:var(--shadow-soft); }
+
+/* 使い道 */
+.uses { display:grid; grid-template-columns: repeat(3,1fr); gap:22px; }
+@media (max-width:820px){ .uses{ grid-template-columns:1fr;} }
+.use { padding:32px 26px; }
+.use .ic { width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-family:var(--font-hand);font-size:23px;color:#fff;box-shadow:var(--shadow-card);margin-bottom:16px;}
+.use:nth-child(1) .ic{background:linear-gradient(135deg,var(--blue-deep),var(--blue));}
+.use:nth-child(2) .ic{background:linear-gradient(135deg,var(--pink-deep),var(--pink));}
+.use:nth-child(3) .ic{background:linear-gradient(135deg,var(--mint-deep),var(--mint));}
+.use h3{ font-size:19px; margin-bottom:10px;}
+.use ul{ margin:0; padding:0; list-style:none;}
+.use li{ font-size:14.5px; color:var(--ink-soft); padding:5px 0 5px 18px; position:relative; line-height:1.7;}
+.use li::before{ content:"♡"; position:absolute; left:0; top:7px; color:var(--pink); font-size:10px;}
+.use .pin{ font-family:var(--font-hand); font-size:13.5px; color:var(--ink-soft); margin-top:6px; display:block;}
+
+/* お話会・世界地図風 */
+.world-band{ background:linear-gradient(135deg, rgba(187,217,234,.30), rgba(200,227,206,.28)); }
+.places{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:8px;}
+.places span{ background:var(--paper-card); border:1.5px dashed var(--ink-faint); border-radius:999px;
+  padding:10px 22px; font-family:var(--font-hand); color:var(--blue-deep); box-shadow:var(--shadow-card); font-size:15px;}
+
+/* ギフトの方法（2カラム） */
+.ways2{ display:grid; grid-template-columns: 1fr 1fr; gap:26px; align-items:stretch; }
+@media (max-width:820px){ .ways2{ grid-template-columns:1fr;} }
+.gift-card{ display:flex; flex-direction:column; padding: clamp(28px,4vw,40px); position:relative; overflow:hidden;}
+.gift-card::after{ content:""; position:absolute; right:-40px; top:-40px; width:150px;height:150px;border-radius:50%; opacity:.45;}
+.gift-card.monthly::after{ background:var(--pink);}
+.gift-card.spot::after{ background:var(--blue);}
+.gift-card .kicker{ font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); letter-spacing:.06em;}
+.gift-card h3{ font-size:clamp(22px,3vw,28px); margin:6px 0 6px;}
+.gift-card .desc{ font-size:14.5px; color:var(--ink-soft); margin-bottom:20px;}
+
+/* 月額バッジ */
+.tier-note{ display:inline-flex; align-items:center; gap:8px; background:rgba(246,204,212,.4); color:var(--pink-deep); font-weight:700; font-size:13px; padding:7px 16px; border-radius:999px; margin-bottom:18px;}
+
+/* 振込先テーブル */
+.bank{ background:var(--paper); border-radius:var(--radius); padding:22px 24px; border:1.5px dashed var(--ink-faint); margin-bottom:18px;}
+.bank dl{ margin:0; display:grid; grid-template-columns:auto 1fr; gap:10px 18px; align-items:center;}
+.bank dt{ font-size:13px; color:var(--ink-soft); font-weight:500; white-space:nowrap;}
+.bank dd{ margin:0; font-size:16px; color:#4C463E; font-weight:700; font-family:var(--font-display); letter-spacing:.02em; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.copy-btn{ cursor:pointer; border:none; background:rgba(187,217,234,.45); color:var(--blue-deep); font-family:var(--font-body); font-weight:700; font-size:12px; padding:5px 12px; border-radius:999px; transition:all .18s;}
+.copy-btn:hover{ background:var(--blue-deep); color:#fff;}
+.copy-btn.copied{ background:var(--mint); color:var(--mint-deep);}
+.gift-card .btn{ margin-top:auto; align-self:flex-start; }
+.spot-hint{ font-family:var(--font-hand); font-size:13px; color:var(--ink-soft); margin-top:14px;}
+
+/* 受け取った人の声（吹き出し） */
+.voices-band{ background:linear-gradient(135deg, rgba(200,227,206,.26), rgba(246,204,212,.26)); }
+.voices{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px 30px; }
+@media (max-width:760px){ .voices{ grid-template-columns:1fr; } }
+.voice{ display:flex; flex-direction:column; }
+.bubble{
+  position:relative; background:var(--paper-card); border-radius:22px;
+  padding:24px 26px; box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  font-size:15px; line-height:1.95; color:var(--ink);
+}
+.bubble p{ margin:0; text-wrap:pretty; }
+.bubble .hl{ background:linear-gradient(transparent 62%, var(--cream) 62%); padding:0 2px; }
+/* しっぽ */
+.bubble::after{
+  content:""; position:absolute; left:36px; bottom:-13px;
+  width:26px; height:26px; background:var(--paper-card);
+  border-right:1px solid rgba(255,255,255,.7); border-bottom:1px solid rgba(255,255,255,.7);
+  transform:rotate(45deg); box-shadow:6px 6px 14px -10px rgba(120,100,80,.4);
+}
+.voice .who{ display:flex; align-items:center; gap:12px; margin:24px 0 0 14px; }
+.voice .avatar{
+  width:46px; height:46px; border-radius:50%; flex:none;
+  display:grid; place-items:center; color:#fff; font-family:var(--font-display); font-size:18px;
+  box-shadow:var(--shadow-card);
+}
+.voice:nth-child(4n+1) .avatar{ background:linear-gradient(135deg,var(--blue-deep),var(--blue)); }
+.voice:nth-child(4n+2) .avatar{ background:linear-gradient(135deg,var(--pink-deep),var(--pink)); }
+.voice:nth-child(4n+3) .avatar{ background:linear-gradient(135deg,var(--mint-deep),var(--mint)); }
+.voice:nth-child(4n+4) .avatar{ background:linear-gradient(135deg,var(--pink-deep),var(--cream)); }
+.voice .who .name{ font-family:var(--font-display); font-size:15px; color:#4C463E; line-height:1.3; }
+.voice .who .rel{ font-family:var(--font-hand); font-size:12.5px; color:var(--ink-soft); }
+.voices-note{ text-align:center; font-family:var(--font-hand); font-size:13px; color:var(--ink-faint); margin-top:36px; }
+
+/* インタビュー動画 */
+.films-band{ background:linear-gradient(135deg, rgba(187,217,234,.22), rgba(251,233,200,.26)); }
+.films{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:26px 24px; }
+.film{ display:flex; flex-direction:column; }
+.film .frame{
+  position:relative; aspect-ratio:16/9; border-radius:var(--radius); overflow:hidden;
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  background:linear-gradient(135deg, rgba(187,217,234,.5), rgba(246,204,212,.5)); cursor:pointer;
+}
+.film .frame img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease, filter .3s; }
+.film .frame:hover img{ transform:scale(1.05); filter:saturate(1.05); }
+.film .frame iframe{ width:100%; height:100%; border:0; display:block; }
+.film .play{
+  position:absolute; inset:0; display:grid; place-items:center; pointer-events:none;
+  background:linear-gradient(180deg, rgba(76,70,62,0) 35%, rgba(76,70,62,.28));
+  transition:background .3s;
+}
+.film .frame:hover .play{ background:linear-gradient(180deg, rgba(76,70,62,0) 25%, rgba(76,70,62,.40)); }
+.film .play .disc{
+  width:64px; height:64px; border-radius:50%;
+  background:rgba(255,253,249,.94); box-shadow:var(--shadow-soft);
+  display:grid; place-items:center; transition:transform .2s;
+}
+.film .frame:hover .play .disc{ transform:scale(1.08); }
+.film .play .disc::after{
+  content:""; width:0; height:0; margin-left:5px;
+  border-style:solid; border-width:12px 0 12px 20px;
+  border-color:transparent transparent transparent var(--pink-deep);
+}
+.film .num{
+  position:absolute; top:12px; left:12px; z-index:2;
+  width:34px; height:34px; border-radius:50%;
+  background:rgba(255,253,249,.92); color:var(--blue-deep);
+  font-family:var(--font-display); font-weight:600; font-size:16px;
+  display:grid; place-items:center; box-shadow:var(--shadow-card);
+}
+.film .cap{ font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); margin-top:14px; padding-left:4px; }
+
+/* 結び */
+.thanks-band{ background:linear-gradient(135deg, rgba(251,233,200,.45), rgba(246,204,212,.40)); text-align:center;}
+.thanks-band .poem{ font-family:var(--font-display); font-size:clamp(20px,3vw,28px); line-height:1.95; color:#4C463E;}
+.thanks-band .sig{ font-family:var(--font-hand); font-size:15px; color:var(--ink-soft); margin-top:22px;}
+</style>
+</head>
+<body data-page="giftauthor">
+
+<section class="page-hero" data-screen-label="著者にギフトヒーロー">
+  <div class="blob floaty" style="background:var(--pink);width:300px;height:300px;top:-50px;left:-50px;"></div>
+  <div class="blob floaty" style="background:var(--blue);width:260px;height:260px;bottom:-70px;right:-40px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <div class="portrait"><img src="hiroshi-gift.png" alt="著者・石丸弘さん。"></div>
+    <p class="eyebrow" style="justify-content:center">著者にギフト</p>
+    <h1>「ギフトしてみたい」、<br>その<span class="mark-pink">気持ち</span>のままに。</h1>
+    <p class="lead">受け取ったギフトは、ひとりの手の中にとどまりません。あなたから著者へ、著者からまた誰かへ——めぐっていきます。よかったら、その循環の一端になってもらえたら嬉しいです。＾＾</p>
+  </div>
+</section>
+
+<!-- 使い道 -->
+<section class="section" style="padding-bottom:0">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:36px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">いただいたギフトは、こう巡ります</p>
+      <h2 class="section-title">受け取ったお金が、<br><span class="mark-blue">めぐっていく先</span>。</h2>
+    </div>
+    <div class="uses">
+      <div class="card use reveal">
+        <div class="ic">企</div>
+        <h3>ギフトの企画の<br>立ち上げ・継続</h3>
+        <ul>
+          <li>誰かの相談に乗る</li>
+          <li>平和的プロジェクトの立ち上げ</li>
+          <li>人と人をお繋ぎする</li>
+          <li>必要な人に必要なものをギフト（本・イベントチケット・お金）</li>
+        </ul>
+      </div>
+      <div class="card use reveal">
+        <div class="ic">話</div>
+        <h3>世界中での<br>お話会の予算</h3>
+        <ul>
+          <li>会場やオンラインの準備</li>
+          <li>渡航・滞在の費用</li>
+          <li>参加しやすい場づくり</li>
+        </ul>
+        <span class="pin">イギリス、カナダ、オランダ、シンガポールは呼んで頂けそう＾＾</span>
+      </div>
+      <div class="card use reveal">
+        <div class="ic">生</div>
+        <h3>著者の生存（笑</h3>
+        <ul>
+          <li>日々のごはんと暮らし</li>
+          <li>「実験」を続けるための時間</li>
+          <li>また新しいギフトを生む余白</li>
+        </ul>
+        <span class="pin">いちばん正直で、いちばん大事なところかも。＾＾</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 世界のお話会 -->
+<section class="section world-band">
+  <div class="narrow reveal" style="text-align:center">
+    <p class="eyebrow" style="justify-content:center">世界へ、めぐる</p>
+    <h2 class="section-title">あなたのギフトが、<br>海を越えていく。</h2>
+    <p class="lead" style="color:var(--ink-soft);max-width:40ch;margin-inline:auto">いま、声をかけていただけそうな場所たち。あなたの応援が、ここでのお話会のはじまりになります。</p>
+    <div class="places">
+      <span>🇬🇧 イギリス</span>
+      <span>🇨🇦 カナダ</span>
+      <span>🇳🇱 オランダ</span>
+      <span>🇸🇬 シンガポール</span>
+    </div>
+  </div>
+</section>
+
+<!-- ギフトの方法 -->
+<section class="section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:36px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">ギフトの方法は、2つ</p>
+      <h2 class="section-title">続けて贈る、ひとつ贈る。<br>どちらも、ありがとう。</h2>
+    </div>
+    <div class="ways2">
+      <!-- 月額 -->
+      <div class="card gift-card monthly reveal">
+        <span class="kicker">毎月、そっと続けて</span>
+        <h3>月額でギフトする</h3>
+        <div class="tier-note">♡ 月額コミュニティ（CAMPFIRE）</div>
+        <p class="desc">毎月のささやかなギフトで、企画やお話会の「続けていく力」になります。コミュニティで、めぐりの様子もお届けします。</p>
+        <a class="btn btn-primary" href="https://community.camp-fire.jp/projects/view/42258" target="_blank" rel="noopener">月額コミュニティを見る →</a>
+      </div>
+
+      <!-- スポット -->
+      <div class="card gift-card spot reveal">
+        <span class="kicker">気が向いたとき、ひとつ</span>
+        <h3>スポットでギフトする</h3>
+        <div class="tier-note" style="background:rgba(187,217,234,.45);color:var(--blue-deep)">♡ 銀行振込（楽天銀行）</div>
+        <p class="desc">「今、贈りたい」というその気持ちのままに。下記の口座へ、無理のない範囲でどうぞ。</p>
+        <div class="bank">
+          <dl>
+            <dt>銀行名</dt><dd>楽天銀行</dd>
+            <dt>支店名</dt><dd>ダンス支店</dd>
+            <dt>口座番号</dt><dd>普通　2539363 <button class="copy-btn" data-copy="2539363">番号をコピー</button></dd>
+            <dt>名義</dt><dd>イシマルヒロシ</dd>
+          </dl>
+        </div>
+        <p class="spot-hint">受け取りましたら、ご一報いただけると「ありがとう」を伝えられるので嬉しいです＾＾。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 受け取った人の声 -->
+<section class="section voices-band" data-screen-label="受け取った人の声">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:42px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">受け取った人たちの声</p>
+      <h2 class="section-title">ギフトは、こうして<br><span class="mark-pink">めぐっていきました</span>。</h2>
+      <p class="lead" style="color:var(--ink-soft);max-width:42ch;margin-inline:auto">弘さんからギフトを受け取った方が、その後どんな気持ちになり、何が動いたのか。少しだけ、おすそわけ。＾＾</p>
+    </div>
+    <div class="voices">
+      <div class="voice reveal">
+        <div class="bubble"><p>本づくりに参加する機会をもらったのに、行動が伴わず申し訳なくて。それでも週一回のzoomを、弘さんはずっと続けてくれました。「本になるまで見守る」——<span class="hl">見守って応援する自分の存在も、ちゃんとギフトなんだ</span>と思えるように。弘さんは、どんな場面でも『何がギフトできるかな？』とチャンスを逃さない、ギフトに生きる達人です。まずは本を読んでほしい。<span class="hl">『世界のみんなでノーベル平和賞をとる』という夢を、読書で応援</span>してもらえたら嬉しいです。</p></div>
+        <div class="who"><div class="avatar">る</div><div><div class="name">石坂るり子 さん</div><div class="rel">本づくりプロジェクトの仲間</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>自分の道を模索していた時に、石丸さんがぴったりの方と活動をシェアしてくれて、活路が見いだされた感じがしました。今まさに必要としていたから届けてくれた——運命めいたものを感じます。楽しく遊んで、出会いと感謝が巡っていく。これからの生き方を体現してくれている人です。</p></div>
+        <div class="who"><div class="avatar">む</div><div><div class="name">むらっちゃん さん</div><div class="rel">つながりが広がった方</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>協働研究者を探していた時に繋いでもらえて、人生で最も幸福な気持ちになりました。愛とギフトに強く惹かれました。弘さんは、幸福の種を地球に撮く宇宙人。受け取った豊かさを、周りにもギフトしていきたいです。</p></div>
+        <div class="who"><div class="avatar">吉</div><div><div class="name">吉家重夫 さん</div><div class="rel">協働研究の仲間</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>弘さんは、とにかく「遊び」という言葉をよく使う人。その言葉に何度も背中を押されて、仕事でも『もっと遊んでいい』と思えるようになりました。プロとしての厳しさとも共存できています。私にとっては、最高の遊び仲間です！</p></div>
+        <div class="who"><div class="avatar">星</div><div><div class="name">星 寿美 さん</div><div class="rel">Zoomで語り合った方</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>くるしい時に、優しさベースの安心感やごはんを受け取って、ありがたかった。びっくり→ありがたい→しあわせ。気づけば<span class="hl">私も似たことをギフト</span>するように。さりげない優しさがたくさんの、命の恩人です！</p></div>
+        <div class="who"><div class="avatar">愛</div><div><div class="name">愛ちゃん さん</div><div class="rel">支えてもらった方</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>お話する時間そのものがギフトでした。最初は「申し訳ないな」が出てきたけれど、今は素直に「ありがとう」と、<span class="hl">「どう誰かに還元できるだろう」</span>と感じられるように。今はゲストハウスで循環に取り組んでいます。</p></div>
+        <div class="who"><div class="avatar">し</div><div><div class="name">しいな さん</div><div class="rel">循環に取り組む方</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>右も左もわからない心細い時に支えてもらい、驚きとありがたさでいっぱいでした。何もかもがギフトだと思えるようになって、つらい出来事もあたたかく見られるように。風のように軽やかで、いつも優しく見守ってくれる、心の師匠です。</p></div>
+        <div class="who"><div class="avatar">美</div><div><div class="name">美江（みえ） さん</div><div class="rel">活動を応援された方</div></div></div>
+      </div>
+      <div class="voice reveal">
+        <div class="bubble"><p>人生絶望の中で受け取りました。弘さんは「受け取ってくれたら僕が嬉しい」と、与える喜びを表現してくれて、心置きなく純粋に喜べました。今は、与えることも受け取ることも<span class="hl">すべてがギフトで愛</span>だという視点を持てるように。神様で、師匠で、仲間で——いちばんしっくりくるのは、恩師でありアミーゴです！</p></div>
+        <div class="who"><div class="avatar">た</div><div><div class="name">たまざわ ゆうき さん</div><div class="rel">出会って5年の仲間</div></div></div>
+      </div>
+    </div>
+    <p class="voices-note">※ 各さんの5つの質問への「全文」は、<a href="concept.html#author" style="color:var(--pink-deep)">「ギフトに生きるとは」のページ</a>でも読めます。声をくださったみなさん、ありがとうございます。＾＾</p>
+  </div>
+</section>
+
+<!-- インタビュー動画 -->
+<section class="section films-band" data-screen-label="インタビュー動画">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:42px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">動画で、もっと知る</p>
+      <h2 class="section-title">いろんな人が聞いてくれた、<br><span class="mark-blue">ギフトと僕のこと</span>。</h2>
+      <p class="lead" style="color:var(--ink-soft);max-width:42ch;margin-inline:auto">「ギフトに生きる」のこと、そして僕自身のこと。さまざまな方がインタビューしてくれた対話を、そのままおすそわけします。気になるものから、どうぞ。＾＾</p>
+    </div>
+    <div class="films">
+      <!-- 動画カードはスクリプトで生成 -->
+    </div>
+  </div>
+</section>
+
+<!-- 結び -->
+<section class="section thanks-band">
+  <div class="narrow reveal">
+    <p class="poem">
+      あなたが贈ってくれたギフトは、<br>
+      めぐって、めぐって、<br>
+      きっとまた、<span class="mark-pink">誰かのもとへ</span>。
+    </p>
+    <p class="sig">— 受け取らせてもらえること自体が、僕にとってのギフトです。ありがとう。＾＾</p>
+    <div style="margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-blue" href="support.html">お金をかけない応援も見る</a>
+      <a class="btn btn-ghost" href="book.html#yoyaku">書籍を予約する</a>
+    </div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+<script>
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-copy');
+      try { await navigator.clipboard.writeText(text); } catch(e) {}
+      const orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = '✓ コピーしました';
+      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = orig; }, 1800);
+    });
+  });
+
+  /* インタビュー動画：軽量サムネイル → クリックで再生 */
+  (function(){
+    const ids = ["af44VeQZzq0","djRm0VzMZ0E","At9vRVKhBa4","qhgNkuxkJT4","YmdiAfPV8yg","YjGi_X3U5E8","HMXEkA84Rec"];
+    const circled = ["①","②","③","④","⑤","⑥","⑦"];
+    const grid = document.querySelector(".films");
+    if (!grid) return;
+    ids.forEach((id, i) => {
+      const film = document.createElement("div");
+      film.className = "film reveal";
+      film.innerHTML =
+        '<div class="frame" role="button" tabindex="0" aria-label="インタビュー動画を再生">' +
+          '<span class="num">' + (i+1) + '</span>' +
+          '<img loading="lazy" alt="インタビュー動画 ' + (i+1) + ' のサムネイル" ' +
+            'src="https://i.ytimg.com/vi/' + id + '/maxresdefault.jpg" ' +
+            'data-fallback="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg">' +
+          '<span class="play"><span class="disc"></span></span>' +
+        '</div>' +
+        '<p class="cap">インタビュー ' + circled[i] + '</p>';
+      const frame = film.querySelector(".frame");
+      const thumb = frame.querySelector("img");
+      thumb.addEventListener("error", function(){
+        const fb = this.getAttribute("data-fallback");
+        if (fb) { this.removeAttribute("data-fallback"); this.src = fb; }
+        else { this.style.display = "none"; }   /* 取得できないときはやわらかいグラデのまま */
+      });
+      const playVideo = () => {
+        frame.innerHTML =
+          '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0" ' +
+          'title="インタビュー動画 ' + (i+1) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+          'allowfullscreen></iframe>';
+      };
+      frame.addEventListener("click", playVideo);
+      frame.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playVideo(); }
+      });
+      grid.appendChild(film);
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>読んだ方の感想｜ギフトに生きる</title>
+<meta name="description" content="書籍『ギフトに生きる』を読んでくださった方の感想・レビュー集。やわらかく、あたたかな声が静かにめぐっています。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== 感想ページ固有 ===== */
+.rev-hero{ position:relative; overflow:hidden; padding: clamp(52px,8vw,96px) 0 clamp(30px,5vw,52px); text-align:center; }
+.rev-hero h1{ font-size:clamp(30px,5.2vw,52px); line-height:1.45; margin-bottom:16px; }
+.rev-hero .lead{ max-width:40ch; margin-inline:auto; color:var(--ink-soft); }
+
+/* 抜粋ハイライト */
+.highlights-band{ background:linear-gradient(135deg, rgba(251,233,200,.42), rgba(246,204,212,.40)); }
+.highlights{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.hl-card{
+  position:relative; background:var(--paper-card); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  padding: 40px 36px 36px; display:flex; align-items:center;
+}
+.hl-card::before{
+  content:"\201C"; position:absolute; top:6px; left:22px;
+  font-family:var(--font-display); font-size:74px; line-height:1;
+  color:var(--pink); opacity:.55;
+}
+.hl-card:nth-child(2)::before{ color:var(--blue); }
+.hl-card:nth-child(3)::before{ color:var(--mint); }
+.hl-card:nth-child(4)::before{ color:var(--cream); opacity:.9; }
+.hl-card p{
+  font-family:var(--font-display); font-size:clamp(19px,2.4vw,24px);
+  line-height:1.75; color:#4C463E; margin:0; position:relative; z-index:1;
+}
+@media (max-width:720px){ .highlights{ grid-template-columns:1fr; gap:18px;} .hl-card{ padding:34px 26px 28px;} }
+
+/* 詳細版：マソンリー */
+.reviews-masonry{ columns: 3; column-gap: 26px; }
+@media (max-width:920px){ .reviews-masonry{ columns:2; } }
+@media (max-width:620px){ .reviews-masonry{ columns:1; } }
+.review{
+  break-inside:avoid; margin-bottom:26px;
+  background:var(--paper-card); border-radius:var(--radius);
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  padding:28px 28px 24px; position:relative;
+}
+.review .quote{
+  font-family:var(--font-display); font-weight:600;
+  font-size:18.5px; line-height:1.65; color:#4C463E; margin:0 0 14px;
+  padding-left:16px; position:relative;
+}
+.review .quote::before{
+  content:""; position:absolute; left:0; top:4px; bottom:4px; width:4px; border-radius:999px;
+  background:var(--pink-deep);
+}
+.review:nth-child(3n+2) .quote::before{ background:var(--blue-deep); }
+.review:nth-child(3n+3) .quote::before{ background:var(--mint-deep); }
+.review .quote .mk{ background:linear-gradient(transparent 62%, var(--pink) 62%); padding:0 1px; }
+.review:nth-child(3n+2) .quote .mk{ background:linear-gradient(transparent 62%, var(--blue) 62%); }
+.review:nth-child(3n+3) .quote .mk{ background:linear-gradient(transparent 62%, var(--mint) 62%); }
+.review .body{ font-size:14.5px; line-height:1.95; color:var(--ink-soft); }
+.review .body p{ margin:0 0 .85em; }
+.review .body p:last-child{ margin-bottom:0; }
+.review .by{
+  display:flex; align-items:center; gap:8px; margin-top:18px;
+  font-family:var(--font-hand); font-size:13px; color:var(--ink-faint);
+}
+.review .by::before{ content:"♡"; color:var(--pink); font-size:12px; }
+
+/* 結び */
+.rev-close{ background:linear-gradient(135deg, rgba(187,217,234,.26), rgba(200,227,206,.26)); text-align:center; }
+.rev-close .heart{ font-size:30px; color:var(--pink-deep); margin-bottom:10px; }
+</style>
+</head>
+<body data-page="reviews">
+
+<!-- ヒーロー -->
+<section class="rev-hero" data-screen-label="感想ヒーロー">
+  <div class="blob floaty" style="background:var(--pink);width:300px;height:300px;top:-50px;left:6%;"></div>
+  <div class="blob floaty" style="background:var(--blue);width:280px;height:280px;top:0;right:4%;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">読んでくださった方の声</p>
+    <h1>読んだあなたの、<br><span class="mark-pink">やわらかな声</span>。</h1>
+    <p class="lead">『ギフトに生きる』を手に取ってくださった方から届いた、感想のかけら。正解ではなく、めぐる気持ちを、そのままおすそわけします。＾＾</p>
+  </div>
+</section>
+
+<!-- 抜粋ハイライト -->
+<section class="section highlights-band" data-screen-label="抜粋ハイライト" style="padding-top:clamp(40px,6vw,68px)">
+  <div class="wrap">
+    <div class="highlights">
+      <div class="hl-card reveal"><p>自然とにやけちゃう。<br>さいっこうに、安心する。</p></div>
+      <div class="hl-card reveal"><p>自分が愛おしくなれる、<br>「豊かな生き方の実践書」。</p></div>
+      <div class="hl-card reveal"><p>みんな生きてるだけで<br>ギフトだよって思いました。</p></div>
+      <div class="hl-card reveal"><p>めっちゃギフト感を<br>感じながら仕事できています！</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 詳細版 -->
+<section class="section" data-screen-label="感想一覧">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:48px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">もっと、じっくり</p>
+      <h2 class="section-title">ひとつひとつの、<span class="mark-blue">読んだ時間</span>。</h2>
+    </div>
+
+    <div class="reviews-masonry">
+
+      <article class="review reveal">
+        <p class="quote">なんとなく感じていた<span class="mk">モヤモヤ</span>が、本を読むことで整理できると改めて感じました。</p>
+        <div class="body"><p>ギフトに生きるの本は実用書！ こんなときはどうしたらいい？ こういうときにはこう！ というのがタイトルで見つけられるので、とてもすぐれた実用書だと思いました。</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">感覚を大事にして、もっと<span class="mk">循環</span>を起こしたいと思いました。</p>
+        <div class="body">
+          <p>ギフトの受け取り相手やモノを選ぶなど、普段は何も考えず「こうやったら良いだろう」と頭で選びがちですが、やっぱり感覚を大事にして、もっと循環を起こしたいと思いました。</p>
+          <p>この本の実用書のような素晴らしさに、やっぱりすごい本だと感じましたし、もっと広めたいと思いました。ひろしさん、参加してくださったさとみさん、るり子さん、ありがとうございます。素晴らしい本を広めさせていただける全ての機会にありがとうございます。</p>
+        </div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">誰にギフトするかも、誰から受け取るかも、<span class="mk">選んで良い</span>。そっか、と安心できました。</p>
+        <div class="body">
+          <p>思っていたよりも、知りたいことが細かく解説されていて嬉しかったです！ この本自体がギフトだなぁと思いました。細やかなお気遣いと愛を感じる内容で、これはそのまま石丸さんのお人柄なんだろうなぁと。</p>
+          <p>「ギフトをする相手も、誰から受け取るかも、選んで良い」というお話で、そっか、選んでも良いんだーと安心できたし、納得でした。また、ギフト相手の選び方で〈1を-1にしちゃうタイプ〉の解説のあとに、「でも、そういう人たちもそうなった背景があるんだよ」というお話までちゃんとしてくださるところにも、愛と気遣いを感じました。</p>
+        </div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">楽しくって止まらなくなった。<span class="mk">寝る間も惜しんで</span>全部読んじゃった！</p>
+        <div class="body"><p>読書会をしてもらうということで原稿を先にいただきました。当日読むので大丈夫とのことだったのですが、つい読み始めたら楽しくって止まらなくなって、寝る間も惜しんで最後まで読んじゃいました！</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">与える側で<span class="mk">居続けなくていい</span>。そういう側面が書かれてあるのがとてもいい。</p>
+        <div class="body">
+          <p>弘さんがこれまで伝えてきたことが、とても分かりやすくシンプルにまとまっていて、読みやすかったです。1つ1つの長さも長すぎず、でも事例もあって、気になるところだけ・章ごと・通読と、いろんな読み方ができそうに思いました！</p>
+          <p>特に、ギフトの世界観は「良いこと」として捉えがちですが、陥りやすいデメリットや、ギフトする人を選んでいい、受け取るだけでもいい（与える側で居続けなくていい）といった側面が書かれているのが、とてもいいなと思いました。</p>
+          <p>「弘さんだからできるんだよ」から、さらに世界が広がるといいなと思っていたので、他の方の事例が載っているのもいい点だと思いました。</p>
+        </div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">楽になる考え方や気持ちの持ち方を、<span class="mk">優しい口調</span>で教えてくれます。</p>
+        <div class="body"><p>どうやったら日々を楽に軽く生きられるかを教えてくれる本です。自分の物の見方を変えるお手伝いをしてくれます。受け取ったものと与えたものを相殺して損得勘定でご破算するより、「受け取れて嬉しい・贈れて嬉しい」と相乗りするほうが気持ちが若返ります。そんなふうに楽になる考え方を、優しい口調で教えてくれます。</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">理由なんかなく、<span class="mk">自分を含めた全ての存在がギフト</span>。</p>
+        <div class="body"><p>「理由なんかなく、自分を含めた全ての存在がギフト」だと日々感じていて、それが分かりやすく書いてあって、とても共感しました♥</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">自分が愛おしくなれるし、<span class="mk">豊かな生き方の実践書</span>。</p>
+        <div class="body">
+          <p>本から受け取るものが多くて、コトバにもまとまらない…。その一端でも感想で書けたらと、がんばってみます（笑）。まず受け取れるものが多いからこそ、何度も読みたい本だと感じています。</p>
+          <p>その時々で見え方や捉え方が変わる、奥深い本だなとも感じます。今の自分を愛せてないなと思っている時には自分が愛おしくなれる本だし、豊かな生き方にチャレンジしたい人には参考になる実践書だなとも思う。今の自分の状態を見ることができるし、これからこうありたいという生き方を確認できる本でもありました。</p>
+          <p>教科書だしエッセイだし、詩集だし、雑誌だしという不思議な本のようにも感じました。正解を求めて読む本というより、色々なことに気づいていける本。冒険の書みたいなかんじかもしれません（笑）。</p>
+        </div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">学ばなきゃ、じゃなくて。読むうちに<span class="mk">自然とにやけちゃう</span>。</p>
+        <div class="body"><p>学ばなきゃ、とかそういう感じじゃなくて、リラックスして読めちゃうから、読んでいるうちに自然とにやけちゃいました。かわいいが散りばめられた、癒やしの時間でした。</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">さいっこうに、<span class="mk">安心する</span> 😭😮‍💨</p>
+        <div class="body"><p>今日は、ギフトに生きる第1章を読みました✨ さいっこうに、安心する😭😮‍💨 ほんと、お薬のように飲みます、いや違う、読みます！</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">実生活に<span class="mk">すぐ活かせる予感</span>しかない！</p>
+        <div class="body"><p>まずひらがなが多くて、かわいいイメージです！ 読み進めやすい、やわらかな雰囲気が素敵。まだ最初だけですが、AIのことも自分の実生活も、すぐ活かせる予感しかなくて楽しみです🤗</p></div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+      <article class="review reveal">
+        <p class="quote">繋がりと感謝で、<span class="mk">あたたかい気持ち</span>になれました。</p>
+        <div class="body">
+          <p>ボリュームあり、読み応えがありました💡 全体的に、いろんな優しさや愛が込められているなあと思いました。</p>
+          <p>おむすびくんのおはなし🍙、繋がりと感謝であたたかい気持ちになれました☺️❤️ そして地球の歴史や宇宙まで、みんなつながっているんですね🪐✨</p>
+          <p>ドタキャンというギフトも味わい深いなと思いました。予定通りいかない時や難しい時も、いろいろな捉え方ができると、心穏やかに過ごせる時間が増えそうですね。いろいろな気持ちに寄り添ってくれているのが、とても優しいです💞</p>
+          <p>歴史やいのちのつながり、いろんな存在を大切に思ってくれているんだなあという気持ちになれました☺️ 「ありがとう」を感じたことをみんなで話し合うのは、優しさが広がりそうですね〜🌸</p>
+          <p>ギフトや人とのやりとりにまつわる細かな場面も、丁寧に心をケアしてくれていて、読んでいると自分の気持ちも労われそうな感じがします🌿 「誰かになにかできるかなと考えている」というのが、すでに優しくて癒されます。石丸さんらしいなと思いました🌈</p>
+          <p>「優しさは観た人も変えていく」の動画も見させてもらいました📹 とてもよかったです☺️❤️ 最後の詩も、ほっこりしますね。ありがとうございました☺️❣️</p>
+        </div>
+        <div class="by">読んでくださった方より</div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 結び -->
+<section class="section rev-close" data-screen-label="結び">
+  <div class="narrow reveal">
+    <div class="heart">♡</div>
+    <h2 class="section-title" style="margin-bottom:14px">あなたの声も、<br>めぐりの一部になります。</h2>
+    <p class="lead" style="color:var(--ink-soft);max-width:40ch;margin-inline:auto">読んで動いた気持ちを、よかったら聞かせてください。ひとつの感想が、次の誰かの「読んでみよう」になっていきます。＾＾</p>
+    <div style="margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn-primary" href="book.html#yoyaku">書籍ページを見る</a>
+      <a class="btn btn-ghost" href="book.html#tameshi">試し読みする</a>
+    </div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+</body>
+</html>
