@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-80TMBGVND6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-80TMBGVND6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗記したらかっこいい | 楽しい暗記サイト</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <style>
+        .cool-header {
+            text-align: center;
+            padding: 4rem 0 2rem;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            border-color: var(--accent-purple);
+            color: #fff;
+            background: rgba(188, 19, 254, 0.1);
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.2);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .cool-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cool-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-purple);
+        }
+
+        .card-cat {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .coolness {
+            margin-top: 1rem;
+            color: #ffd700;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .char-count {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Modal Styles */
+        dialog {
+            background: transparent;
+            border: none;
+            padding: 0;
+            max-width: 90vw;
+            width: 600px;
+            color: var(--text-main);
+            margin: auto;
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #1a1a24;
+            border: 1px solid var(--accent-purple);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: 0 0 50px rgba(188, 19, 254, 0.3);
+            position: relative;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        .modal-body {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+            line-height: 1.8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-meta {
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .link-btn-exp {
+            background: rgba(188, 19, 254, 0.2);
+            color: #e0aaff;
+            border-color: var(--accent-purple);
+        }
+
+        .link-btn-word {
+            background: rgba(0, 255, 255, 0.1);
+            color: #aaffff;
+            border-color: var(--accent-cyan);
+        }
+
+        .link-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Topに戻る</a>
+
+        <header class="cool-header animate-fade-in">
+            <span style="color: var(--accent-purple); font-weight: bold;">AREA 4: THE COLLECTION</span>
+            <h1 class="text-gradient">暗記したらかっこいいこと</h1>
+            <p>実用性よりロマン。語りたくなる知識たち。</p>
+        </header>
+
+        <main>
+            <!-- Filters -->
+            <div class="filters animate-fade-in delay-100">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="space">宇宙・自然</button>
+                <button class="filter-btn" data-filter="history">時間・歴史</button>
+                <button class="filter-btn" data-filter="math">数とことば</button>
+                <button class="filter-btn" data-filter="world">世界・文化</button>
+                <button class="filter-btn" data-filter="literature">文学</button>
+                <button class="filter-btn" data-filter="manga_anime">漫画・アニメ</button>
+            </div>
+
+            <!-- Grid -->
+            <div class="card-grid animate-fade-in delay-200" id="grid">
+                <!-- Items will be injected by JS -->
+                <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading data...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <dialog id="detail-modal">
+        <div class="modal-content">
+            <button id="close-modal" class="close-btn">&times;</button>
+            <span class="card-cat" id="modal-cat">CATEGORY</span>
+            <h2 id="modal-title" style="margin-bottom: 0.5rem; color: #fff;">Title</h2>
+            <div class="modal-meta" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>文字数: <span id="modal-length">0</span>文字</span>
+                <button class="btn btn-sm" onclick="shareItem()"
+                    style="padding: 4px 12px; font-size: 0.8rem; background: rgba(0, 243, 255, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                        <polyline points="16 6 12 2 8 6"></polyline>
+                        <line x1="12" y1="2" x2="12" y2="15"></line>
+                    </svg>
+                    シェア
+                </button>
+            </div>
+            <div id="modal-links" class="modal-links"></div>
+            <p id="modal-desc" style="color: var(--text-muted); margin-bottom: 1rem;">Description</p>
+            <div class="modal-body custom-scrollbar" id="modal-content">
+                Content...
+            </div>
+        </div>
+    </dialog>
+
+    <script src="scripts/user_data.js"></script>
+    <script>
+        const grid = document.getElementById('grid');
+        const buttons = document.querySelectorAll('.filter-btn');
+        const modal = document.getElementById('detail-modal');
+        const closeModal = document.getElementById('close-modal');
+        let coolItems = [];
+
+        // Google Sheet CSV URL
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
+
+        // Category Mapping (Japanese in Sheet -> ID in App)
+        const CATEGORY_MAP = {
+            '言語': 'math',   // 数とことば
+            '数学': 'math',
+            '歴史': 'history', // 時間・歴史
+            '地理': 'world',   // 世界・文化
+            '公民': 'world',
+            '理科': 'space',   // 宇宙・自然
+            '生物': 'space',
+            '地学': 'space',
+            '宇宙': 'space',   // Added '宇宙'
+            '雑学': 'culture', // その他
+            '文化': 'culture'
+        };
+
+        // CSV Parser（セル内改行対応版 / RFC 4180準拠）
+        function parseCSV(text) {
+            // テキスト全体を文字単位で走査し、行とセルに分割する
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuote = false;
+
+            // CRLF → LF に正規化
+            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+
+                if (inQuote) {
+                    if (ch === '"') {
+                        // 次も " なら エスケープ("")→ 実際の "
+                        if (text[i + 1] === '"') {
+                            cell += '"';
+                            i++; // 次の " をスキップ
+                        } else {
+                            // クォート終了
+                            inQuote = false;
+                        }
+                    } else {
+                        // クォート内では改行もそのままセル値に含める
+                        cell += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuote = true;
+                    } else if (ch === ',') {
+                        // セル区切り
+                        row.push(cell);
+                        cell = '';
+                    } else if (ch === '\n') {
+                        // 行区切り
+                        row.push(cell);
+                        cell = '';
+                        rows.push(row);
+                        row = [];
+                    } else {
+                        cell += ch;
+                    }
+                }
+            }
+            // 末尾のセル・行を追加
+            row.push(cell);
+            if (row.some(c => c !== '')) rows.push(row);
+
+            // 行データをアイテムに変換
+            const result = [];
+            for (let i = 0; i < rows.length; i++) {
+                const r = rows[i];
+                if (r.length < 4) continue;
+
+                // ヘッダー行スキップ
+                if (i === 0 && (r[0] === 'カテゴリ' || r[0] === 'カテゴリー' || r[0] === 'Category' || r[0] === 'ジャンル')) continue;
+
+                const catKey = CATEGORY_MAP[r[0]] || 'culture';
+                const isActive = r[6] === '◯' || r[6] === '○' || !r[6];
+
+                if (isActive) {
+                    result.push({
+                        id: i,
+                        category: catKey,
+                        originalCategory: r[0],
+                        title: r[1],
+                        description: r[2],
+                        content: r[3],          // セル内改行も含む生テキスト
+                        stars: 3,
+                        explanationUrl: r[7] || null,
+                        wordUrl: null
+                    });
+                }
+            }
+            return result;
+        }
+
+        // Fetch Data
+        async function loadData() {
+            try {
+                // Show loading state
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading data from Google Sheets...</p>';
+
+                const response = await fetch(SHEET_CSV_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const text = await response.text();
+
+                coolItems = parseCSV(text);
+                render('all');
+                checkUrlParam();
+            } catch (error) {
+                console.error('Error loading data:', error);
+
+                // Fallback to local JSON
+                try {
+                    console.log('Falling back to local JSON...');
+                    const response = await fetch('data/cool_items.json');
+                    coolItems = await response.json();
+                    render('all');
+                    checkUrlParam();
+                } catch (e) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-pink);">データの読み込みに失敗しました。</p>';
+                }
+            }
+        }
+
+        function checkUrlParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetTitle = urlParams.get('title');
+            if (targetTitle && coolItems.length > 0) {
+                const targetItem = coolItems.find(item => item.title === targetTitle);
+                if (targetItem) {
+                    openModal(targetItem);
+                }
+            }
+        }
+
+        function render(filter) {
+            grid.innerHTML = '';
+            const items = filter === 'all' ? coolItems : coolItems.filter(i => i.category === filter || (filter === 'world' && i.category === 'culture'));
+
+            if (items.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">アイテムがありません。</p>';
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'cool-card animate-fade-in';
+                div.style.animationDelay = `${index * 0.05}s`;
+                div.style.position = 'relative';
+
+                // Calculate length if exists, otherwise display 0 or approximate
+                const length = item.content ? item.content.length : 0;
+
+                div.innerHTML = `
+                    <span class="card-cat">${item.category}</span>
+                    <h3 class="card-title">${item.title}</h3>
+                    <p class="card-desc">${item.description}</p>
+                    <div class="coolness">
+                        <span>かっこよさ ${'★'.repeat(item.stars)}${'☆'.repeat(5 - item.stars)}</span>
+                        <span class="char-count">${length}文字</span>
+                    </div>
+                    <button onclick="event.stopPropagation(); toggleFav('${item.title.replace(/'/g, "\\'")}',' ${item.category}', this)" style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; font-size:1.3rem; opacity:0.7; transition:all 0.3s;">
+                        ${UserData.isFavorite(item.title) ? '❤️' : '🤍'}
+                    </button>
+                `;
+
+                // Add click event for modal
+                div.addEventListener('click', () => openModal(item));
+
+                grid.appendChild(div);
+            });
+        }
+
+        function openModal(item) {
+            document.getElementById('modal-cat').textContent = item.category;
+            document.getElementById('modal-title').textContent = item.title;
+            document.getElementById('modal-desc').textContent = item.description;
+            document.getElementById('modal-content').textContent = item.content || 'データがありません';
+            document.getElementById('modal-length').textContent = item.content ? item.content.length : 0;
+
+            // Render Links
+            const linksContainer = document.getElementById('modal-links');
+            linksContainer.innerHTML = ''; // Clear previous links
+
+            // 検定へのリンクを追加
+            const examBtn = document.createElement('a');
+            examBtn.href = `exam.html?title=${encodeURIComponent(item.title)}`;
+            examBtn.className = 'link-btn';
+            examBtn.style.cssText = 'background: rgba(10, 255, 104, 0.2); color: var(--accent-green); border-color: var(--accent-green);';
+            examBtn.textContent = '🎯 検定に挑戦する';
+            linksContainer.appendChild(examBtn);
+
+            // リスト記憶ゲームへのリンクを追加（要素数が2個以上の場合のみ）
+            if (item.content) {
+                const listItems = item.content.split(',').map(s => s.trim()).filter(s => s !== '');
+                if (listItems.length >= 2) {
+                    const listGameBtn = document.createElement('a');
+                    listGameBtn.href = `list_game.html?title=${encodeURIComponent(item.title)}`;
+                    listGameBtn.className = 'link-btn';
+                    listGameBtn.style.cssText = 'background: rgba(255, 100, 150, 0.2); color: #ff6b81; border-color: #ff6b81;';
+                    listGameBtn.textContent = '📝 このリストを覚える（ゲーム）';
+                    linksContainer.appendChild(listGameBtn);
+                }
+            }
+
+            if (item.explanationUrl) {
+                const a = document.createElement('a');
+                a.href = item.explanationUrl;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.className = 'link-btn link-btn-exp';
+                a.textContent = '📖 解説を見る';
+                linksContainer.appendChild(a);
+            }
+
+            if (item.wordUrl) {
+                const a = document.createElement('a');
+                a.href = item.wordUrl;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.className = 'link-btn link-btn-word';
+                a.textContent = '✨ 暗記リストを見る';
+                linksContainer.appendChild(a);
+            }
+
+            // お気に入りボタンをモーダルに追加
+            const favBtn = document.createElement('button');
+            favBtn.style.cssText = 'background:none; border:1px solid rgba(255,255,255,0.2); padding:8px 16px; border-radius:20px; cursor:pointer; font-size:0.9rem; transition:all 0.3s; color:#fff;';
+            favBtn.textContent = UserData.isFavorite(item.title) ? '❤️ お気に入り済み' : '🤍 お気に入りに追加';
+            favBtn.onclick = () => {
+                if (UserData.isFavorite(item.title)) {
+                    UserData.removeFavorite(item.title);
+                    favBtn.textContent = '🤍 お気に入りに追加';
+                } else {
+                    UserData.addFavorite({ title: item.title, category: item.category });
+                    favBtn.textContent = '❤️ お気に入り済み';
+                }
+            };
+            linksContainer.appendChild(favBtn);
+
+            modal.showModal();
+        }
+
+        async function shareItem() {
+            const title = document.getElementById('modal-title').textContent;
+            const desc = document.getElementById('modal-desc').textContent;
+
+            // Generate the URL to the exact item by passing ?title param to the page
+            const url = new URL(window.location.href);
+            url.searchParams.set('title', title);
+            const shareUrl = url.toString();
+
+            const shareData = {
+                title: `${title} - 楽しい暗記サイト`,
+                text: `「${title}」\n${desc}\n`,
+                url: shareUrl
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                    alert('リンクをコピーしました！お友達にシェアしてね✨');
+                }
+            } catch (err) {
+                console.error('Share failed:', err);
+            }
+        }
+
+        // Init
+        loadData();
+
+        // Event Listeners
+        window.addEventListener('DOMContentLoaded', () => {
+            // URLパラメータで特定のアイテムが指定されていれば自動でモーダルを開く
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetTitle = urlParams.get('title');
+            if (targetTitle) {
+                // coolItemsがロードされるまで少し待つ処理を下で呼び出す
+            }
+        });
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                render(btn.dataset.filter);
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.close();
+        });
+
+        // Close on backdrop click
+        modal.addEventListener('click', (e) => {
+            const rect = modal.getBoundingClientRect();
+            const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+                rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+            if (!isInDialog) {
+                modal.close();
+            }
+        });
+        // お気に入りトグル（カード用）
+        function toggleFav(title, category, btn) {
+            if (UserData.isFavorite(title)) {
+                UserData.removeFavorite(title);
+                btn.textContent = '🤍';
+            } else {
+                UserData.addFavorite({ title: title, category: category.trim() });
+                btn.textContent = '❤️';
+            }
+        }
+    </script>
+    <a href="mypage.html" class="nav-mypage-btn">👤 マイページ</a>
+</body>
+
+</html>

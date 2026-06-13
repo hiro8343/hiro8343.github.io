@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>応援する・循環に加わる｜ギフトに生きる</title>
+<meta name="description" content="「応援したい」というエネルギーを、そのまま循環へ。本をプレゼントする、感想をシェアする、優しい言葉をかける——お金をかけなくても今すぐできる、ギフトのめぐり。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== 応援・循環 固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(56px,8vw,100px) 0 clamp(32px,5vw,56px); text-align:center; }
+.page-hero h1 { font-size: clamp(30px,5vw,54px); line-height:1.5; }
+.page-hero .lead { max-width:44ch; margin:20px auto 0; color:var(--ink-soft); }
+
+/* カウンター */
+.meter { display:inline-flex; align-items:center; gap:14px; background:var(--paper-card); border-radius:999px; padding:12px 24px; box-shadow:var(--shadow-card); margin-top:28px; border:1px solid rgba(255,255,255,.7);}
+.meter .heart { font-size:22px; color:var(--pink-deep); animation:beat 2.2s ease-in-out infinite;}
+@keyframes beat{ 0%,100%{transform:scale(1)} 12%{transform:scale(1.18)} 24%{transform:scale(1)} }
+.meter .n { font-family:var(--font-display); font-size:26px; color:#4C463E; min-width:1.4ch; text-align:center; }
+.meter .lbl { font-size:13.5px; color:var(--ink-soft); }
+
+/* 無料でできる循環 */
+.flow-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:22px; }
+@media (max-width:820px){ .flow-grid{ grid-template-columns:1fr;} }
+.flow {
+  position:relative; overflow:hidden; display:flex; flex-direction:column; gap:10px;
+  padding:30px; padding-top:34px;
+}
+.flow .ic { width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-family:var(--font-hand);font-size:22px;color:#fff;box-shadow:var(--shadow-card);margin-bottom:4px;}
+.flow:nth-child(3n+1) .ic{background:linear-gradient(135deg,var(--blue-deep),var(--blue));}
+.flow:nth-child(3n+2) .ic{background:linear-gradient(135deg,var(--pink-deep),var(--pink));}
+.flow:nth-child(3n+3) .ic{background:linear-gradient(135deg,var(--mint-deep),var(--mint));}
+.flow h3{ font-size:19px;}
+.flow p{ font-size:14.5px; color:var(--ink-soft); margin:0; flex:1;}
+.flow .do {
+  align-self:flex-start; margin-top:6px; cursor:pointer; border:none;
+  font-family:var(--font-body); font-weight:700; font-size:14px; color:var(--pink-deep);
+  background:rgba(246,204,212,.35); padding:9px 18px; border-radius:999px; transition:all .2s;
+}
+.flow .do:hover{ background:var(--pink-deep); color:#fff; }
+.flow .do.done{ background:var(--mint); color:var(--mint-deep); }
+.flow .do.done::before{ content:"✓ "; }
+/* 飛んでいくハート */
+.fly{ position:fixed; pointer-events:none; font-size:22px; z-index:90; transition:transform 1s ease-out, opacity 1s ease-out; }
+
+/* 応援する（購入・寄付） */
+.support-band{ background:linear-gradient(135deg, rgba(251,233,200,.45), rgba(246,204,212,.40)); }
+.support-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:22px; }
+@media (max-width:820px){ .support-grid{ grid-template-columns:1fr;} }
+.support-card{ text-align:center; padding:34px 26px;}
+.support-card .big{ font-family:var(--font-display); font-size:40px; color:#4C463E; line-height:1; margin-bottom:6px;}
+.support-card h4{ font-size:18px; margin-bottom:8px;}
+.support-card p{ font-size:14px; color:var(--ink-soft); margin:0 0 16px;}
+
+/* SNS */
+.hashtag{ font-family:var(--font-display); font-size:clamp(22px,3.4vw,32px); color:var(--blue-deep);}
+
+/* 結びの詩 */
+.poem-band{ background:linear-gradient(135deg, rgba(187,217,234,.30), rgba(200,227,206,.28)); text-align:center;}
+.poem-band .poem{ font-family:var(--font-display); font-size:clamp(19px,2.8vw,26px); line-height:2; color:#4C463E;}
+.poem-band .sig{ font-family:var(--font-hand); font-size:15px; color:var(--ink-soft); margin-top:24px;}
+</style>
+</head>
+<body data-page="support">
+
+<section class="page-hero" data-screen-label="応援・循環ヒーロー">
+  <div class="blob floaty" style="background:var(--pink);width:300px;height:300px;top:-50px;right:-50px;"></div>
+  <div class="blob floaty" style="background:var(--mint);width:260px;height:260px;bottom:-70px;left:-40px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">応援する・循環に加わる</p>
+    <h1>「応援したい」を、<br>そのまま<span class="mark-pink">めぐり</span>に。</h1>
+    <p class="lead">うれしいことに、ギフトはお金だけではありません。本を贈る、感想をシェアする、優しい言葉をかける——今すぐ、あなたから始められるギフトの循環（めぐり）をご提案します。＾＾</p>
+    <div class="meter">
+      <span class="heart">♡</span>
+      <span class="n" id="count">0</span>
+      <span class="lbl">あなたが、めぐらせたギフト</span>
+    </div>
+  </div>
+</section>
+
+<!-- 無料でできる循環 -->
+<section class="section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:36px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">お金をかけなくても、今すぐ</p>
+      <h2 class="section-title">小さな「ギフトのめぐり」、<br>はじめてみませんか。</h2>
+      <p class="lead" style="max-width:40ch;margin-inline:auto;color:var(--ink-soft)">ボタンを押して、できそうなことから。あなたのギフトが、そっと世界にめぐっていきます。</p>
+    </div>
+    <div class="flow-grid">
+      <div class="card flow reveal">
+        <div class="ic">本</div>
+        <h3>本を大切な人に贈る</h3>
+        <p>「あなたの存在がギフト」——そう伝えたい人へ、この本をプレゼント。きっと最高のギフトになります。</p>
+        <button class="do" data-gift="本を贈る">やってみる</button>
+      </div>
+      <div class="card flow reveal">
+        <div class="ic">声</div>
+        <h3>SNSで感想をシェア</h3>
+        <p>あなたの言葉が、まだ知らない誰かへの「はじまり」になる。<b style="color:var(--blue-deep)">#ギフトに生きる</b> をつけて。</p>
+        <button class="do" data-gift="感想をシェア">やってみる</button>
+      </div>
+      <div class="card flow reveal">
+        <div class="ic">優</div>
+        <h3>優しい言葉をかける</h3>
+        <p>身近な人に、ひとこと。「ありがとう」「助かったよ」。気持ちは、それだけですでにギフトです。</p>
+        <button class="do" data-gift="優しい言葉">やってみる</button>
+      </div>
+      <div class="card flow reveal">
+        <div class="ic">観</div>
+        <h3>動画を誰かに教える</h3>
+        <p>必要としている人がいたら、そっと。「学ぶ・繋がる」の動画を、必要な人に届けてください。</p>
+        <button class="do" data-gift="動画を教える">やってみる</button>
+      </div>
+      <div class="card flow reveal">
+        <div class="ic">話</div>
+        <h3>お話会に誘ってみる</h3>
+        <p>ひとりより、ふたり。気になっている友人を、お話会やワークショップに誘ってみる。</p>
+        <button class="do" data-gift="お話会に誘う">やってみる</button>
+      </div>
+      <div class="card flow reveal">
+        <div class="ic">拾</div>
+        <h3>ちょっとはみ出す</h3>
+        <p>道のゴミをひとつ拾う、レジで募金する。「かっこいいな」を、コツコツと。</p>
+        <button class="do" data-gift="ちょっとはみ出す">やってみる</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SNSバンド -->
+<section class="section" style="padding-top:0">
+  <div class="narrow card reveal" style="text-align:center;background:linear-gradient(135deg,rgba(187,217,234,.35),rgba(246,204,212,.35))">
+    <p class="eyebrow" style="justify-content:center">合言葉</p>
+    <p class="hashtag">#ギフトに生きる</p>
+    <p style="color:var(--ink-soft);margin:14px 0 0;max-width:40ch;margin-inline:auto">このタグで、あなたの「ギフト」を遊んでみてください。感想も、今日のささやかな優しさも。みんなの投稿が、やさしい世界のはじまりになります。</p>
+  </div>
+</section>
+
+<!-- 応援する（購入・寄付） -->
+<section class="section support-band">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:36px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">かたちのある応援</p>
+      <h2 class="section-title">もっと応援したい、<br>という方へ。</h2>
+    </div>
+    <div class="support-grid">
+      <div class="card support-card reveal">
+        <div class="big">📖</div>
+        <h4>書籍を予約する</h4>
+        <p>いちばんうれしい応援。6月下旬、予約開始です。Kindle予約特典もご用意しました。</p>
+        <a class="btn btn-primary" href="book.html#yoyaku">予約ページへ</a>
+      </div>
+      <div class="card support-card reveal">
+        <div class="big">🎁</div>
+        <h4>複数冊を贈る</h4>
+        <p>大切な人たちへ、まとめて。あなたを通じて、本がめぐっていきます。</p>
+        <a class="btn btn-blue" href="book.html#yoyaku">まとめて予約</a>
+      </div>
+      <div class="card support-card reveal">
+        <div class="big">♡</div>
+        <h4>著者にギフトする</h4>
+        <p>「弘にギフトしてみたい」——その気持ちが、何よりのギフトです。</p>
+        <a class="btn btn-ghost" href="gift-author.html">著者にギフトする</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 結びの詩 -->
+<section class="section poem-band">
+  <div class="narrow reveal">
+    <p class="poem">
+      いつもより 優しい世界がはじまる。<br>
+      小さな優しさがはじまる。<br>
+      ギフトの連鎖がはじまる。<br><br>
+      その世界が広がる一端は、<br>
+      <span class="mark-pink">あなたからも、はじまっている</span>。
+    </p>
+    <p class="sig">— 本文「やっぱりはじまる」より。受け取ってもらえたら嬉しいです。＾＾</p>
+  </div>
+</section>
+
+<script src="site.js"></script>
+<script>
+  (function(){
+    const KEY = 'giftMeglu';
+    const countEl = document.getElementById('count');
+    let n = parseInt(localStorage.getItem(KEY) || '0', 10);
+    render();
+    function render(){ countEl.textContent = n; }
+    document.querySelectorAll('.flow .do').forEach(btn => {
+      const label = btn.textContent;
+      btn.addEventListener('click', (e) => {
+        if (btn.classList.contains('done')) {
+          // もう一度押したら戻す
+          n = Math.max(0, n - 1); localStorage.setItem(KEY, n); render();
+          btn.classList.remove('done'); btn.textContent = label;
+          return;
+        }
+        n++; localStorage.setItem(KEY, n); render();
+        btn.classList.add('done'); btn.textContent = 'めぐった！';
+        // 飛ぶハート
+        const r = btn.getBoundingClientRect();
+        const h = document.createElement('span');
+        h.className = 'fly'; h.textContent = '♡';
+        h.style.left = (r.left + r.width/2) + 'px';
+        h.style.top = (r.top) + 'px';
+        document.body.appendChild(h);
+        requestAnimationFrame(() => {
+          h.style.transform = 'translateY(-120px) scale(1.6) rotate(15deg)';
+          h.style.opacity = '0';
+        });
+        setTimeout(() => h.remove(), 1100);
+      });
+    });
+  })();
+</script>
+</body>
+</html>

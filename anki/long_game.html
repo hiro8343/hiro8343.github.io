@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>長い名前記憶ゲーム | Memorization is a Game</title>
+    <meta name="description" content="円周率やピカソの本名など、長い文字列をチャンクで楽しく覚えるゲーム。">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&family=Outfit:wght@700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel for in-browser JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- User Data -->
+    <script src="scripts/user_data.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            color: #fff;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+        }
+
+        #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* 背景オーブ装飾 */
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #f0932b;
+            top: -100px;
+            left: -100px;
+            animation: float 8s infinite alternate;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #9b51e0;
+            bottom: 10%;
+            right: -50px;
+            animation: float 6s infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0%   { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(30px) scale(1.1); }
+        }
+
+        /* カードコンテナ */
+        .app-container {
+            z-index: 10;
+            width: 100%;
+            max-width: 820px;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* ボタン共通 */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f0932b, #9b51e0);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240,147,43,0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* 入力フィールド */
+        .input-field {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #f0932b;
+        }
+
+        /* ---- 文字列表示エリア ---- */
+        .long-name-display {
+            font-family: 'Outfit', 'Noto Sans JP', monospace;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            letter-spacing: 0.05em;
+            line-height: 1.8;
+            word-break: break-all;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 1.4rem;
+            margin: 1rem 0;
+            user-select: none;
+            position: relative;
+            -webkit-user-select: none;
+        }
+
+        /* セットアップ画面 - ドラッグ選択用ハイライト */
+        .char-span {
+            display: inline;
+            cursor: default;
+            border-radius: 3px;
+            transition: background 0.1s;
+        }
+
+        .char-context  { color: #666; }
+        .char-review   { color: #7ff; background: rgba(0,220,220,0.18); border-radius:3px; }
+        .char-new      { color: #c9a7ff; background: rgba(155,81,224,0.22); border-radius:3px; }
+        .char-selected { background: rgba(240,147,43,0.32); color: #ffd; }
+        .char-correct  { background: rgba(46,213,115,0.3); color: #2ed573; }
+        .char-wrong    { background: rgba(255,71,87,0.3); color: #ff4757; }
+        .char-pending  { color: #777; }
+        /* 採点後に正解を表示するスタイル */
+        .char-revealed { background: rgba(240,147,43,0.22); color: #f0932b; border-bottom: 2px solid #f0932b; }
+
+        /* SVGタイマーリング */
+        .timer-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .timer-svg {
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 0 12px rgba(240,147,43,0.5));
+        }
+
+        .timer-text {
+            font-size: 3rem;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* テスト入力欄 */
+        .test-input {
+            font-family: 'Outfit', 'Noto Sans JP', monospace;
+            font-size: 1.3rem;
+            letter-spacing: 0.1em;
+            padding: 1rem 1.2rem;
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            color: white;
+            transition: border-color 0.3s;
+        }
+
+        .test-input:focus {
+            outline: none;
+            border-color: #f0932b;
+        }
+
+        /* 凡例 */
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 0.6rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* ヒント表示（選択中の情報） */
+        .selection-hint {
+            background: rgba(240,147,43,0.1);
+            border: 1px solid rgba(240,147,43,0.3);
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+            color: #ffa;
+            margin-top: 0.6rem;
+            min-height: 2.5rem;
+        }
+
+        /* 成功画面スコア */
+        .result-score {
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            margin: 1.5rem 0;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f0932b, #9b51e0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 累計スコア表示 */
+        .total-score-box {
+            background: rgba(240,147,43,0.1);
+            border: 1px solid rgba(240,147,43,0.3);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1, h2, h3 { text-align: center; }
+
+        @media (max-width: 600px) {
+            .app-container { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .long-name-display { font-size: 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <div id="root"></div>
+
+    <section class="game-description" style="max-width: 820px; margin: 4rem auto 2rem; padding: 2rem; background: rgba(0,0,0,0.3); border-radius: 12px; color: var(--text-muted); line-height: 1.8; position: relative; z-index: 5;">
+        <h2 style="font-size: 1.4rem; color: #fff; margin-bottom: 1rem; text-align: center; font-family: 'Noto Sans JP', sans-serif;">長い名前記憶ゲームの効果とチャンク化</h2>
+        <p style="margin-bottom: 1rem;">円周率やピカソの本名など、一見すると覚えるのが不可能なほど長い文字列でも、「チャンク化（意味のかたまりに分けること）」という脳科学的なテクニックを使えば簡単に覚えることができます。</p>
+        <p>このゲームでは、長い文字列を少しずつ切り取り、直前のチャンクとつなげていく「スノーボール方式」の暗記トレーニングを体験できます。最初は数文字から始まり、徐々に長くしていくことで、脳のワーキングメモリを効果的に活用し、無理なく記憶を拡張していくことが可能です。</p>
+    </section>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback } = React;
+
+        // ================================================================
+        // スプシCSVのURL（精緻化シート）
+        // ================================================================
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1IN-PC0r_y6WHSQs1-Xklakj72LYm43q6xUspQ0KueXE/gviz/tq?tqx=out:csv&sheet=精緻化';
+
+        // カテゴリ別の絵文字マップ
+        const CATEGORY_ICON = {
+            '宇宙': '🌌', '数学': '🔢', '地理': '🌏', '歴史': '📜',
+            '言語': '🗣️', '理科': '🔬', '生物': '🧬', '地学': '🌋',
+            '文化': '🎭', '雑学': '✨', '化学': '⚗️', '物理': '⚛️'
+        };
+
+        // CSV全文パーサー（セル内改行・ダブルクォート対応）
+        function parseCSVFull(text) {
+            const rows = [];
+            let row = [], cell = '', inQuote = false;
+            text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (inQuote) {
+                    if (ch === '"') {
+                        if (text[i + 1] === '"') { cell += '"'; i++; }
+                        else inQuote = false;
+                    } else { cell += ch; }
+                } else {
+                    if (ch === '"')    { inQuote = true; }
+                    else if (ch === ',') { row.push(cell); cell = ''; }
+                    else if (ch === '\n') { row.push(cell); cell = ''; rows.push(row); row = []; }
+                    else { cell += ch; }
+                }
+            }
+            row.push(cell);
+            if (row.some(c => c !== '')) rows.push(row);
+            return rows;
+        }
+
+        // 記号や空白を無視（自動スキップ）する判定
+        function isAutoSkip(char) {
+            if (!char) return false;
+            if (char === ' ' || char === '　' || char === '\n' || char === '\r') return true;
+            const skipChars = '・·•･、。,.?!:;「」『』()（）[]［］【】=＝-';
+            return skipChars.includes(char);
+        }
+
+        // ================================================================
+        // フェーズ定数
+        // ================================================================
+        const PHASE = {
+            SETUP: 'setup',
+            STUDY: 'study',
+            TIMER: 'timer',
+            TEST:  'test',
+            SUCCESS: 'success'
+        };
+
+        const TIMER_SEC = 30;
+
+        // ================================================================
+        // メインAppコンポーネント
+        // ================================================================
+        const App = () => {
+            // ----- データロード状態 -----
+            const [longItems, setLongItems] = useState([]);  // スプシから取得したデータ
+            const [isLoading, setIsLoading] = useState(true);
+            const [loadError, setLoadError] = useState(null);
+
+            // ----- セットアップ状態 -----
+            const [selectedItem, setSelectedItem] = useState(null);
+            const [selStart, setSelStart]   = useState(0);   // 選択開始インデックス
+            const [selEnd, setSelEnd]       = useState(9);   // 選択終了インデックス（含む）
+            const [inputStart, setInputStart] = useState('0');
+            const [inputEnd, setInputEnd]     = useState('9');
+
+            // ----- ゲーム進行状態 -----
+            const [phase, setPhase]     = useState(PHASE.SETUP);
+            const [reviewLen, setReviewLen] = useState(0); // 今回の"復習"部分の長さ
+            const [timeLeft, setTimeLeft]   = useState(TIMER_SEC);
+            
+            // 入力状態（今回はuserInputではなく、元文字列で何文字目まで正解したかの「物理長」を記録）
+            const [matchPhysicalLen, setMatchPhysicalLen] = useState(0); 
+
+            const [currentInputValue, setCurrentInputValue] = useState(''); // リアルタイム入力用
+            const [isComposing, setIsComposing] = useState(false);
+            const [isError, setIsError] = useState(false);
+            const [judgment, setJudgment]   = useState(null); // null | 'perfect' | 'amazing' | 'clear' | 'partial' | 'wrong'
+            const [judgeMsg, setJudgeMsg]   = useState('');
+
+            // 初期選択用のselEndを計算する関数（区切りがあれば2チャンク、なければ先頭10文字）
+            const getInitialSelEnd = (text) => {
+                if (!text) return 0;
+                let chunkCount = 0;
+                let inWord = false;
+                for (let i = 0; i < text.length; i++) {
+                    const skip = isAutoSkip(text[i]);
+                    if (!skip) {
+                        inWord = true;
+                    } else if (skip && inWord) {
+                        // 1つのチャンクの終わり（例：名前の後の「・」や「 」）
+                        chunkCount++;
+                        inWord = false;
+                        if (chunkCount === 2) {
+                            // 2チャンク目の終わりの区切り文字の「直前」を返す
+                            return i - 1;
+                        }
+                    }
+                }
+                // 区切りがない、または2チャンク未満の場合は最大10文字（物理）まで
+                return Math.min(9, text.length - 1);
+            };
+
+            // ----- 論理・物理 インデックス変換 -----
+            const [logicalToPhysical, setLogicalToPhysical] = useState([]);
+            const [physicalToLogical, setPhysicalToLogical] = useState([]);
+
+            // ----- スプシからデータ読み込み -----
+            useEffect(() => {
+                const load = async () => {
+                    try {
+                        let rows;
+                        try {
+                            const res = await fetch(SHEET_CSV_URL);
+                            if (!res.ok) throw new Error('fetch failed');
+                            rows = parseCSVFull(await res.text());
+                        } catch {
+                            // フォールバック：ローカルJSONは使わず空配列
+                            rows = [];
+                        }
+
+                        // ヘッダー行をスキップし、種類=1のみ抽出
+                        // 列順: [0]カテゴリー [1]タイトル [2]解説 [3]内容 [4]種類 [5]文字数 [6]チェック
+                        const items = rows
+                            .slice(1)  // ヘッダー行をスキップ
+                            .filter(r => r.length >= 5 && r[4] === '1')  // 種類=1
+                            .map((r, i) => ({
+                                id: `sheet-${i}`,
+                                category: r[0],
+                                title: r[1],
+                                subtitle: r[2] || r[1],  // 解説列をsubtitleに
+                                icon: CATEGORY_ICON[r[0]] || '📝',
+                                content: r[3] ? r[3].replace(/[\r\n]+/g, ' ').trim() : '' // 改行はスペースに
+                            }))
+                            .filter(item => item.content.length >= 3);  // 内容が3文字以上のもの
+
+                        setLongItems(items);
+                        
+                        // URLパラメータをチェック
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const targetTitle = urlParams.get('title');
+
+                        if (items.length > 0) {
+                            let initItem = items[0];
+                            if (targetTitle) {
+                                const found = items.find(i => i.title === targetTitle);
+                                if (found) initItem = found;
+                            }
+                            setSelectedItem(initItem);
+                            const initialEnd = getInitialSelEnd(initItem.content);
+                            setSelEnd(initialEnd);
+                            // この時点では physicalToLogical がまだ無いので、仮で physical 値を入れておく
+                            // 次の useEffect で logical 値に補正される
+                            setInputEnd(String(initialEnd + 1));
+                        }
+                    } catch (err) {
+                        console.error('データ読み込み失敗:', err);
+                        setLoadError('データの読み込みに失敗しました。');
+                    } finally {
+                        setIsLoading(false);
+                    }
+                };
+                load();
+            }, []);
+
+            // ----- 論理・物理マッピングの構築 -----
+            useEffect(() => {
+                if (!selectedItem) return;
+                const text = selectedItem.content;
+                const l2p = [];
+                const p2l = [];
+                let logicalCount = 0;
+                for (let i = 0; i < text.length; i++) {
+                    if (!isAutoSkip(text[i])) {
+                        l2p.push(i);
+                        p2l.push(logicalCount);
+                        logicalCount++;
+                    } else {
+                        p2l.push(-1); // 無視文字は-1
+                    }
+                }
+                setLogicalToPhysical(l2p);
+                setPhysicalToLogical(p2l);
+                
+                // 初回読み込み・変更時に inputEnd を論理値に補正する
+                if (l2p.length > 0) {
+                    const initialEndPhys = getInitialSelEnd(selectedItem.content);
+                    const lIdx = p2l.slice(0, initialEndPhys + 1).reverse().find(v => v !== -1) ?? 0;
+                    setInputStart('1');
+                    setInputEnd(String(lIdx + 1));
+                }
+            }, [selectedItem]);
+
+            // ----- ドラッグ選択 -----
+            const isDragging  = useRef(false);
+            const dragStart   = useRef(null);
+            const displayRef  = useRef(null);
+
+            const content = selectedItem ? selectedItem.content : '';
+
+            // ================================================================
+            // セットアップ：ドラッグ選択 / タッチ選択
+            // ================================================================
+            const applyDragAt = (charIndex) => {
+                if (charIndex === null) return;
+                const s = Math.min(dragStart.current, charIndex);
+                const e = Math.max(dragStart.current, charIndex);
+                setSelStart(s);
+                setSelEnd(e);
+                // Inoutには論理インデックス(1-indexed)で表示
+                const lStart = physicalToLogical[s] !== -1 ? physicalToLogical[s] + 1 : (physicalToLogical.slice(s).find(v => v !== -1) ?? 0) + 1;
+                const lEnd = physicalToLogical[e] !== -1 ? physicalToLogical[e] + 1 : (physicalToLogical.slice(0, e + 1).reverse().find(v => v !== -1) ?? 0) + 1;
+                setInputStart(String(lStart));
+                setInputEnd(String(lEnd));
+            };
+
+            const getCharIndexFromPoint = (clientX, clientY) => {
+                const el = document.elementFromPoint(clientX, clientY);
+                if (el && el.dataset.ci !== undefined) {
+                    return parseInt(el.dataset.ci, 10);
+                }
+                return null;
+            };
+
+            // マウスイベント
+            const onMouseDown = (e, ci) => {
+                isDragging.current = true;
+                dragStart.current  = ci;
+                setSelStart(ci); setSelEnd(ci);
+                const lIdx = physicalToLogical[ci] !== -1 ? physicalToLogical[ci] + 1 : (physicalToLogical.slice(ci).find(v => v !== -1) ?? 0) + 1;
+                setInputStart(String(lIdx)); setInputEnd(String(lIdx));
+                e.preventDefault();
+            };
+
+            const onMouseMove = (e) => {
+                if (!isDragging.current) return;
+                const idx = getCharIndexFromPoint(e.clientX, e.clientY);
+                applyDragAt(idx);
+            };
+
+            const onMouseUp = () => { isDragging.current = false; };
+
+            // タッチイベント（スマホ対応）
+            const onTouchStart = (e, ci) => {
+                isDragging.current = true;
+                dragStart.current  = ci;
+                setSelStart(ci); setSelEnd(ci);
+                const lIdx = physicalToLogical[ci] !== -1 ? physicalToLogical[ci] + 1 : (physicalToLogical.slice(ci).find(v => v !== -1) ?? 0) + 1;
+                setInputStart(String(lIdx)); setInputEnd(String(lIdx));
+            };
+
+            const onTouchMove = (e) => {
+                if (!isDragging.current) return;
+                const touch = e.touches[0];
+                const idx = getCharIndexFromPoint(touch.clientX, touch.clientY);
+                applyDragAt(idx);
+                e.preventDefault(); // スクロール防止
+            };
+
+            const onTouchEnd = () => { isDragging.current = false; };
+
+            useEffect(() => {
+                window.addEventListener('mouseup', onMouseUp);
+                return () => window.removeEventListener('mouseup', onMouseUp);
+            }, []);
+
+            // 数字入力から選択範囲を更新 (論理インデックス 1-indexed)
+            const handleStartInput = (v) => {
+                setInputStart(v);
+                const n = parseInt(v, 10);
+                if (!isNaN(n) && n > 0) {
+                    const lIdx = n - 1; // 0-indexed logic
+                    if (lIdx >= 0 && lIdx < logicalToPhysical.length) {
+                        const pIdx = logicalToPhysical[lIdx];
+                        setSelStart(pIdx);
+                        if (pIdx > selEnd) {
+                            setSelEnd(pIdx);
+                            setInputEnd(String(n));
+                        }
+                    }
+                }
+            };
+
+            const handleEndInput = (v) => {
+                setInputEnd(v);
+                const n = parseInt(v, 10);
+                if (!isNaN(n) && n > 0) {
+                    const lIdx = n - 1;
+                    if (lIdx >= 0 && lIdx < logicalToPhysical.length) {
+                        const pIdx = logicalToPhysical[lIdx];
+                        setSelEnd(pIdx);
+                        if (pIdx < selStart) {
+                            setSelStart(pIdx);
+                            setInputStart(String(n));
+                        }
+                    }
+                }
+            };
+
+            // 選択中のヒント情報 (表示用)
+            const selectedText = content.slice(selStart, selEnd + 1);
+            
+            // 実質的な文字数（無視文字を除いた長さ）を算出
+            const lStart = physicalToLogical.slice(selStart).find(v => v !== -1) ?? 0;
+            const lEnd = physicalToLogical.slice(0, selEnd + 1).reverse().find(v => v !== -1) ?? 0;
+            const logicalLength = lEnd >= lStart ? lEnd - lStart + 1 : 0;
+
+            // ================================================================
+            // スタート！ （セットアップ → STUDY）
+            // ================================================================
+            const handleStart = (withReview = false) => {
+                setMatchPhysicalLen(0);
+                setCurrentInputValue('');
+                setIsComposing(false);
+                setIsError(false);
+                setJudgment(null);
+                setJudgeMsg('');
+                setPhase(PHASE.STUDY);
+            };
+
+            // ================================================================
+            // STUDY → TIMER
+            // ================================================================
+            const handleGotIt = () => {
+                setTimeLeft(TIMER_SEC);
+                setPhase(PHASE.TIMER);
+            };
+
+            // タイマーカウントダウン
+            useEffect(() => {
+                if (phase !== PHASE.TIMER) return;
+                if (timeLeft <= 0) {
+                    setPhase(PHASE.TEST);
+                    return;
+                }
+                const t = setTimeout(() => setTimeLeft(p => p - 1), 1000);
+                return () => clearTimeout(t);
+            }, [phase, timeLeft]);
+
+            // ================================================================
+            // TEST → リアルタイム判定
+            // ================================================================
+            const checkInput = (val) => {
+                if (judgment || !val) return;
+
+                // 入力された文字列を先頭から1文字ずつ順番に照合する
+                // 日本語IMEで複数文字を一度に確定してもまとめて正解判定できるように対応
+                let currentP = selStart + matchPhysicalLen;
+                let inputIdx = 0;
+                let hasError = false;
+
+                while (inputIdx < val.length) {
+                    // コンテンツ側の無視文字（スペース・中点・記号など）は自動でスキップ
+                    while (currentP <= selEnd && isAutoSkip(content[currentP])) {
+                        currentP++;
+                    }
+
+                    if (currentP > selEnd) break; // 全部正解済み
+
+                    const expectedChar = content[currentP];
+                    const inputChar = val[inputIdx];
+
+                    // ユーザーが・などの無視文字を入力した場合も読み飛ばす
+                    if (isAutoSkip(inputChar)) {
+                        inputIdx++;
+                        continue;
+                    }
+
+                    if (inputChar.toLowerCase() === expectedChar.toLowerCase()) {
+                        // 正解：次の文字へ進む
+                        currentP++;
+                        inputIdx++;
+                    } else {
+                        // 不正解：ここで止める
+                        hasError = true;
+                        break;
+                    }
+                }
+
+                // 最後に連続する無視文字（・など）も先読みスキップして表示に反映させる
+                // 例：「パブロ」と打った後に「パブロ・」と表示される
+                if (!hasError) {
+                    while (currentP <= selEnd && isAutoSkip(content[currentP])) {
+                        currentP++;
+                    }
+                }
+
+                const newMatchLen = currentP - selStart;
+
+                if (newMatchLen > matchPhysicalLen) {
+                    // 何文字か正解した場合は進める
+                    setMatchPhysicalLen(newMatchLen);
+                    setIsError(false);
+                }
+
+                setCurrentInputValue('');
+
+                if (currentP > selEnd) {
+                    // 全部正解！
+                    setJudgment('perfect');
+                    setJudgeMsg('🎉 PERFECT!');
+                } else if (hasError) {
+                    // 途中で不正解が出た
+                    triggerError();
+                }
+            };
+
+            const triggerError = () => {
+                setIsError(true);
+                setTimeout(() => setIsError(false), 300);
+            };
+
+            // 成功判定かどうか
+            const isSuccess = ['perfect','amazing','clear'].includes(judgment);
+
+            // 成功時のスコアを計算（正解した論理文字数）
+            const calcScore = () => {
+                if (judgment === 'perfect') return logicalLength;
+                if (judgment === 'partial') {
+                    const lEndP = physicalToLogical.slice(selStart, selStart + matchPhysicalLen).reverse().find(v => v !== -1) ?? -1;
+                    if (lEndP === -1) return 0;
+                    return lEndP - lStart + 1;
+                }
+                return 0;
+            };
+
+            // 成功画面へ進む
+            const handleSuccess = () => {
+                const score = calcScore();
+                // ランク判定: perfect/amazing → S, clear/partial → A, wrong → C
+                const rank = (judgment === 'perfect' || judgment === 'amazing')
+                    ? 'S'
+                    : (judgment === 'partial' ? 'A' : 'C');
+                UserData.addResult({
+                    title: `長い名前: ${selectedItem.title}`,
+                    score: score,
+                    max: logicalLength,  // selLen → logicalLength に修正（未定義変数バグ修正）
+                    rank: rank,
+                    type: 'long'
+                });
+                setPhase(PHASE.SUCCESS);
+            };
+
+            // ================================================================
+            // 次の範囲へ（reviewLen を自動設定）
+            // ================================================================
+            const handleNextRange = () => {
+                // ── 区切り文字チャンク判定 ──
+                // selEnd の直後が区切り文字（・ スペース等）なら、選択が自然な区切りに
+                // 揃っていると判断し、"チャンク積み上げ"モードを使う。
+                // 例）「パブロ」→「パブロ・ディエゴ」→「パブロ・ディエゴ・ホセ」と累積
+                const afterSelEnd = selEnd + 1;
+                const isChunkBoundary =
+                    afterSelEnd < content.length &&
+                    isAutoSkip(content[afterSelEnd]);
+
+                if (isChunkBoundary) {
+                    // selEnd 後の区切り文字群（・ など）をすべてスキップ
+                    let scanP = afterSelEnd;
+                    while (scanP < content.length && isAutoSkip(content[scanP])) {
+                        scanP++;
+                    }
+
+                    if (scanP < content.length) {
+                        // 次のチャンク終端（次の区切り or コンテンツ末尾）を探す
+                        let chunkEnd = scanP;
+                        while (chunkEnd < content.length && !isAutoSkip(content[chunkEnd])) {
+                            chunkEnd++;
+                        }
+                        const nextEndP = chunkEnd - 1;
+
+                        // 現在の選択内を逆スキャンして「最後の区切り文字」を探す
+                        // → 最後のチャンクが何かを動的に特定する
+                        // 例: 「パブロ・ディエゴ」を最初から選んだ場合も
+                        //     「ディエゴ」が復習になる（reviewLenに依存しない）
+                        let lastDelimPos = -1;
+                        for (let p = selEnd; p >= selStart; p--) {
+                            if (isAutoSkip(content[p])) { lastDelimPos = p; break; }
+                        }
+                        // 最後の区切り文字の次から → 最後チャンクの先頭
+                        let newChunkStart = lastDelimPos !== -1 ? lastDelimPos + 1 : selStart;
+                        // さらに連続する区切り文字もスキップ
+                        while (newChunkStart < content.length && isAutoSkip(content[newChunkStart])) {
+                            newChunkStart++;
+                        }
+                        const newReviewPhysLen = selEnd - newChunkStart + 1; // 最後チャンクの長さ
+
+                        // inputStart のために論理インデックスを求める
+                        const newStartLogical = physicalToLogical.slice(newChunkStart).find(v => v !== -1) ?? 0;
+
+                        setSelStart(newChunkStart);
+                        setSelEnd(nextEndP);
+                        setReviewLen(newReviewPhysLen);
+                        setInputStart(String(newStartLogical + 1));
+                        setInputEnd(String(physicalToLogical[nextEndP] + 1));
+
+                        setMatchPhysicalLen(0);
+                        setCurrentInputValue('');
+                        setIsComposing(false);
+                        setIsError(false);
+                        setJudgment(null);
+                        setJudgeMsg('');
+                        setPhase(PHASE.STUDY);
+                        return;
+                    }
+                }
+
+                // ── 通常モード（区切りなし / コンテンツ末尾） ──
+                // 現在の範囲の後半 ceil(len/2) を復習に回し、同じ長さだけ前進
+                const curLogicalLen = logicalLength;
+                const newReviewL = Math.ceil(curLogicalLen / 2);
+
+                const nextLogicalStart = lStart + newReviewL;
+                const nextLogicalEnd   = nextLogicalStart + curLogicalLen - 1;
+
+                const nextStartP = logicalToPhysical[nextLogicalStart] ?? (content.length - 1);
+                const endL = Math.min(nextLogicalEnd, logicalToPhysical.length - 1);
+                const nextEndP = logicalToPhysical[endL] ?? (content.length - 1);
+
+                const reviewEndLogical = nextLogicalStart + newReviewL - 1;
+                const reviewEndP = logicalToPhysical[Math.min(reviewEndLogical, logicalToPhysical.length - 1)] ?? nextStartP;
+                const newReviewPhysicalLen = reviewEndP >= nextStartP ? reviewEndP - nextStartP + 1 : 0;
+
+                setReviewLen(newReviewPhysicalLen);
+                setSelStart(nextStartP);
+                setSelEnd(nextEndP);
+                setInputStart(String(nextLogicalStart + 1));
+                setInputEnd(String(endL + 1));
+
+                setMatchPhysicalLen(0);
+                setCurrentInputValue('');
+                setIsComposing(false);
+                setIsError(false);
+                setJudgment(null);
+                setJudgeMsg('');
+                setPhase(PHASE.STUDY);
+            };
+
+            // ================================================================
+            // 同じ範囲でもう一度
+            // ================================================================
+            const handleRetry = () => {
+                setReviewLen(0);
+                setMatchPhysicalLen(0);
+                setCurrentInputValue('');
+                setIsComposing(false);
+                setIsError(false);
+                setJudgment(null);
+                setJudgeMsg('');
+                setPhase(PHASE.STUDY);
+            };
+
+            // ================================================================
+            // レンダー：フェーズ切替
+            // ================================================================
+            // ローディング中
+            if (isLoading) return (
+                <div className="app-container">
+                    <div className="card animate-fade-in" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⏳</div>
+                        <p style={{ color: '#aaa' }}>スプレッドシートからデータを読み込み中...</p>
+                    </div>
+                </div>
+            );
+            // エラー
+            if (loadError || longItems.length === 0) return (
+                <div className="app-container">
+                    <div className="card animate-fade-in" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+                        <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚠️</div>
+                        <p style={{ color: '#ff7675' }}>{loadError || 'データが見つかりませんでした。スプシに種類=1のデータを追加してください。'}</p>
+                        <a href="index.html" style={{ color: '#aaa', textDecoration: 'none' }}>トップに戻る</a>
+                    </div>
+                </div>
+            );
+
+            if (phase === PHASE.SETUP)   return renderSetup();
+            if (phase === PHASE.STUDY)   return renderStudy();
+            if (phase === PHASE.TIMER)   return renderTimer();
+            if (phase === PHASE.TEST)    return renderTest();
+            if (phase === PHASE.SUCCESS) return renderSuccess();
+
+            // ================================================================
+            // ① セットアップ画面
+            // ================================================================
+            function renderSetup() {
+                return (
+                    <div className="app-container">
+                        <div className="card animate-fade-in">
+                            <h2 style={{ color: '#f0932b', marginBottom: '0.3rem' }}>🧠 長い名前記憶ゲーム</h2>
+                            <p style={{ textAlign: 'center', color: '#888', marginTop: 0, marginBottom: '1.5rem' }}>
+                                覚える範囲を選んでスタート！
+                            </p>
+
+                            {/* テーマ選択 */}
+                            <p style={{ color: '#aaa', marginBottom: '0.5rem' }}>何を覚える？</p>
+                            <select
+                                className="input-field"
+                                style={{ cursor: 'pointer', marginBottom: '1.5rem' }}
+                                value={selectedItem ? selectedItem.id : ''}
+                                onChange={(e) => {
+                                    const item = longItems.find(i => i.id === e.target.value);
+                                    if (!item) return;
+                                    setSelectedItem(item);
+                                    const initialEnd = getInitialSelEnd(item.content);
+                                    setSelStart(0);
+                                    setSelEnd(initialEnd);
+                                    // 厳密には p2l が更新される前だが、暫定で実インデックスを入れる
+                                    // 次の useEffect で正確な論理インデックスに補正される
+                                    setInputStart('1');
+                                    setInputEnd(String(initialEnd + 1));
+                                    setReviewLen(0);
+                                }}
+                            >
+                                {longItems.map(item => (
+                                    <option key={item.id} value={item.id}>{item.icon} {item.title} — {item.subtitle.slice(0, 30)}</option>
+                                ))}
+                            </select>
+
+                            {/* 文字列表示エリア（ドラッグ選択） */}
+                            <p style={{ color: '#aaa', marginBottom: '0.3rem' }}>
+                                覚えたい範囲をドラッグ or スワイプで選択 👇
+                            </p>
+                            <div
+                                className="long-name-display"
+                                ref={displayRef}
+                                onMouseMove={onMouseMove}
+                                onTouchMove={onTouchMove}
+                                onTouchEnd={onTouchEnd}
+                            >
+                                {content.split('').map((ch, i) => (
+                                    <span
+                                        key={i}
+                                        data-ci={i}
+                                        className={`char-span ${i >= selStart && i <= selEnd ? 'char-selected' : 'char-context'}`}
+                                        onMouseDown={(e) => onMouseDown(e, i)}
+                                        onTouchStart={(e) => onTouchStart(e, i)}
+                                    >{ch}</span>
+                                ))}
+                            </div>
+
+                            {/* 選択ヒント */}
+                            <div className="selection-hint">
+                                {logicalLength > 0
+                                    ? <>📍 <b>{lStart + 1}〜{lEnd + 1}文字目</b>（<b>実質 {logicalLength} 文字</b>）：
+                                        <span style={{ fontFamily: 'monospace', marginLeft: '0.4em', wordBreak: 'break-all' }}>
+                                            {selectedText.slice(0, 50)}{selectedText.length > 50 ? '...' : ''}
+                                        </span>
+                                    </>
+                                    : '← 文字をドラッグして選択してください'
+                                }
+                            </div>
+
+                            {/* 数字入力で範囲指定 */}
+                            <div style={{ display: 'flex', gap: '0.7rem', marginTop: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <span style={{ color: '#aaa', fontSize: '0.9rem' }}>または桁で直接指定：</span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max={logicalToPhysical.length}
+                                    value={inputStart}
+                                    onChange={e => handleStartInput(e.target.value)}
+                                    style={{ width: '70px', padding: '0.4rem 0.5rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '8px', fontSize: '1rem' }}
+                                />
+                                <span style={{ color: '#aaa' }}>〜</span>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    max={logicalToPhysical.length}
+                                    value={inputEnd}
+                                    onChange={e => handleEndInput(e.target.value)}
+                                    style={{ width: '70px', padding: '0.4rem 0.5rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '8px', fontSize: '1rem' }}
+                                />
+                                <span style={{ color: '#666', fontSize: '0.85rem' }}>（1〜{logicalToPhysical.length}文字目）</span>
+                            </div>
+
+                            {/* スタートボタン */}
+                            <button
+                                className="btn btn-primary"
+                                style={{ width: '100%', padding: '1rem', fontSize: '1.2rem', marginTop: '2rem' }}
+                                onClick={() => handleStart()}
+                                disabled={logicalLength === 0}
+                            >
+                                スタート 🚀
+                            </button>
+
+                            <a href="index.html" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: '#888', textDecoration: 'none' }}>
+                                トップに戻る
+                            </a>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ================================================================
+            // ② STUDY MODE（覚えよう！）
+            // ================================================================
+            function renderStudy() {
+                // reviewLen > 0 の場合：selStart〜selStart+reviewLen-1 が復習（水色）
+                // それ以降が新しい範囲（紫）
+                const reviewEnd = selStart + reviewLen - 1; // 復習の最終インデックス
+
+                return (
+                    <div className="app-container">
+                        <div className="card animate-fade-in">
+                            <h2 style={{ color: '#0defd2', marginBottom: '0.3rem' }}>📖 STUDY MODE — 覚えよう！</h2>
+                            <p style={{ textAlign: 'center', color: '#888', marginTop: 0, marginBottom: '1rem' }}>
+                                {selectedItem.icon} {selectedItem.title}
+                            </p>
+
+                            {/* 凡例 */}
+                            {reviewLen > 0 && (
+                                <div className="legend" style={{ justifyContent: 'center', marginBottom: '0.5rem' }}>
+                                    <span className="legend-item"><span className="char-review">■</span> 復習</span>
+                                    <span className="legend-item"><span className="char-new">■</span> 新しい</span>
+                                </div>
+                            )}
+
+                            {/* 文字列表示 */}
+                            <div className="long-name-display" style={{ userSelect: 'text' }}>
+                                {content.split('').map((ch, i) => {
+                                    let cls = 'char-span';
+                                    if (i < selStart) {
+                                        cls += ' char-context'; // 前のコンテキスト（グレー）
+                                    } else if (i <= selEnd) {
+                                        if (reviewLen > 0 && i <= reviewEnd) {
+                                            cls += ' char-review'; // 復習（水色）
+                                        } else {
+                                            cls += ' char-new'; // 新しい（紫）
+                                        }
+                                    } else {
+                                        cls += ' char-pending'; // 未学習エリア
+                                    }
+                                    return <span key={i} className={cls}>{ch}</span>;
+                                })}
+                            </div>
+
+                            {/* ボタン群 */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '2rem' }}>
+                                <button className="btn btn-primary" style={{ padding: '1rem', fontSize: '1.1rem' }} onClick={handleGotIt}>
+                                    覚えた！⏱ タイマーへ
+                                </button>
+                                <button className="btn btn-secondary" onClick={() => { setPhase(PHASE.SETUP); }}>
+                                    ← セットアップに戻る
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ================================================================
+            // ③ TIMER MODE（30秒カウントダウン）
+            // ================================================================
+            function renderTimer() {
+                const ratio    = timeLeft / TIMER_SEC;
+                const r        = 60;
+                const circumf  = 2 * Math.PI * r;
+                const dashOffset = circumf * (1 - ratio);
+                const isDanger = timeLeft <= 10;
+
+                return (
+                    <div className="app-container">
+                        <div className="card animate-fade-in" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+                            <h2 style={{ color: '#f0932b', marginBottom: '1rem' }}>⏱ TIMER MODE</h2>
+                            <p style={{ color: '#aaa', marginBottom: '0' }}>頭の中で復唱してみよう！</p>
+
+                            {/* SVGリングタイマー */}
+                            <div className="timer-wrap">
+                                <svg width="160" height="160" className="timer-svg">
+                                    <circle cx="80" cy="80" r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8"/>
+                                    <circle
+                                        cx="80" cy="80" r={r} fill="none"
+                                        stroke={isDanger ? '#ff4757' : 'url(#timerGrad)'}
+                                        strokeWidth="8"
+                                        strokeLinecap="round"
+                                        strokeDasharray={circumf}
+                                        strokeDashoffset={dashOffset}
+                                        style={{ transition: 'stroke-dashoffset 1s linear' }}
+                                    />
+                                    <defs>
+                                        <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#f0932b"/>
+                                            <stop offset="100%" stopColor="#9b51e0"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div
+                                    className="timer-text"
+                                    style={{
+                                        color: isDanger ? '#ff4757' : '#fff',
+                                        marginTop: '-130px',
+                                        animation: isDanger ? 'pulse 1s infinite' : 'none'
+                                    }}
+                                >
+                                    {timeLeft}
+                                </div>
+                            </div>
+
+                            <p style={{ marginTop: '3rem', color: '#aaa' }}>
+                                「{content.slice(selStart, selEnd + 1).slice(0, 8)}...」と頭の中で復唱しよう
+                            </p>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ================================================================
+            // ④ TEST MODE（入力して確認）
+            // ================================================================
+            function renderTest() {
+                return (
+                    <div className="app-container">
+                        <div className="card animate-fade-in">
+                            <h2 style={{ color: '#9b51e0', marginBottom: '0.3rem' }}>✏️ TEST MODE — 入力して確認</h2>
+                            <p style={{ textAlign: 'center', color: '#888', marginTop: 0, marginBottom: '1rem' }}>
+                                {selectedItem.icon} {selectedItem.title}
+                            </p>
+
+                            {/* リアルタイム表示UI（exam.htmlのSingle Mode風） */}
+                            <div className="long-name-display">
+                                {/* コンテキスト */}
+                                {content.slice(0, selStart).split('').map((ch, i) => (
+                                    <span key={`ctx-${i}`} className="char-span char-context">{ch}</span>
+                                ))}
+                                {/* ユーザーが入力して正解した部分（緑） */}
+                                {content.slice(selStart, selStart + matchPhysicalLen).split('').map((ch, i) => (
+                                    <span key={`ans-${i}`} className="char-span char-correct">{ch}</span>
+                                ))}
+                                {/* 採点後：残りの正解をオレンジで表示 */}
+                                {judgment && judgment !== 'perfect' && (
+                                    content.slice(selStart + matchPhysicalLen, selEnd + 1).split('').map((ch, i) => (
+                                        <span key={`rev-${i}`} className="char-span char-revealed">{ch}</span>
+                                    ))
+                                )}
+                                {/* カーソル（TEST中は未入力部分を伏せる） */}
+                                {!judgment && matchPhysicalLen < (selEnd - selStart + 1) && (
+                                    <span style={{ 
+                                        color: isError ? '#ff4757' : '#f0932b', 
+                                        fontWeight: 'bold', 
+                                        animation: isError ? 'none' : 'pulse 1s infinite',
+                                        transition: 'color 0.2s',
+                                        marginLeft: '4px'
+                                    }}>_</span>
+                                )}
+                            </div>
+
+                            {/* テスト入力欄 */}
+                            <p style={{ color: '#aaa', fontSize: '0.9rem', marginTop: '1rem', marginBottom: '0.4rem' }}>
+                                {lStart + 1}文字目から{lEnd + 1}文字目を入力：
+                            </p>
+                            <input
+                                className="test-input"
+                                type="text"
+                                autoFocus
+                                value={currentInputValue}
+                                onChange={e => {
+                                    setCurrentInputValue(e.target.value);
+                                    if (!isComposing) checkInput(e.target.value);
+                                }}
+                                onCompositionStart={() => setIsComposing(true)}
+                                onCompositionEnd={(e) => {
+                                    setIsComposing(false);
+                                    checkInput(e.target.value);
+                                }}
+                                style={{
+                                    borderColor: isError ? '#ff4757' : (judgment ? '#2ed573' : 'rgba(255,255,255,0.2)'),
+                                    background: isError ? 'rgba(255,71,87,0.2)' : 'rgba(0,0,0,0.5)',
+                                    transition: 'all 0.2s'
+                                }}
+                                placeholder="キーボードで入力..."
+                                disabled={!!judgment}
+                            />
+
+                            {/* 判定メッセージ */}
+                            {judgment && (
+                                <div style={{
+                                    textAlign: 'center',
+                                    marginTop: '1rem',
+                                    fontSize: '1.3rem',
+                                    fontWeight: 'bold',
+                                    color: isSuccess ? '#2ed573' : (judgment === 'partial' ? '#ffa' : '#ff4757'),
+                                    animation: 'pop 0.4s ease'
+                                }}>
+                                    {judgeMsg}
+                                </div>
+                            )}
+
+                            {/* ボタン群 */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '1.5rem' }}>
+                                {!judgment ? (
+                                    <>
+                                        <button className="btn btn-secondary" onClick={() => {
+                                            // ここまでで採点して終了
+                                            if (matchPhysicalLen > 0) {
+                                                // calcScore()はjudgmentステートに依存するため、
+                                                // クリック時点（ステート未反映）では直接計算する
+                                                const lEndPhys = physicalToLogical
+                                                    .slice(selStart, selStart + matchPhysicalLen)
+                                                    .reverse()
+                                                    .find(v => v !== -1) ?? -1;
+                                                const correctLogicalLen = lEndPhys !== -1 ? lEndPhys - lStart + 1 : 0;
+                                                setJudgment('partial');
+                                                // 正解した文字数をポジティブに伝える
+                                                if (correctLogicalLen > 0) {
+                                                    setJudgeMsg(`🌟 ${correctLogicalLen}文字も正解！すごい！`);
+                                                } else {
+                                                    setJudgeMsg('✨ チャレンジしたことが素晴らしい！');
+                                                }
+                                            } else {
+                                                setJudgment('wrong');
+                                                setJudgeMsg('💪 挑戦した勇気が素晴らしい！次はきっとうまくいく！');
+                                            }
+                                        }}>
+                                            ここまでで採点して終了 ✅
+                                        </button>
+                                        <button className="btn btn-secondary" onClick={() => setPhase(PHASE.STUDY)}>
+                                            覚えるモードにもどる 👀
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button className="btn btn-primary" style={{ padding: '1rem', fontSize: '1.1rem' }} onClick={handleSuccess}>
+                                        🎊 結果を見る
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        <style>{`
+                            @keyframes pop {
+                                0%   { transform: scale(0.8); opacity: 0; }
+                                60%  { transform: scale(1.1); }
+                                100% { transform: scale(1); opacity: 1; }
+                            }
+                        `}</style>
+                    </div>
+                );
+            }
+
+            // ================================================================
+            // ⑤ SUCCESS SCREEN（クリア！）
+            // ================================================================
+            function renderSuccess() {
+                const score = calcScore();
+                const totalScore = UserData.get().totalScore;
+
+                // モードによってアイコン・タイトル・メッセージを変える
+                const modeInfo = {
+                    perfect: { icon: '🎉', title: 'PERFECT!',       msg: 'ぴったり完璧！素晴らしい！' },
+                    amazing: { icon: '🌟', title: 'AMAZING!!',      msg: '先まで合ってる！天才かも？！' },
+                    clear:   { icon: '✅', title: 'CLEAR!',         msg: '今回の範囲はバッチリ！次も頑張ろう！' },
+                    // 途中まで正解・0点でもポジティブに応援
+                    partial: { icon: '🌟', title: `${score}文字正解！`,
+                               msg: score > 0 ? `${logicalLength}文字中${score}文字も正解！チャレンジが素晴らしい！` : '挑戦した気持ちが大事！次はきっと正解できる！' },
+                    wrong:   { icon: '💪', title: 'ナイスチャレンジ！',
+                               msg: '挑戦したことが素晴らしい！何度でも挑もう！' },
+                };
+                const info = modeInfo[judgment] || { icon: '🎊', title: 'CLEAR!', msg: 'お疲れさまでした！' };
+
+                return (
+                    <div className="app-container">
+                        <div className="card animate-fade-in" style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '4rem', marginBottom: '0.5rem' }}>{info.icon}</div>
+                            <h2 style={{
+                                fontSize: '2.5rem',
+                                background: 'linear-gradient(135deg, #f0932b, #9b51e0)',
+                                backgroundClip: 'text',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                marginBottom: '0.3rem'
+                            }}>{info.title}</h2>
+                            <p style={{ color: '#aaa', marginBottom: '1rem' }}>{info.msg}</p>
+
+                            {/* スコア表示 */}
+                            <div className="result-score">{score} 文字</div>
+                            <p style={{ color: '#888', marginTop: '-0.5rem', marginBottom: '1rem' }}>正解した文字数がスコアに加算！</p>
+
+                            {/* 累計スコア */}
+                            <div className="total-score-box">
+                                <span style={{ color: '#aaa', fontSize: '0.85rem', display: 'block', marginBottom: '0.3rem' }}>累計スコア</span>
+                                <span style={{ fontSize: '1.6rem', fontWeight: 'bold', color: '#f0932b' }}>
+                                    ✨ {totalScore} <small style={{ fontSize: '0.9rem', marginLeft: '4px' }}>(+{score})</small> ✨
+                                </span>
+                            </div>
+
+                            {/* ボタン群 */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                <button className="btn btn-primary" style={{ padding: '1rem', fontSize: '1.1rem' }} onClick={handleNextRange}>
+                                    次の範囲へ →
+                                </button>
+                                <button className="btn btn-secondary" onClick={handleRetry}>
+                                    同じ範囲でもう一度 🔄
+                                </button>
+                                <button className="btn btn-secondary" onClick={() => { setPhase(PHASE.SETUP); setReviewLen(0); }}>
+                                    セットアップに戻る ⚙️
+                                </button>
+                                <a href="index.html" style={{ display: 'block', textAlign: 'center', marginTop: '0.5rem', color: '#888', textDecoration: 'none' }}>
+                                    トップに戻る
+                                </a>
+                            </div>
+                        </div>
+
+        <style>{`
+            @keyframes pulse {
+                0%   { transform: scale(1); }
+                50%  { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        `}</style>
+                    </div>
+                );
+            }
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>

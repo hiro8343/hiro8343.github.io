@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ | 楽しい暗記サイト</title>
+    <meta name="description" content="楽しい暗記サイトへのお問い合わせはFacebookのメッセージからどうぞ。">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- スタイル -->
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* お問い合わせページ専用スタイル */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            line-height: 1.9;
+        }
+
+        .contact-container h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-container p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .fb-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: #1877F2;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .fb-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        .fb-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="contact-container">
+        <h1>📬 お問い合わせ</h1>
+        <p>
+            サイトに関するご意見・ご感想・ご要望などは、<br>
+            運営者（hiro8343）のFacebookページへのメッセージにてお気軽にどうぞ！
+        </p>
+
+        <!-- FacebookへのリンクボタンはFacebook F SVGアイコン付き -->
+        <a href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener noreferrer"
+            class="fb-btn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078V12.07h3.047V9.41c0-3.025 1.791-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.493H13.875V24C19.612 23.094 24 18.1 24 12.073z" />
+            </svg>
+            Facebookでメッセージを送る
+        </a>
+
+        <br>
+        <a href="index.html" class="back-link">← トップページへ戻る</a>
+    </main>
+</body>
+
+</html>
