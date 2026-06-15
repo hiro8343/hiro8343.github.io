@@ -103,4 +103,29 @@
   } else {
     reveals.forEach(el => el.classList.add("in"));
   }
+
+  /* ---- アンカー（#yoyaku 等）への着地を補正 ---- */
+  /* 最初の読み込み時、上部の画像が後から読み込まれて高さが変わると
+     ジャンプ位置がズレて途中で止まることがある。
+     画像の読み込み完了や reveal の表示後に、もう一度合わせ直す。 */
+  function scrollToHash(smooth) {
+    const id = decodeURIComponent((location.hash || "").slice(1));
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+  }
+
+  if (location.hash) {
+    // reveal を即時表示にして高さを確定させてから着地する
+    const settle = () => {
+      reveals.forEach(el => el.classList.add("in"));
+      scrollToHash(false);
+    };
+    // 画面初期化直後・各段階で複数回合わせ直す（画像ロードのタイミング差を吸収）
+    requestAnimationFrame(settle);
+    window.addEventListener("load", () => { settle(); setTimeout(() => scrollToHash(false), 300); });
+    setTimeout(() => scrollToHash(false), 800);
+    setTimeout(() => scrollToHash(false), 1500);
+  }
 })();
