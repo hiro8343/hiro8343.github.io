@@ -94,7 +94,24 @@
 .bonus h4{ font-size:18px; margin-bottom:8px;}
 .bonus p{ font-size:14px; color:var(--ink-soft); margin:0;}
 .bonus .tba{ font-family:var(--font-hand); font-size:12.5px; color:var(--ink-faint); margin-top:8px; display:block;}
+.bonus .qty{ display:inline-block; margin-bottom:12px; padding:4px 14px; border-radius:999px; background:rgba(217,121,82,.1); color:var(--pink-deep); font-weight:700; font-size:12.5px; letter-spacing:.04em; }
+.bonus ul{ list-style:none; padding:0; margin:10px 0 0; text-align:left; display:inline-block; }
+.bonus ul li{ font-size:13px; color:var(--ink-soft); padding-left:16px; position:relative; line-height:1.7; }
+.bonus ul li::before{ content:"♡"; position:absolute; left:0; color:var(--pink-deep); font-size:11px; top:2px; }
 @media (max-width:780px){ .bonus-grid{ grid-template-columns:1fr; gap:34px;} }
+
+/* 特典の受け取り方 */
+.howto{ margin-top:54px; }
+.howto-title{ text-align:center; font-family:var(--font-hand); font-size:15px; color:var(--pink-deep); letter-spacing:.08em; margin-bottom:26px; }
+.howto-steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:860px; margin-inline:auto; align-items:stretch; }
+.howto-step{ position:relative; background:var(--paper-card); border-radius:20px; padding:28px 22px 24px; box-shadow:var(--shadow-card); text-align:center; }
+.howto-step .step-no{ width:36px;height:36px;border-radius:50%; margin:0 auto 14px; display:flex;align-items:center;justify-content:center; background:linear-gradient(135deg,var(--pink-deep),var(--blue-deep)); color:#fff; font-weight:700; font-size:15px; }
+.howto-step h5{ font-size:16px; margin:0 0 6px; }
+.howto-step p{ font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.8; }
+.howto-arrow{ display:none; }
+.howto-note{ max-width:620px; margin:22px auto 0; background:rgba(217,121,82,.08); border-radius:16px; padding:16px 22px; text-align:center; font-size:13.5px; color:var(--pink-deep); line-height:1.85; }
+.howto-note b{ font-weight:700; }
+@media (max-width:780px){ .howto-steps{ grid-template-columns:1fr; gap:14px; } }
 
 .shops { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:34px; }
 
@@ -350,19 +367,44 @@
   <div class="wrap">
     <div class="yoyaku-head reveal">
       <div class="countdown-pill"><span class="dot"></span>6月下旬、予約開始</div>
-      <h2 class="section-title" style="margin-bottom:14px">今ならKindle予約で、<br><span class="mark-pink">これだけの特典ギフト</span>を。</h2>
+      <h2 class="section-title" style="margin-bottom:14px">今ならAmazon予約で、<br><span class="mark-pink">これだけの特典ギフト</span>を。</h2>
       <p class="lead" style="max-width:42ch;margin-inline:auto;color:var(--ink-soft)">予約してくださった方へ、感謝を込めて。受け取ることもまた、ギフトの循環の一歩です。＾＾</p>
     </div>
     <div class="bonus-grid">
-      <div class="card bonus reveal"><div class="badge">1</div><div class="ph"><span>bonus 01</span></div><h4>限定PDF小冊子</h4><p>本に入りきらなかった実践のヒントや、書き下ろしのワーク。</p><span class="tba">※ 内容は調整中</span></div>
-      <div class="card bonus reveal"><div class="badge">2</div><div class="ph"><span>bonus 02</span></div><h4>朗読・音声ギフト</h4><p>著者による「はじまる」と最終章の朗読音声を、そっとお届け。</p><span class="tba">※ 内容は調整中</span></div>
-      <div class="card bonus reveal"><div class="badge">3</div><div class="ph"><span>bonus 03</span></div><h4>オンラインお話会 ご招待</h4><p>読者だけのオンラインお話会へ。感想をめぐらせる時間を。</p><span class="tba">※ 内容は調整中</span></div>
+      <div class="card bonus reveal"><div class="badge">1</div><div class="ph"><span>bonus 01</span></div><span class="qty">70ページ小冊子</span><h4>『ギフトに生きる』に辿り着くまでの物語</h4><p>父との確執。講演会の大失敗。離婚の危機。そして250人以上の応援が集まった作品展。なぜ僕が「ギフトに生きる」に辿り着いたのか——本編では伝えきれなかった人生の裏側が綴ってあります。</p></div>
+      <div class="card bonus reveal"><div class="badge">2</div><div class="ph"><span>bonus 02</span></div><span class="qty">168曲</span><h4>音楽で学ぶ『ギフトに生きる』</h4><p>本の考え方やエッセンスを、168曲の音楽にしました。一つの歌詞につき約4アレンジ。通勤や散歩、ふとした時間に、耳からも世界観を味わっていただけます。</p></div>
+      <div class="card bonus reveal"><div class="badge">3</div><div class="ph"><span>bonus 03</span></div><span class="qty">全15ワーク</span><h4>人生を整える15のワーク集</h4><p>僕自身が人生の節目で使い、ギフトしてきた15のワーク。自分の中にある答えと出逢うための、実践ワーク集です。</p><ul><li>ありたい姿を見つける</li><li>理想の一日を描く</li><li>怒りや不安と仲良くなる</li><li>お金や仕事との向き合い方を整理する</li></ul></div>
+      <div class="card bonus reveal"><div class="badge">4</div><div class="ph"><span>bonus 04</span></div><span class="qty">全20本以上</span><h4>ギフトに生きる 実践動画講座</h4><p>ギフトに生きる考え方を、仕事・お金・人間関係・目標達成に活かすための動画講座。僕が実際に役立てているノウハウを20本以上にまとめました。</p><ul><li>応援される人になる方法</li><li>お金のブロックを外す方法</li><li>自分に合った成功法則の見つけ方</li><li>問いの作り方やAI活用法</li></ul></div>
+      <div class="card bonus reveal"><div class="badge">5</div><div class="ph"><span>bonus 05</span></div><span class="qty">全6回</span><h4>コーチング講座</h4><p>人の可能性を引き出す「聴き方」と「質問の仕方」を学べる動画講座。コーチング・カウンセリング・コンサルティングの違いから、目標達成や思い込みの外し方まで。人を、そして自分を応援する力を育てます。</p></div>
+      <div class="card bonus reveal"><div class="badge">6</div><div class="ph"><span>bonus 06</span></div><span class="qty">6冊セット</span><h4>Kindle出版書籍 6冊セット</h4><p>これまでに出版したKindle書籍6冊の原稿をまとめてプレゼント。人生・お金・人間関係・目標達成をテーマにした人気作を一度に。</p><ul><li>グラデーション思考</li><li>平和のために何かしたい</li><li>期待値0の法則</li><li>やり方なんて無限にある</li><li>柔らかい覚悟</li><li>褒め方が上手になるシンプルな公式</li></ul></div>
     </div>
     <div class="shops">
       <a class="btn btn-primary" href="#" aria-disabled="true">Kindleで予約する（準備中）</a>
       <a class="btn btn-blue" href="#" aria-disabled="true">単行本を予約する（準備中）</a>
     </div>
     <p style="text-align:center;font-family:var(--font-hand);font-size:13px;color:var(--ink-faint);margin-top:18px">※ 購入リンク・特典の詳細は決まり次第こちらに掲載します。</p>
+
+    <div class="howto reveal">
+      <p class="howto-title">― 特典の受け取り方 ―</p>
+      <div class="howto-steps">
+        <div class="howto-step">
+          <div class="step-no">1</div>
+          <h5>Amazonで予約する</h5>
+          <p>『ギフトに生きる』をAmazonで予約してください。</p>
+        </div>
+        <div class="howto-step">
+          <div class="step-no">2</div>
+          <h5>公式LINEに登録</h5>
+          <p>下のボタンから公式LINEを友だち追加してください。</p>
+        </div>
+        <div class="howto-step">
+          <div class="step-no">3</div>
+          <h5>合言葉を送る</h5>
+          <p>LINEで「<b>予約しました！</b>」とご連絡ください。特典をお届けします。</p>
+        </div>
+      </div>
+      <p class="howto-note">※ <b>「予約しました！」</b>と、1文字でも違うと自動応答が反応できません；；<br>お手数ですが、そのままコピーして送っていただけると安心です。＾＾</p>
+    </div>
   </div>
 </section>
 
