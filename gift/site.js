@@ -88,7 +88,7 @@
         <div>
           <h4>つながる</h4>
           <div class="footer-links">
-            <a href="book.html#yoyaku">書籍を予約する</a>
+            <a href="https://amzn.to/43Rurig" target="_blank" rel="noopener">書籍を予約する</a>
             <a href="events.html">イベント情報</a>
             <a href="reviews.html">読んだ方の感想</a>
             <a href="learn.html">動画で学ぶ</a>
