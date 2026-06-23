@@ -141,50 +141,12 @@
 <body data-page="home">
 
 <!-- ============ ヒーロー ============ -->
-<section class="hero section" data-hero="A" id="hero" data-screen-label="トップ・ヒーロー">
+<section class="hero section" data-hero="C" id="hero" data-screen-label="トップ・ヒーロー">
   <div class="blob floaty" style="background:var(--blue); width:340px; height:340px; top:-60px; left:-80px;"></div>
   <div class="blob floaty" style="background:var(--pink); width:300px; height:300px; top:40px; right:-70px; animation-delay:-2s;"></div>
   <div class="blob floaty" style="background:var(--mint); width:240px; height:240px; bottom:-80px; left:40%; animation-delay:-4s;"></div>
 
-  <!-- 案A -->
-  <div class="hero-variant hv-A">
-    <div class="wrap">
-      <div class="gift-orbit floaty" aria-hidden="true"><span class="ring"></span><span class="box"></span></div>
-      <p class="eyebrow" style="justify-content:center">やさしさが、静かにめぐる</p>
-      <h1 class="catch">
-        <span class="big">ありのままの自分が、</span>
-        <span class="big"><span class="mark-pink">ギフトになっている</span>。</span>
-      </h1>
-      <p class="sub">何かをしなくていい。誰かの役に立とうとしなくていい。<br>今ここに居ることが、まずはギフト。＾＾</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="book.html#yoyaku">📖 書籍を予約する</a>
-        <a class="btn btn-ghost" href="concept.html">ギフトに生きるとは？</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 案B -->
-  <div class="hero-variant hv-B">
-    <div class="wrap">
-      <div class="grid">
-        <div>
-          <p class="eyebrow">石丸 弘『ギフトに生きる』</p>
-          <h1 class="catch">ありのままの自分が、<br><span class="mark-blue">ギフトになっている</span>。</h1>
-          <p class="sub">優しくありたいけど、少し疲れてしまうあなたへ。<br>17年の実験から生まれた、やさしくめぐる生き方の本。</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="book.html#yoyaku">書籍を予約する</a>
-            <a class="btn btn-ghost" href="concept.html">読みものを見る</a>
-          </div>
-        </div>
-        <div class="art floaty">
-          <div class="ph"><span>book cover<small>表紙：こはる さん（差し替え予定）</small></span></div>
-          <div class="stamp">6月下旬<br>予約開始♡</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 案C -->
+  <!-- ヒーロー（パターンC・確定） -->
   <div class="hero-variant hv-C">
     <div class="hv-C-wash" aria-hidden="true"></div>
     <div class="wrap">
@@ -198,14 +160,6 @@
     </div>
   </div>
 </section>
-
-<!-- 切替コントロール -->
-<div class="hero-switch" role="group" aria-label="ヒーロー案の切替">
-  <b>案</b>
-  <button data-h="A" class="on">A</button>
-  <button data-h="B">B</button>
-  <button data-h="C">C</button>
-</div>
 
 <!-- ============ 3つの柱 ============ -->
 <section class="section">
@@ -247,7 +201,7 @@
         <div>
           <span class="tag">特設ページ</span>
           <h3>書籍『ギフトに生きる』</h3>
-          <p>あらすじ・試し読み・装丁へのこだわり。<b style="color:var(--pink-deep)">6月下旬、予約開始。</b>Kindle予約特典のギフトもご用意しました。</p>
+          <p>あらすじ・試し読み・装丁へのこだわり。<b style="color:var(--pink-deep)">ただいま予約受付中。</b>Kindle予約特典のギフトもご用意しました。</p>
           <span class="go">予約特典を見る →</span>
         </div>
       </a>
@@ -290,20 +244,5 @@
 </section>
 
 <script src="site.js"></script>
-<script>
-  // ヒーロー案の切替（選択は記憶）
-  (function(){
-    const hero = document.getElementById('hero');
-    const btns = document.querySelectorAll('.hero-switch button');
-    const saved = localStorage.getItem('giftHero');
-    if (saved) setHero(saved);
-    function setHero(h){
-      hero.setAttribute('data-hero', h);
-      btns.forEach(b => b.classList.toggle('on', b.dataset.h === h));
-      localStorage.setItem('giftHero', h);
-    }
-    btns.forEach(b => b.addEventListener('click', () => setHero(b.dataset.h)));
-  })();
-</script>
 </body>
 </html>

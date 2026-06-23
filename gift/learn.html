@@ -16,15 +16,16 @@
 .page-hero .lead { max-width:42ch; margin:20px auto 0; color:var(--ink-soft); }
 
 /* 参加の入口 */
-.ways { display:grid; grid-template-columns: repeat(3,1fr); gap:22px; }
+.ways { display:grid; grid-template-columns: repeat(2,1fr); gap:22px; max-width:720px; margin-inline:auto; }
 .way { text-align:center; padding:34px 24px; }
 .way .ic { width:62px;height:62px;border-radius:20px;margin:0 auto 16px;display:grid;place-items:center;font-family:var(--font-hand);font-size:24px;color:#fff;box-shadow:var(--shadow-card);}
 .way:nth-child(1) .ic{background:linear-gradient(135deg,var(--blue-deep),var(--blue));}
-.way:nth-child(2) .ic{background:linear-gradient(135deg,var(--pink-deep),var(--pink));}
-.way:nth-child(3) .ic{background:linear-gradient(135deg,var(--mint-deep),var(--mint));}
+.way:nth-child(2) .ic{background:linear-gradient(135deg,var(--mint-deep),var(--mint));}
 .way h3{ font-size:19px; margin-bottom:8px;}
 .way p{ font-size:14px; color:var(--ink-soft); margin:0 0 14px;}
 .way .when{ font-family:var(--font-hand); font-size:13px; color:var(--pink-deep);}
+a.way{ text-decoration:none; color:inherit; transition:transform .2s, box-shadow .2s; }
+a.way:hover{ transform:translateY(-4px); box-shadow:var(--shadow-soft); }
 @media (max-width:760px){ .ways{ grid-template-columns:1fr;} }
 
 /* 動画テーマ */
@@ -72,7 +73,7 @@
   <div class="wrap">
     <p class="eyebrow" style="justify-content:center">学ぶ・繋がる</p>
     <h1>もっと知りたい、<br><span class="mark-blue">体験したい</span>あなたへ。</h1>
-    <p class="lead">ギフトに生きるは、読むだけでなく「やってみる」もの。お話会やワークショップ、そしてたくさんの動画コンテンツで、あなたのペースで深めていけます。＾＾</p>
+    <p class="lead">ギフトに生きるは、読むだけでなく「やってみる」もの。お話会やたくさんの動画コンテンツで、あなたのペースで深めていけます。＾＾</p>
   </div>
 </section>
 
@@ -80,18 +81,12 @@
 <section class="section" style="padding-bottom:0">
   <div class="wrap">
     <div class="ways">
-      <div class="card way reveal">
+      <a class="card way reveal" href="events.html">
         <div class="ic">話</div>
         <h3>お話会</h3>
         <p>感想や気づきをめぐらせる、ゆるやかな集い。はじめての方も歓迎。</p>
-        <span class="when">※ 開催日は調整中</span>
-      </div>
-      <div class="card way reveal">
-        <div class="ic">学</div>
-        <h3>ワークショップ</h3>
-        <p>「ギフト循環タイプ診断」など、本のワークを一緒に体験する時間。</p>
-        <span class="when">※ 開催日は調整中</span>
-      </div>
+        <span class="when">→ 開催情報を見る</span>
+      </a>
       <div class="card way reveal">
         <div class="ic">観</div>
         <h3>動画で学ぶ</h3>

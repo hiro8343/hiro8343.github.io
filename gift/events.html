@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>イベント情報｜ギフトに生きる</title>
+<meta name="description" content="石丸弘『ギフトに生きる』のお話会・出展・出演など、会いに行けるイベントの最新情報。お近くの会場で、ギフトのめぐりにふれてみませんか。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== イベント情報固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(56px,8vw,100px) 0 clamp(28px,4vw,48px); text-align:center; }
+.page-hero h1 { font-size: clamp(30px,5vw,54px); line-height:1.5; }
+.page-hero .lead { max-width:42ch; margin:20px auto 0; color:var(--ink-soft); }
+
+/* 状態表示 */
+.ev-state { text-align:center; color:var(--ink-soft); font-family:var(--font-hand); padding: 30px 0; }
+.ev-state .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:8px;
+  background:var(--blue-deep); animation: evpulse 1.1s ease-in-out infinite; vertical-align:middle; }
+@keyframes evpulse { 0%,100%{ opacity:.3; transform:scale(.8);} 50%{ opacity:1; transform:scale(1);} }
+
+/* イベント一覧 */
+.ev-list { display:flex; flex-direction:column; gap:18px; width:min(780px, 100% - 48px); margin-inline:auto; }
+.ev-card {
+  display:flex; align-items:center; gap:26px;
+  background:var(--paper-card); border-radius:var(--radius);
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  padding:24px 30px;
+  transition: transform .2s, box-shadow .2s;
+}
+.ev-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+
+/* 日付ブロック */
+.ev-date {
+  flex:none; width:96px; text-align:center;
+  border-right:1.5px dashed var(--ink-faint); padding-right:22px;
+  align-self:stretch; display:flex; flex-direction:column; justify-content:center;
+}
+.ev-date .ym { font-family:var(--font-hand); font-size:12.5px; color:var(--pink-deep); letter-spacing:.08em; }
+.ev-date .d { font-family:var(--font-display); font-weight:600; font-size:38px; line-height:1.05; color:#4C463E; }
+.ev-date .w { font-family:var(--font-hand); font-size:13px; color:var(--ink-soft); margin-top:2px; }
+.ev-date.sat .w { color:var(--blue-deep); }
+.ev-date.sun .w { color:var(--pink-deep); }
+
+/* 本体 */
+.ev-body { flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; }
+.ev-place { font-family:var(--font-display); font-weight:600; font-size:21px; color:#4C463E; line-height:1.45; }
+.ev-meta { display:flex; align-items:center; gap:8px; font-size:14.5px; color:var(--ink-soft); }
+.ev-meta .clock {
+  flex:none; width:15px; height:15px; border-radius:50%;
+  border:1.8px solid var(--mint-deep); position:relative;
+}
+.ev-meta .clock::after { content:""; position:absolute; left:50%; top:50%;
+  width:1.6px; height:5px; background:var(--mint-deep); transform-origin:bottom;
+  transform:translate(-50%,-100%) rotate(60deg); border-radius:2px; }
+
+/* リンク */
+.ev-link {
+  flex:none; align-self:center;
+  display:inline-flex; align-items:center; gap:7px;
+  text-decoration:none; font-family:var(--font-body); font-weight:700; font-size:14px;
+  color:#fff; background:var(--blue-deep);
+  padding:11px 20px; border-radius:999px; box-shadow:var(--shadow-card);
+  transition: transform .15s, filter .2s;
+  white-space:nowrap;
+}
+.ev-link:hover { transform: translateY(-2px); filter:brightness(1.05); }
+.ev-link .arr { transition: transform .2s; }
+.ev-link:hover .arr { transform: translateX(3px); }
+.ev-link.contact { background:var(--pink-deep); }
+.ev-nolink { flex:none; align-self:center; font-family:var(--font-hand); font-size:13px; color:var(--ink-faint); white-space:nowrap; }
+
+/* 終了したイベント */
+.ev-card.past { opacity:.62; }
+.ev-card.past .ev-link { background:var(--ink-faint); box-shadow:none; }
+.ev-badge-past {
+  flex:none; align-self:center; font-family:var(--font-hand); font-size:12.5px;
+  color:var(--ink-soft); background:rgba(150,130,110,.10);
+  padding:5px 13px; border-radius:999px; white-space:nowrap;
+}
+
+@media (max-width: 620px){
+  .ev-card { flex-wrap:wrap; gap:16px 20px; padding:22px 22px; }
+  .ev-date { width:auto; min-width:78px; border-right:none; border-bottom:1.5px dashed var(--ink-faint);
+    padding-right:0; padding-bottom:14px; align-self:auto; width:100%;
+    flex-direction:row; justify-content:flex-start; align-items:baseline; gap:10px; }
+  .ev-date .d { font-size:30px; }
+  .ev-body { flex-basis:60%; }
+  .ev-link, .ev-nolink, .ev-badge-past { align-self:center; }
+}
+
+/* 同期メモ */
+.ev-foot { text-align:center; margin-top:34px; }
+.ev-foot .sync {
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-hand); font-size:13.5px; color:var(--ink-soft);
+  background:var(--paper-card); border:1px solid var(--ring);
+  padding:9px 18px; border-radius:999px; box-shadow:var(--shadow-card);
+}
+.ev-foot .sync .swirl { width:14px; height:14px; border-radius:50%;
+  border:2px solid var(--mint-deep); border-top-color:transparent; }
+.ev-reload { background:none; border:none; cursor:pointer; color:var(--blue-deep);
+  font-family:var(--font-hand); font-size:13.5px; text-decoration:underline; padding:6px; }
+</style>
+</head>
+<body data-page="events">
+
+<section class="page-hero" data-screen-label="イベント情報ヒーロー">
+  <div class="blob floaty" style="background:var(--mint);width:300px;height:300px;top:-60px;left:-50px;"></div>
+  <div class="blob floaty" style="background:var(--pink);width:260px;height:260px;bottom:-70px;right:-40px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">イベント情報</p>
+    <h1>会いに行ける、<br><span class="mark-mint">ギフトの場所</span>。</h1>
+    <p class="lead">お話会や出展、出演など。石丸 弘に会えるイベントの最新情報です。お近くの会場で、ギフトのめぐりにふれてみませんか。＾＾</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:clamp(28px,4vw,48px)">
+  <div id="evState" class="ev-state"><span class="dot"></span>最新のイベント情報を読み込んでいます…</div>
+  <div id="evList" class="ev-list" hidden></div>
+
+  <div class="ev-foot">
+    <span class="sync"><span class="swirl"></span>この一覧はスプレッドシートから自動で反映されます</span>
+    <div style="margin-top:10px"><button id="evReload" class="ev-reload">↻ 最新の情報に更新する</button></div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+<script>
+/* =========================================================
+   Googleスプレッドシートから自動でイベントを反映
+   シート列：A=日付 / B=時間 / C=場所 / D=お知らせ用URL
+   gviz の responseHandler を使い、スクリプト読み込み方式で取得
+   （APIキー不要・CORSの影響を受けない）
+   ========================================================= */
+(function () {
+  const SHEET_ID = "1np83Lm0dA0Y6dCkGp6oCPz-NV5pFG7RYnGAiZbRc7QM";
+  const GID = "0";
+  const CONTACT_URL = "https://www.facebook.com/hiroshi.ishimaru.8343";
+  const WD = ["日", "月", "火", "水", "木", "金", "土"];
+
+  const stateEl  = document.getElementById("evState");
+  const listEl   = document.getElementById("evList");
+  const reloadEl = document.getElementById("evReload");
+
+  // gvizの日付セル（"Date(2026,6,8)" 形式）や .f を解釈
+  function parseDate(cell) {
+    if (!cell) return null;
+    const v = cell.v;
+    if (typeof v === "string") {
+      const m = v.match(/Date\((\d+),(\d+),(\d+)/);
+      if (m) return new Date(+m[1], +m[2], +m[3]);
+    }
+    if (v instanceof Date) return v;
+    // 文字で入力された日付（例 2026/7/8）にも対応
+    const f = (cell.f || (typeof v === "string" ? v : "")).trim();
+    const m2 = f.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+    if (m2) return new Date(+m2[1], +m2[2] - 1, +m2[3]);
+    return null;
+  }
+  const cellText = (c) => (c && (c.f != null ? c.f : c.v) != null) ? String(c.f != null ? c.f : c.v).trim() : "";
+
+  function render(rows) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+
+    const events = rows.map(function (r) {
+      const c = r.c || [];
+      const date = parseDate(c[0]);
+      const time = cellText(c[1]);
+      const place = cellText(c[2]);
+      let url = cellText(c[3]);
+      if (url && !/^https?:\/\//i.test(url)) url = "https://" + url;
+      return { date, time, place, url };
+    }).filter(function (e) { return e.date && e.place; });
+
+    // 日付の昇順
+    events.sort(function (a, b) { return a.date - b.date; });
+
+    if (!events.length) {
+      stateEl.innerHTML = "いまは予定されているイベントがありません。決まり次第ここでお知らせします。＾＾";
+      stateEl.hidden = false;
+      listEl.hidden = true;
+      return;
+    }
+
+    listEl.innerHTML = events.map(function (e) {
+      const past = e.date < today;
+      const wd = e.date.getDay();
+      const wdClass = wd === 0 ? "sun" : wd === 6 ? "sat" : "";
+      const dateBlock =
+        '<div class="ev-date ' + wdClass + '">' +
+          '<span class="ym">' + e.date.getFullYear() + '.' + (e.date.getMonth() + 1) + '</span>' +
+          '<span class="d">' + e.date.getDate() + '</span>' +
+          '<span class="w">' + WD[wd] + '曜</span>' +
+        '</div>';
+
+      const meta = e.time
+        ? '<div class="ev-meta"><span class="clock"></span>' + escapeHtml(e.time) + '</div>'
+        : '';
+
+      let action;
+      if (past) {
+        action = '<span class="ev-badge-past">終了しました</span>';
+      } else if (e.url) {
+        action = '<a class="ev-link" href="' + escapeAttr(e.url) + '" target="_blank" rel="noopener">くわしく見る<span class="arr">→</span></a>';
+      } else {
+        action = '<a class="ev-link contact" href="' + CONTACT_URL + '" target="_blank" rel="noopener">石丸に連絡する<span class="arr">→</span></a>';
+      }
+
+      return '<div class="ev-card' + (past ? ' past' : '') + '">' +
+          dateBlock +
+          '<div class="ev-body">' +
+            '<span class="ev-place">' + escapeHtml(e.place) + '</span>' +
+            meta +
+          '</div>' +
+          action +
+        '</div>';
+    }).join("");
+
+    stateEl.hidden = true;
+    listEl.hidden = false;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+    });
+  }
+  const escapeAttr = (s) => escapeHtml(s).replace(/'/g, "&#39;");
+
+  function load() {
+    stateEl.innerHTML = '<span class="dot"></span>最新のイベント情報を読み込んでいます…';
+    stateEl.hidden = false;
+    listEl.hidden = true;
+
+    const cb = "GIFT_EVENTS_" + Date.now();
+    const timeout = setTimeout(function () { fail(); }, 12000);
+
+    window[cb] = function (resp) {
+      clearTimeout(timeout);
+      try {
+        const rows = (resp && resp.table && resp.table.rows) ? resp.table.rows : [];
+        render(rows);
+      } catch (err) {
+        fail();
+      }
+      cleanup();
+    };
+
+    function cleanup() {
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+    function fail() {
+      clearTimeout(timeout);
+      stateEl.innerHTML = 'いま情報をうまく読み込めませんでした。<br>' +
+        '<button class="ev-reload" onclick="location.reload()">↻ もう一度ためす</button>';
+      stateEl.hidden = false;
+      cleanup();
+    }
+
+    const script = document.createElement("script");
+    script.onerror = fail;
+    script.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+      "/gviz/tq?tqx=out:json;responseHandler:" + cb +
+      "&gid=" + GID + "&headers=1&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  reloadEl.addEventListener("click", load);
+  load();
+})();
+</script>
+</body>
+</html>
