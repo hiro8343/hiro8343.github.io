@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ギフトの循環が育まれる3ヶ月｜ギフトに生きる</title>
+<meta name="description" content="「ギフトに生きる」を日常で実践する3ヶ月の講座。見つける・贈る・受け取るを通して、自分と世界との関係をやわらかく育てます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== 講座ページ固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(58px,9vw,108px) 0 clamp(34px,5vw,60px); text-align:center; }
+.page-hero h1 { font-size: clamp(30px,5vw,54px); line-height:1.5; }
+.page-hero .sub-title { font-family:var(--font-hand); font-size:clamp(15px,2.2vw,18px); color:var(--ink-soft); max-width:40ch; margin:20px auto 0; line-height:1.9; }
+
+/* イントロ */
+.intro-lead { font-size:clamp(16px,2.2vw,18.5px); line-height:2.0; color:var(--ink); }
+.three-words { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin:30px 0 6px; }
+.three-words span {
+  font-family:var(--font-display); font-weight:600; font-size:clamp(17px,2.4vw,21px); color:#4C463E;
+  background:var(--paper-card); border:1px dashed var(--pink-deep); border-radius:999px;
+  padding:11px 26px; box-shadow:var(--shadow-card);
+}
+.three-words .arrow { align-self:center; color:var(--ink-faint); border:none; background:none; box-shadow:none; padding:0; font-size:18px; }
+
+/* 月ごとのステップ（concept の pillar-detail を踏襲） */
+.month { display:grid; grid-template-columns: 96px 1fr; gap:28px; align-items:start; padding:38px 0; border-bottom:1px dashed var(--ink-faint); }
+.month:last-child { border-bottom:none; }
+.month .mn {
+  width:84px; height:84px; border-radius:26px; display:grid; place-items:center;
+  color:#fff; box-shadow:var(--shadow-card); text-align:center; line-height:1.15;
+}
+.month .mn .num { font-family:var(--font-display); font-size:30px; font-weight:600; }
+.month .mn .lbl { font-family:var(--font-hand); font-size:12px; }
+.m1 .mn{ background:linear-gradient(135deg,var(--blue-deep),var(--blue)); }
+.m2 .mn{ background:linear-gradient(135deg,var(--pink-deep),var(--pink)); }
+.m3 .mn{ background:linear-gradient(135deg,var(--mint-deep),var(--mint)); }
+.month h3 { font-size:clamp(20px,3vw,27px); margin-bottom:10px; }
+.month p { color:var(--ink); margin-bottom:0; }
+.month .verbs { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 0; }
+.month .verbs em {
+  font-style:normal; font-family:var(--font-hand); font-size:13.5px; color:var(--pink-deep);
+  background:rgba(246,204,212,.30); border-radius:999px; padding:4px 14px;
+}
+.m1 .verbs em{ color:var(--blue-deep); background:rgba(187,217,234,.34); }
+.m3 .verbs em{ color:var(--mint-deep); background:rgba(200,227,206,.40); }
+@media (max-width:680px){ .month{ grid-template-columns:1fr; gap:16px;} .month .mn{ width:72px;height:72px;border-radius:20px;} .month .mn .num{ font-size:26px;} }
+
+/* 大切にしていること */
+.values { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; max-width:760px; margin:0 auto; }
+.value-item {
+  display:flex; align-items:flex-start; gap:14px;
+  background:var(--paper-card); border-radius:var(--radius); box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.7); padding:22px 24px;
+}
+.value-item .tick {
+  flex:none; width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+  background:var(--mint-deep); color:#fff; font-size:15px; box-shadow:var(--shadow-card);
+}
+.value-item p { margin:0; font-size:15.5px; color:#4C463E; line-height:1.7; padding-top:2px; }
+@media (max-width:620px){ .values{ grid-template-columns:1fr;} }
+
+/* こんな方におすすめ */
+.reco-band { background:linear-gradient(135deg, rgba(200,227,206,.30), rgba(187,217,234,.30)); }
+.reco-list { max-width:620px; margin:0 auto; display:flex; flex-direction:column; gap:14px; }
+.reco-list li {
+  list-style:none; display:flex; align-items:flex-start; gap:14px;
+  font-size:clamp(15px,2.2vw,17px); color:#4C463E; line-height:1.7;
+}
+.reco-list li .heart { flex:none; color:var(--pink-deep); font-size:18px; line-height:1.6; }
+
+/* 開催について */
+.hold-card {
+  max-width:680px; margin:0 auto; background:var(--paper-card); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7); padding:clamp(30px,4vw,46px);
+}
+.hold-card p { color:var(--ink); }
+.hold-card .pts { display:flex; flex-direction:column; gap:10px; margin:20px 0 4px; }
+.hold-card .pts span { font-family:var(--font-hand); font-size:14.5px; color:var(--ink-soft); display:flex; gap:9px; }
+.hold-card .pts span::before { content:"・"; color:var(--pink-deep); }
+
+/* お問い合わせ */
+.contact-band { background:linear-gradient(135deg, rgba(251,233,200,.32), rgba(246,204,212,.26)); }
+.contact-inner { text-align:center; max-width:560px; margin-inline:auto; }
+.contact-inner h2 { font-size:clamp(24px,3.6vw,34px); margin-bottom:14px; }
+.contact-inner p { color:var(--ink-soft); line-height:1.95; margin:0 auto 12px; max-width:42ch; }
+
+/* 追伸 */
+.ps { max-width:600px; margin:38px auto 0; text-align:center; }
+.ps p { font-family:var(--font-hand); font-size:clamp(15px,2.2vw,17px); color:var(--ink-soft); line-height:2.0; }
+</style>
+</head>
+<body data-page="course">
+
+<section class="page-hero" data-screen-label="講座ヒーロー">
+  <div class="blob floaty" style="background:var(--mint);width:300px;height:300px;top:-60px;left:-60px;"></div>
+  <div class="blob floaty" style="background:var(--pink);width:270px;height:270px;bottom:-80px;right:-50px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">実践講座</p>
+    <h1>ギフトの循環が<br><span class="mark-mint">育まれる3ヶ月</span></h1>
+    <p class="sub-title">～見つける・贈る・受け取るを通して、<br>自分と世界との関係をやわらかく育てる～</p>
+  </div>
+</section>
+
+<!-- イントロ -->
+<section class="section">
+  <div class="narrow reveal" style="text-align:center">
+    <p class="intro-lead">この講座は、「ギフトに生きる」の考え方を日常の中で実践していくための、小さな一歩を積み重ねる3ヶ月（または講師ごとのペース）の講座です。</p>
+    <p class="intro-lead" style="margin-top:18px">何かを一気に変えることを目指すのではなく——</p>
+    <div class="three-words">
+      <span>気づく</span>
+      <b class="arrow">→</b>
+      <span>やってみる</span>
+      <b class="arrow">→</b>
+      <span>振り返る</span>
+    </div>
+    <p class="intro-lead" style="margin-top:18px">この繰り返しを通して、自分らしい「ギフトの循環」を育んでいきます。</p>
+  </div>
+</section>
+
+<!-- 取り組むこと（3ヶ月） -->
+<section class="section" style="padding-top:0">
+  <div class="narrow">
+    <div style="text-align:center;margin-bottom:30px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">この講座で取り組むこと</p>
+      <h2 class="section-title">3ヶ月の、<br><span class="mark-pink">めぐりの旅</span>。</h2>
+    </div>
+
+    <div class="month m1 reveal">
+      <div class="mn"><span><span class="num">1</span><br><span class="lbl">ヶ月目</span></span></div>
+      <div>
+        <h3>ギフトを見つける</h3>
+        <p>自分の周りには、どんなギフトがあるのか。そして、自分自身が自然と誰かに贈っているギフトには、どんなものがあるのか。「ない」ではなく「ある」に目を向ける練習をしていきます。</p>
+        <div class="verbs"><em>見つける</em><em>気づく</em><em>「ある」に目を向ける</em></div>
+      </div>
+    </div>
+
+    <div class="month m2 reveal">
+      <div class="mn"><span><span class="num">2</span><br><span class="lbl">ヶ月目</span></span></div>
+      <div>
+        <h3>ギフトを贈る</h3>
+        <p>日常の中で、無理のない小さなギフトを贈ってみます。感謝を伝える。応援してみる。誰かの力になる。大切なのは結果ではなく、「やってみた」という体験です。</p>
+        <div class="verbs"><em>贈る</em><em>感謝を伝える</em><em>やってみる</em></div>
+      </div>
+    </div>
+
+    <div class="month m3 reveal">
+      <div class="mn"><span><span class="num">3</span><br><span class="lbl">ヶ月目</span></span></div>
+      <div>
+        <h3>ギフトを受け取る</h3>
+        <p>最後は「受け取る」ことを練習します。助けてもらうこと。感謝を受け取ること。自分に向けられたやさしさを、そのまま受け取ってみること。受け取ることへの抵抗や遠慮を少しずつやわらげながら、自分にも周りにもやさしくなっていきます。</p>
+        <div class="verbs"><em>受け取る</em><em>遠慮をやわらげる</em><em>やさしくなる</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 大切にしていること -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:30px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">この講座で大切にしていること</p>
+      <h2 class="section-title">完璧じゃなくて、<br><span class="mark-blue">やってみた</span>を。</h2>
+    </div>
+    <div class="values reveal">
+      <div class="value-item"><span class="tick">✓</span><p>完璧を目指さない</p></div>
+      <div class="value-item"><span class="tick">✓</span><p>小さな実践を積み重ねる</p></div>
+      <div class="value-item"><span class="tick">✓</span><p>「できた・できない」より「やってみた」を大切にする</p></div>
+      <div class="value-item"><span class="tick">✓</span><p>お互いを承認し合いながら進める</p></div>
+    </div>
+    <p class="reveal" style="text-align:center;color:var(--ink-soft);font-family:var(--font-hand);font-size:15px;margin-top:26px">一人では続けにくいことも、仲間と一緒なら楽しみながら続けられます。＾＾</p>
+  </div>
+</section>
+
+<!-- こんな方におすすめ -->
+<section class="section reco-band">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:34px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">こんな方におすすめ</p>
+      <h2 class="section-title">ひとつでも<span class="mark-pink">うなずけたら</span>。</h2>
+    </div>
+    <ul class="reco-list reveal">
+      <li><span class="heart">♡</span>「ギフトに生きる」の考え方を日常で実践してみたい</li>
+      <li><span class="heart">♡</span>自分や周りの人に、もっとやさしくなりたい</li>
+      <li><span class="heart">♡</span>感謝や受け取る力を育てたい</li>
+      <li><span class="heart">♡</span>自分を責めるより、自分を認められるようになりたい</li>
+      <li><span class="heart">♡</span>あたたかい仲間と一緒に成長していきたい</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 開催について -->
+<section class="section">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:30px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">開催について</p>
+      <h2 class="section-title">あなたに合った<br><span class="mark-mint">先生</span>を、ご紹介します。</h2>
+    </div>
+    <div class="hold-card reveal">
+      <p>この講座は、それぞれの講師が開催しています。開催日程やペース、参加費、開催方法（オンライン・リアルなど）は、講師ごとに異なります。</p>
+      <div class="pts">
+        <span>開催日程・ペースは講師ごと</span>
+        <span>参加費も講師ごとに異なります</span>
+        <span>オンライン／リアル、どちらも</span>
+      </div>
+      <p style="margin-top:18px;margin-bottom:0">ご自身に合った先生をご紹介しますので、興味を持ってくださった方は、お気軽にお問い合わせください。＾＾</p>
+    </div>
+  </div>
+</section>
+
+<!-- お問い合わせ -->
+<section class="section contact-band">
+  <div class="wrap">
+    <div class="contact-inner reveal">
+      <p class="eyebrow" style="justify-content:center">お問い合わせ</p>
+      <h2>「ギフトの循環講座に<br>ついて知りたい」</h2>
+      <p>とお気軽にメッセージをいただけたら嬉しいです。あなたに合った開催情報や先生をご案内いたします。皆さんと一緒に、ギフトの循環を育めることを楽しみにしています♡</p>
+      <div style="margin-top:24px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-primary" href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">石丸 弘にメッセージする →</a>
+        <a class="btn btn-ghost" href="https://lin.ee/po92sie" target="_blank" rel="noopener">公式LINEで聞く</a>
+      </div>
+    </div>
+
+    <div class="ps reveal">
+      <p>追伸：世界は、誰かの大きな一歩だけで変わるのではなく、一人ひとりの小さなギフトの循環から、少しずつやさしく変わっていくのかもしれません。</p>
+    </div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+</body>
+</html>
