@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>初版を置いている本屋さん｜ギフトに生きる</title>
+<meta name="description" content="『ギフトに生きる』初版を置いてくださっている全国の書店リスト。県ごとに絞り込んでお近くの本屋さんを探せます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== 書店リストページ固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(56px,8vw,100px) 0 clamp(26px,4vw,44px); text-align:center; }
+.page-hero h1 { font-size: clamp(28px,5vw,52px); line-height:1.5; }
+.page-hero .lead { max-width:42ch; margin:20px auto 0; color:var(--ink-soft); line-height:1.95; }
+.page-hero .count-pill {
+  display:inline-flex; align-items:center; gap:9px; margin-top:22px;
+  font-family:var(--font-hand); font-size:14px; color:var(--blue-deep);
+  background:var(--paper-card); border:1px solid var(--ring); border-radius:999px;
+  padding:8px 18px; box-shadow:var(--shadow-card);
+}
+.page-hero .count-pill b { font-family:var(--font-display); color:var(--pink-deep); }
+
+/* 状態表示 */
+.bs-state { text-align:center; color:var(--ink-soft); font-family:var(--font-hand); padding: 30px 0; }
+.bs-state .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:8px;
+  background:var(--blue-deep); animation: bspulse 1.1s ease-in-out infinite; vertical-align:middle; }
+@keyframes bspulse { 0%,100%{ opacity:.3; transform:scale(.8);} 50%{ opacity:1; transform:scale(1);} }
+
+/* 県フィルター */
+.pref-filter { width:min(1000px, 100% - 48px); margin:0 auto 8px; }
+.pref-bar {
+  display:flex; flex-wrap:wrap; gap:9px; justify-content:center;
+}
+.pref-chip {
+  font-family:var(--font-body); font-weight:500; font-size:14px; color:var(--ink-soft);
+  background:var(--paper-card); border:1px solid var(--ring); border-radius:999px;
+  padding:8px 16px; cursor:pointer; box-shadow:var(--shadow-card);
+  transition: transform .14s, background .2s, color .2s, border-color .2s;
+}
+.pref-chip:hover { transform:translateY(-2px); }
+.pref-chip .n { font-size:12px; color:var(--ink-faint); margin-left:5px; }
+.pref-chip.active { background:var(--blue-deep); color:#fff; border-color:var(--blue-deep); }
+.pref-chip.active .n { color:rgba(255,255,255,.8); }
+.pref-chip.all { border-style:dashed; border-color:var(--pink-deep); color:var(--pink-deep); }
+.pref-chip.all.active { background:var(--pink-deep); color:#fff; border-color:var(--pink-deep); }
+
+/* 検索ボックス */
+.bs-search { display:flex; justify-content:center; margin:26px auto 0; }
+.bs-search input {
+  width:min(420px, 100%); font-family:var(--font-body); font-size:15px; color:#4C463E;
+  background:var(--paper-card); border:1px solid var(--ring); border-radius:999px;
+  padding:12px 22px; box-shadow:var(--shadow-card); outline:none;
+  transition: border-color .2s;
+}
+.bs-search input:focus { border-color:var(--blue-deep); }
+.bs-search input::placeholder { color:var(--ink-faint); font-family:var(--font-hand); }
+
+/* リスト：県ごとのグループ */
+.bs-results { width:min(1000px, 100% - 48px); margin:30px auto 0; }
+.pref-group { margin-bottom:34px; }
+.pref-group h3 {
+  display:flex; align-items:baseline; gap:12px;
+  font-size:21px; color:#4C463E; margin-bottom:16px;
+  padding-bottom:10px; border-bottom:1.5px dashed var(--ink-faint);
+}
+.pref-group h3 .gnum { font-family:var(--font-hand); font-size:13px; color:var(--pink-deep); }
+.store-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:12px; }
+.store-card {
+  display:flex; align-items:center; gap:13px;
+  background:var(--paper-card); border-radius:var(--radius);
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  padding:15px 18px;
+  transition: transform .16s, box-shadow .2s;
+}
+.store-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-soft); }
+.store-card .pin {
+  flex:none; width:30px; height:30px; border-radius:50%;
+  background:linear-gradient(135deg,var(--mint-deep),var(--mint)); color:#fff;
+  display:grid; place-items:center; font-size:14px; box-shadow:var(--shadow-card);
+}
+.store-card .nm { font-size:15px; color:#4C463E; line-height:1.5; }
+
+.bs-empty { text-align:center; color:var(--ink-soft); font-family:var(--font-hand); padding:40px 0; }
+
+.bs-foot { text-align:center; margin-top:30px; }
+.bs-foot .sync {
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-hand); font-size:13.5px; color:var(--ink-soft);
+  background:var(--paper-card); border:1px solid var(--ring);
+  padding:9px 18px; border-radius:999px; box-shadow:var(--shadow-card);
+}
+.bs-foot .sync .swirl { width:14px; height:14px; border-radius:50%;
+  border:2px solid var(--mint-deep); border-top-color:transparent; }
+
+@media (max-width:560px){
+  .store-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body data-page="bookstores">
+
+<section class="page-hero" data-screen-label="書店リストヒーロー">
+  <div class="blob floaty" style="background:var(--mint);width:300px;height:300px;top:-60px;left:-50px;"></div>
+  <div class="blob floaty" style="background:var(--pink);width:260px;height:260px;bottom:-70px;right:-40px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">お近くの本屋さんで</p>
+    <h1>初版を置いている<br><span class="mark-mint">本屋さん</span>リスト</h1>
+    <p class="lead">『ギフトに生きる』の初版を並べてくださっている、全国の書店さんです。県ごとに絞り込んで、お近くの一軒を探してみてください。＾＾</p>
+    <div class="count-pill" id="countPill" hidden><span>📚</span><span><b id="countNum">0</b> 店舗が掲載されています</span></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:clamp(20px,3vw,36px)">
+  <div id="bsState" class="bs-state"><span class="dot"></span>取扱書店の情報を読み込んでいます…</div>
+
+  <div id="bsMain" hidden>
+    <div class="pref-filter">
+      <div class="pref-bar" id="prefBar"></div>
+      <div class="bs-search">
+        <input type="search" id="bsSearch" placeholder="🔍 書店名で探す…" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="bs-results" id="bsResults"></div>
+
+    <div class="bs-foot">
+      <span class="sync"><span class="swirl"></span>このリストはスプレッドシートから自動で反映されます</span>
+    </div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+<script>
+/* =========================================================
+   Googleスプレッドシートから取扱書店を自動反映
+   シート列：A=都道府県 / B=書店名（ヘッダー行なし）
+   ========================================================= */
+(function () {
+  const SHEET_ID = "1Uecz9X5fvKvDkOt42ymQje0KQ5WL2VUfZOtm8XNbxf4";
+
+  // 都道府県の標準並び順（北→南）
+  const PREF_ORDER = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+    "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+    "新潟県","富山県","石川県","福井県","山梨県","長野県",
+    "岐阜県","静岡県","愛知県","三重県",
+    "滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県",
+    "鳥取県","島根県","岡山県","広島県","山口県",
+    "徳島県","香川県","愛媛県","高知県",
+    "福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"];
+
+  const stateEl   = document.getElementById("bsState");
+  const mainEl    = document.getElementById("bsMain");
+  const prefBar   = document.getElementById("prefBar");
+  const resultsEl = document.getElementById("bsResults");
+  const searchEl  = document.getElementById("bsSearch");
+  const countPill = document.getElementById("countPill");
+  const countNum  = document.getElementById("countNum");
+
+  let STORES = [];          // {pref, name}
+  let activePref = "ALL";
+  let query = "";
+
+  const cellText = (c) => (c && (c.v != null) ? String(c.v).trim() : "");
+
+  function prefRank(p) {
+    const i = PREF_ORDER.indexOf(p);
+    return i === -1 ? 999 : i;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+    });
+  }
+
+  function buildPrefBar() {
+    // 県ごとの件数
+    const counts = {};
+    STORES.forEach(function (s) { counts[s.pref] = (counts[s.pref] || 0) + 1; });
+    const prefs = Object.keys(counts).sort(function (a, b) { return prefRank(a) - prefRank(b); });
+
+    let html = '<button class="pref-chip all active" data-pref="ALL">すべて<span class="n">' + STORES.length + '</span></button>';
+    html += prefs.map(function (p) {
+      return '<button class="pref-chip" data-pref="' + escapeHtml(p) + '">' +
+        escapeHtml(p) + '<span class="n">' + counts[p] + '</span></button>';
+    }).join("");
+    prefBar.innerHTML = html;
+
+    prefBar.querySelectorAll(".pref-chip").forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        activePref = chip.dataset.pref;
+        prefBar.querySelectorAll(".pref-chip").forEach(function (c) { c.classList.remove("active"); });
+        chip.classList.add("active");
+        renderResults();
+      });
+    });
+  }
+
+  function renderResults() {
+    const q = query.toLowerCase();
+    let list = STORES.filter(function (s) {
+      if (activePref !== "ALL" && s.pref !== activePref) return false;
+      if (q && s.name.toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+
+    if (!list.length) {
+      resultsEl.innerHTML = '<div class="bs-empty">該当する書店が見つかりませんでした。<br>条件をかえてお試しください。</div>';
+      return;
+    }
+
+    // 県ごとにグループ化
+    const groups = {};
+    list.forEach(function (s) { (groups[s.pref] = groups[s.pref] || []).push(s); });
+    const prefs = Object.keys(groups).sort(function (a, b) { return prefRank(a) - prefRank(b); });
+
+    resultsEl.innerHTML = prefs.map(function (p) {
+      const cards = groups[p].map(function (s) {
+        return '<div class="store-card"><span class="pin">●</span><span class="nm">' + escapeHtml(s.name) + '</span></div>';
+      }).join("");
+      return '<div class="pref-group">' +
+          '<h3>' + escapeHtml(p) + '<span class="gnum">' + groups[p].length + '店</span></h3>' +
+          '<div class="store-grid">' + cards + '</div>' +
+        '</div>';
+    }).join("");
+  }
+
+  function onData(rows) {
+    STORES = rows.map(function (r) {
+      const c = r.c || [];
+      return { pref: cellText(c[0]), name: cellText(c[1]) };
+    }).filter(function (s) { return s.pref && s.name; });
+
+    if (!STORES.length) {
+      stateEl.innerHTML = "いま掲載されている書店がありません。決まり次第ここでお知らせします。";
+      return;
+    }
+
+    countNum.textContent = STORES.length;
+    countPill.hidden = false;
+    buildPrefBar();
+    renderResults();
+    stateEl.hidden = true;
+    mainEl.hidden = false;
+  }
+
+  function load() {
+    const cb = "GIFT_STORES_" + Date.now();
+    const timeout = setTimeout(fail, 14000);
+
+    window[cb] = function (resp) {
+      clearTimeout(timeout);
+      try {
+        const rows = (resp && resp.table && resp.table.rows) ? resp.table.rows : [];
+        onData(rows);
+      } catch (err) { fail(); }
+      cleanup();
+    };
+    function cleanup() {
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+    function fail() {
+      clearTimeout(timeout);
+      stateEl.innerHTML = 'いま情報をうまく読み込めませんでした。<br>' +
+        '<button class="ev-reload" style="background:none;border:none;color:var(--blue-deep);text-decoration:underline;cursor:pointer;font-family:var(--font-hand);font-size:14px" onclick="location.reload()">↻ もう一度ためす</button>';
+      cleanup();
+    }
+
+    const script = document.createElement("script");
+    script.onerror = fail;
+    script.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+      "/gviz/tq?tqx=out:json;responseHandler:" + cb +
+      "&headers=0&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  searchEl.addEventListener("input", function () {
+    query = searchEl.value.trim();
+    renderResults();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
