@@ -91,6 +91,7 @@
             <a href="https://amzn.to/43Rurig" target="_blank" rel="noopener">書籍を予約する</a>
             <a href="events.html">イベント情報</a>
             <a href="course.html">ギフトの循環講座</a>
+            <a href="essay-gift.html">存在がギフトである証拠</a>
             <a href="reviews.html">読んだ方の感想</a>
             <a href="learn.html">動画で学ぶ</a>
             <a href="support.html">循環に加わる</a>

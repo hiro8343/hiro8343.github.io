@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>購入者へのお礼動画｜ギフトに生きる</title>
+<meta name="description" content="『ギフトに生きる』をお迎えくださった方へ。著者 石丸 弘から、感謝を込めたお礼の動画をお届けします。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== お礼動画ページ固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(58px,9vw,108px) 0 clamp(30px,4vw,52px); text-align:center; }
+.page-hero h1 { font-size: clamp(28px,5vw,52px); line-height:1.5; }
+.page-hero .lead { max-width:40ch; margin:20px auto 0; color:var(--ink-soft); line-height:1.95; }
+
+/* 動画プレイヤー枠 */
+.player-wrap { width:min(820px, 100% - 48px); margin:0 auto; }
+.player {
+  position:relative; aspect-ratio:16/9; border-radius:var(--radius-lg); overflow:hidden;
+  background:linear-gradient(135deg, rgba(187,217,234,.5), rgba(246,204,212,.45));
+  box-shadow:var(--shadow-soft); border:1px solid rgba(255,255,255,.7);
+}
+.player iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+/* 準備中の表示（動画URLが入ったら .player に .ready を付けると消える作り） */
+.player .pending {
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:16px; text-align:center; padding:24px;
+}
+.player .pending .ring {
+  width:74px; height:74px; border-radius:50%; display:grid; place-items:center;
+  background:var(--paper-card); box-shadow:var(--shadow-card);
+}
+.player .pending .ring .tri {
+  width:0; height:0; border-style:solid; border-width:13px 0 13px 22px;
+  border-color:transparent transparent transparent var(--pink-deep); margin-left:5px;
+}
+.player .pending .ttl { font-family:var(--font-display); font-weight:600; font-size:20px; color:#4C463E; }
+.player .pending .note { font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); }
+.player.ready .pending { display:none; }
+
+.player-cap { text-align:center; font-family:var(--font-hand); font-size:13.5px; color:var(--ink-faint); margin-top:16px; }
+
+/* メッセージ */
+.thanks-msg { width:min(620px, 100% - 48px); margin:0 auto; text-align:center; }
+.thanks-msg p { font-size:clamp(16px,2.3vw,18.5px); line-height:2.1; color:#4C463E; margin:0; }
+.thanks-msg p + p { margin-top:1.5em; }
+.thanks-msg .soft { color:var(--ink-soft); }
+.thanks-msg .sign { margin-top:30px; font-family:var(--font-hand); font-size:15px; color:var(--ink-soft); }
+
+.cta-row.center { justify-content:center; }
+</style>
+</head>
+<body data-page="thanks-video">
+
+<section class="page-hero" data-screen-label="お礼動画ヒーロー">
+  <div class="blob floaty" style="background:var(--pink);width:300px;height:300px;top:-60px;left:-55px;"></div>
+  <div class="blob floaty" style="background:var(--mint);width:260px;height:260px;bottom:-80px;right:-45px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">購入者の方へ</p>
+    <h1>本を、お迎え<br>くださって<span class="mark-pink">ありがとう</span>。</h1>
+    <p class="lead">『ギフトに生きる』を受け取ってくださったあなたへ。著者 石丸 弘から、感謝を込めたお礼の動画をお届けします。＾＾</p>
+  </div>
+</section>
+
+<!-- 動画 -->
+<section class="section" style="padding-top:clamp(12px,2vw,28px)">
+  <div class="player-wrap reveal">
+    <!--
+      ▼ 動画ができたら、ここを差し替えてください ▼
+      1) 下の <div class="player"> に ready クラスを足す:  <div class="player ready">
+      2) すぐ下のコメントを外して、YOUTUBE_ID をあなたの動画IDに変える:
+         （例: https://www.youtube.com/watch?v=ABCDE12345 なら ABCDE12345）
+
+      <iframe src="https://www.youtube.com/embed/YOUTUBE_ID" title="購入者へのお礼動画"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    -->
+    <div class="player">
+      <div class="pending">
+        <div class="ring"><span class="tri"></span></div>
+        <div class="ttl">お礼動画は、ただいま準備中です</div>
+        <div class="note">できあがり次第、ここで公開します。もう少しだけお待ちください♡</div>
+      </div>
+    </div>
+    <p class="player-cap">※ 動画は YouTube で公開予定です</p>
+  </div>
+</section>
+
+<!-- メッセージ -->
+<section class="section" style="padding-top:0">
+  <div class="thanks-msg reveal">
+    <p>数えきれない本の中から、この一冊を手に取ってくださったこと。それ自体が、私にとって何よりのギフトです。</p>
+    <p class="soft">あなたのもとで、この本が小さなめぐりのきっかけになりますように。読んで感じたこと、よかったらいつでも聞かせてください。＾＾</p>
+    <p class="sign">——『ギフトに生きる』著者　石丸 弘</p>
+  </div>
+</section>
+
+<!-- 次の一歩 -->
+<section class="section" style="padding-top:0">
+  <div class="wrap" style="text-align:center">
+    <div class="cta-row center reveal">
+      <a class="btn btn-ghost" href="learn.html">動画でもっと学ぶ</a>
+      <a class="btn btn-ghost" href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">感想を伝える</a>
+    </div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+</body>
+</html>
