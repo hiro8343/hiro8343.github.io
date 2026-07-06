@@ -41,6 +41,51 @@
 .player .pending .note { font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); }
 .player.ready .pending { display:none; }
 
+/* お礼の手紙（折りたたみ） */
+.letter-wrap { width:min(680px, 100% - 48px); margin:0 auto; }
+.letter {
+  position:relative; background:var(--paper-card); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  padding:clamp(28px,4vw,44px);
+}
+.letter .letter-head {
+  display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:20px;
+  padding-bottom:16px; border-bottom:1.5px dashed var(--ink-faint);
+}
+.letter .letter-head h3 { font-size:22px; color:#4C463E; }
+.letter .letter-head .date { font-family:var(--font-hand); font-size:13px; color:var(--ink-faint); }
+.letter-body { font-size:clamp(15px,2.2vw,17px); line-height:2.0; color:#4C463E; }
+.letter-body p { margin:0 0 1.25em; }
+.letter-body p:last-child { margin-bottom:0; }
+.letter-body .soft { color:var(--ink-soft); }
+.letter-body .em { color:var(--pink-deep); font-weight:500; }
+
+/* 折りたたみの仕掛け：チェックボックスで開閉 */
+.letter-toggle { position:absolute; opacity:0; pointer-events:none; }
+.letter-clip {
+  position:relative; max-height:9.6em; overflow:hidden;
+  transition:max-height .5s ease;
+}
+.letter-clip::after {
+  content:""; position:absolute; left:0; right:0; bottom:0; height:5em;
+  background:linear-gradient(to bottom, rgba(255,253,250,0), var(--paper-card));
+  pointer-events:none; transition:opacity .3s;
+}
+.letter-toggle:checked ~ .letter-clip { max-height:400em; }
+.letter-toggle:checked ~ .letter-clip::after { opacity:0; }
+.letter-more {
+  display:inline-flex; align-items:center; gap:8px; margin-top:22px; cursor:pointer;
+  font-family:var(--font-body); font-weight:700; font-size:14px; color:#fff;
+  background:var(--pink-deep); border-radius:999px; padding:10px 22px; box-shadow:var(--shadow-card);
+  transition:transform .15s, filter .2s;
+}
+.letter-more:hover { transform:translateY(-2px); filter:brightness(1.04); }
+.letter-more .chev { transition:transform .3s; }
+.letter-more .txt-close { display:none; }
+.letter-toggle:checked ~ .letter-more .txt-open { display:none; }
+.letter-toggle:checked ~ .letter-more .txt-close { display:inline; }
+.letter-toggle:checked ~ .letter-more .chev { transform:rotate(180deg); }
+
 .player-cap { text-align:center; font-family:var(--font-hand); font-size:13.5px; color:var(--ink-faint); margin-top:16px; }
 
 /* メッセージ */
@@ -59,41 +104,71 @@
   <div class="blob floaty" style="background:var(--pink);width:300px;height:300px;top:-60px;left:-55px;"></div>
   <div class="blob floaty" style="background:var(--mint);width:260px;height:260px;bottom:-80px;right:-45px;animation-delay:-3s;"></div>
   <div class="wrap">
-    <p class="eyebrow" style="justify-content:center">購入者の方へ</p>
-    <h1>本を、お迎え<br>くださって<span class="mark-pink">ありがとう</span>。</h1>
-    <p class="lead">『ギフトに生きる』を受け取ってくださったあなたへ。著者 石丸 弘から、感謝を込めたお礼の動画をお届けします。＾＾</p>
+    <p class="eyebrow" style="justify-content:center">クラウドファンディング、ご寄付の方へ</p>
+    <h1>ご支援くださって<br>本当に<span class="mark-pink">ありがとうございました</span>♡。</h1>
+    <p class="lead">おかげさまで書店に並べていただけます♡</p>
   </div>
 </section>
 
 <!-- 動画 -->
 <section class="section" style="padding-top:clamp(12px,2vw,28px)">
   <div class="player-wrap reveal">
-    <!--
-      ▼ 動画ができたら、ここを差し替えてください ▼
-      1) 下の <div class="player"> に ready クラスを足す:  <div class="player ready">
-      2) すぐ下のコメントを外して、YOUTUBE_ID をあなたの動画IDに変える:
-         （例: https://www.youtube.com/watch?v=ABCDE12345 なら ABCDE12345）
-
-      <iframe src="https://www.youtube.com/embed/YOUTUBE_ID" title="購入者へのお礼動画"
+    <div class="player ready">
+      <iframe src="https://www.youtube.com/embed/a8yEjMwybxk" title="購入者へのお礼動画　第一弾"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
-    -->
-    <div class="player">
       <div class="pending">
         <div class="ring"><span class="tri"></span></div>
         <div class="ttl">お礼動画は、ただいま準備中です</div>
         <div class="note">できあがり次第、ここで公開します。もう少しだけお待ちください♡</div>
       </div>
     </div>
-    <p class="player-cap">※ 動画は YouTube で公開予定です</p>
+    <p class="player-cap">サンクスビデオ 第一弾｜YouTubeで公開中</p>
+  </div>
+
+  <!-- お礼の手紙（折りたたみ） -->
+  <div class="letter-wrap reveal" style="margin-top:clamp(30px,4vw,52px)">
+    <div class="letter">
+      <div class="letter-head">
+        <h3>お礼</h3>
+        <span class="date">上の動画の内容を文字でお伝えしています。</span>
+      </div>
+      <input type="checkbox" id="letterToggle" class="letter-toggle">
+      <div class="letter-clip">
+        <div class="letter-body">
+          <p>ありがとうございます。</p>
+          <p>お陰様で『ギフトに生きる』が、書店に並ぶようになりました。</p>
+          <p>これもクラウドファンディングやご寄付をくださった皆様のお陰様です。<span class="em">本当にありがとうございました。</span></p>
+          <p>そしてこれはその皆様だけではなく、その皆様と関わってくださった多くの皆様、そしてさらにその皆様に関わったと、、、永遠と続く歴史の営みそのものへの感謝でもあります。</p>
+          <p class="soft">ご支援くださった方々だけでも300名以上。<br>お気持ちをくださった方も合わせると600名以上。<br>それぞれの人生に100人が関わっているとすると、総勢6万人、、、</p>
+          <p>あらためてありがたい限りです。</p>
+          <p>そして今度は未来に目を向けてみると、皆さまのおかげで450店舗以上の本屋さんに置いていただけることとなりました。<br><span class="soft" style="font-size:.86em">※未来パブリッシングの営業さん・編集さんが頑張って下さいました；；</span></p>
+          <p>毎日10人が本『ギフトに生きる』を目にするとすると、合計毎日4500人の目に触れます。</p>
+          <p>買われなかったとしても、ギフトに生きる？と頭の片隅に残るかもしれません。</p>
+          <p>それが1年だと約160万回誰かの目に触れます。</p>
+          <p>そして1000回に1回ぐらいは目に触れた方の人生にいい影響があったなら1600人の方に毎年素敵な影響をお届けできることになります。</p>
+          <p>また出版社さんががんばってくださり合計2300冊印刷下さいました。</p>
+          <p>すべてが誰かの手に渡ったとしたらその中で１つでもいい言葉だなって思ってもらえたとしたら、2300人の人生にギフトになります。</p>
+          <p class="soft">合わせて約4000人の方に、、、<br>そしてその方々に繋がっているそれぞれ100人の方に１ｍｍでもいいふうになるとしたら、その影響範囲は4万人にもなります。。</p>
+          <p>そしてそこからさらに、、、と広がると、、、</p>
+          <p>そんな可能性が今回本『ギフトに生きる』を受け取ってくださったお一人お一人のおかげで生み出されました。</p>
+          <p class="em">あらためて本当にありがとうございます。</p>
+        </div>
+      </div>
+      <label for="letterToggle" class="letter-more">
+        <span class="txt-open">続きを読む</span>
+        <span class="txt-close">閉じる</span>
+        <span class="chev">▾</span>
+      </label>
+    </div>
   </div>
 </section>
 
 <!-- メッセージ -->
 <section class="section" style="padding-top:0">
   <div class="thanks-msg reveal">
-    <p>数えきれない本の中から、この一冊を手に取ってくださったこと。それ自体が、私にとって何よりのギフトです。</p>
-    <p class="soft">あなたのもとで、この本が小さなめぐりのきっかけになりますように。読んで感じたこと、よかったらいつでも聞かせてください。＾＾</p>
+    <p>数えきれない選択肢の中から、この一冊を応援くださったこと。それ自体が、私にとって何よりのギフトです。</p>
+    <p class="soft">この本が世界に向けての小さな平和のきっかけになりますように。読んで感じたこと、よかったらいつでも聞かせてください。＾＾</p>
     <p class="sign">——『ギフトに生きる』著者　石丸 弘</p>
   </div>
 </section>
