@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240" role="img">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EAF2F8"></stop><stop offset="1" stop-color="#F3EEF8"></stop></linearGradient></defs>
+  <rect width="320" height="240" fill="url(#bg)"></rect>
+  <circle cx="272" cy="52" r="30" fill="#fff" opacity=".45"></circle>
+  <rect x="56" y="42" width="208" height="156" rx="20" fill="#FFFDF9" stroke="#6FA3C0" stroke-width="2.6"></rect>
+  <line x1="56" y1="72" x2="264" y2="72" stroke="#B7B0A6" stroke-width="1.6" opacity=".5"></line>
+  <circle cx="74" cy="57" r="4" fill="#F6CCD4"></circle><circle cx="88" cy="57" r="4" fill="#FBE9C8"></circle><circle cx="102" cy="57" r="4" fill="#C8E3CE"></circle>
+  <path d="M74 92 h96 a10 10 0 0 1 10 10 v18 a10 10 0 0 1 -10 10 h-72 l-14 12 v-12 h-6 a10 10 0 0 1 -10 -10 v-18 a10 10 0 0 1 10 -10 Z" fill="#BBD9EA" stroke="#6FA3C0" stroke-width="2"></path>
+  <line x1="84" y1="104" x2="160" y2="104" stroke="#6FA3C0" stroke-width="2.4" stroke-linecap="round" opacity=".8"></line>
+  <line x1="84" y1="114" x2="140" y2="114" stroke="#6FA3C0" stroke-width="2.4" stroke-linecap="round" opacity=".55"></line>
+  <path d="M170 140 h66 a10 10 0 0 1 10 10 v16 a10 10 0 0 1 -10 10 h-40 l-12 11 v-11 h-4 a10 10 0 0 1 -10 -10 v-16 a10 10 0 0 1 10 -10 Z" fill="#F6CCD4" stroke="#D98C9C" stroke-width="2"></path>
+  <line x1="180" y1="151" x2="232" y2="151" stroke="#D98C9C" stroke-width="2.4" stroke-linecap="round" opacity=".8"></line>
+  <line x1="180" y1="161" x2="216" y2="161" stroke="#D98C9C" stroke-width="2.4" stroke-linecap="round" opacity=".55"></line>
+  <circle cx="60" cy="46" r="20" fill="#FFFDF9" stroke="#7CB088" stroke-width="2.4"></circle>
+  <path d="M60 33 C62.2 41.8 62.2 41.8 71 44 C62.2 46.2 62.2 46.2 60 55 C57.8 46.2 57.8 46.2 49 44 C57.8 41.8 57.8 41.8 60 33 Z" fill="#7CB088"></path>
+  <path d="M228 53 C229.4 58.6 229.4 58.6 235 60 C229.4 61.4 229.4 61.4 228 67 C226.6 61.4 226.6 61.4 221 60 C226.6 58.6 226.6 58.6 228 53 Z" fill="#D98C9C"></path>
+  <path d="M250 87 C251 91 251 91 255 92 C251 93 251 93 250 97 C249 93 249 93 245 92 C249 91 249 91 250 87 Z" fill="#6FA3C0"></path>
+</svg>

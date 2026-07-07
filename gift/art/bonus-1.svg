@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" width="240" height="150" role="img">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FDEEF0"></stop><stop offset="1" stop-color="#FBE9C8"></stop>
+  </linearGradient></defs>
+  <rect width="240" height="150" fill="url(#bg)"></rect>
+
+  <circle cx="200" cy="34" r="26" fill="#fff" opacity=".5"></circle>
+  <path d="M120 118 C120 100 92 92 70 96 L70 54 C92 50 120 58 120 76 Z" fill="#FFFDF9" stroke="#D98C9C" stroke-width="2.4"></path>
+  <path d="M120 118 C120 100 148 92 170 96 L170 54 C148 50 120 58 120 76 Z" fill="#FFFDF9" stroke="#D98C9C" stroke-width="2.4"></path>
+  <line x1="82" y1="70" x2="110" y2="66" stroke="#B7B0A6" stroke-width="2" stroke-linecap="round"></line>
+  <line x1="82" y1="80" x2="110" y2="76" stroke="#B7B0A6" stroke-width="2" stroke-linecap="round"></line>
+  <line x1="82" y1="90" x2="106" y2="86" stroke="#B7B0A6" stroke-width="2" stroke-linecap="round"></line>
+  <line x1="130" y1="66" x2="158" y2="70" stroke="#B7B0A6" stroke-width="2" stroke-linecap="round"></line>
+  <line x1="130" y1="76" x2="158" y2="80" stroke="#B7B0A6" stroke-width="2" stroke-linecap="round"></line>
+  <line x1="134" y1="86" x2="158" y2="90" stroke="#B7B0A6" stroke-width="2" stroke-linecap="round"></line>
+  <path d="M120 44 c-5 -8 -18 -4 -18 5 c0 8 12 14 18 18 c6 -4 18 -10 18 -18 c0 -9 -13 -13 -18 -5 Z" fill="#D98C9C"></path>
+
+</svg>
