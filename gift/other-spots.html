@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本屋さん以外で置いてくださっている場所｜ギフトに生きる</title>
+<meta name="description" content="カフェ、サロン、オフィスなど、書店以外で『ギフトに生きる』を置いてくださっている場所のリストです。">
+<!-- SNSシェア用（Open Graph / Twitter） -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hiro8343.github.io/gift/other-spots.html">
+<meta property="og:title" content="本屋さん以外で置いてくださっている場所｜ギフトに生きる">
+<meta property="og:description" content="カフェ、サロン、オフィスなど、書店以外で置いてくださっている場所のリストです。">
+<meta property="og:image" content="https://hiro8343.github.io/gift/og-bookstores.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="本屋さん以外で置いてくださっている場所｜ギフトに生きる">
+<meta property="og:site_name" content="ギフトに生きる">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="本屋さん以外で置いてくださっている場所｜ギフトに生きる">
+<meta name="twitter:description" content="カフェ、サロン、オフィスなど、書店以外で置いてくださっている場所のリストです。">
+<meta name="twitter:image" content="https://hiro8343.github.io/gift/og-bookstores.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+.page-hero { position:relative; overflow:hidden; padding: clamp(56px,8vw,100px) 0 clamp(26px,4vw,44px); text-align:center; }
+.page-hero h1 { font-size: clamp(28px,5vw,52px); line-height:1.5; }
+.page-hero .lead { max-width:44ch; margin:20px auto 0; color:var(--ink-soft); line-height:1.95; }
+.page-hero .count-pill {
+  display:inline-flex; align-items:center; gap:9px; margin-top:22px;
+  font-family:var(--font-hand); font-size:14px; color:var(--blue-deep);
+  background:var(--paper-card); border:1px solid var(--ring); border-radius:999px;
+  padding:8px 18px; box-shadow:var(--shadow-card);
+}
+.page-hero .count-pill b { font-family:var(--font-display); color:var(--pink-deep); }
+
+.os-state { text-align:center; color:var(--ink-soft); font-family:var(--font-hand); padding: 30px 0; }
+.os-state .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:8px;
+  background:var(--blue-deep); animation: ospulse 1.1s ease-in-out infinite; vertical-align:middle; }
+@keyframes ospulse { 0%,100%{ opacity:.3; transform:scale(.8);} 50%{ opacity:1; transform:scale(1);} }
+
+.os-grid { width:min(1000px, 100% - 48px); margin:30px auto 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.spot-card {
+  background:var(--paper-card); border-radius:var(--radius-lg); box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.7); overflow:hidden; display:flex; flex-direction:column;
+  transition: transform .16s, box-shadow .2s;
+}
+.spot-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-soft); }
+.spot-photo { position:relative; width:100%; aspect-ratio:16/10; background:linear-gradient(135deg, rgba(187,217,234,.35), rgba(246,204,212,.3)); overflow:hidden; }
+.spot-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.spot-photo .ph-empty { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--ink-faint); }
+.spot-photo .ph-empty span.ic { font-family:var(--font-hand); font-size:24px; color:var(--blue-deep); opacity:.6; }
+.spot-photo .ph-empty span.tx { font-family:var(--font-hand); font-size:13px; }
+.spot-body { padding:18px 20px 20px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.spot-name { font-family:var(--font-display); font-weight:600; font-size:18px; color:#4C463E; }
+.spot-addr { font-size:13.5px; color:var(--ink-soft); line-height:1.7; }
+.spot-addr.tbd { font-family:var(--font-hand); color:var(--ink-faint); }
+.spot-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+.spot-badge { font-family:var(--font-body); font-size:12px; font-weight:500; border-radius:999px; padding:4px 12px; }
+.badge-buy { background:rgba(124,176,136,.18); color:var(--mint-deep); }
+.badge-view { background:rgba(111,163,192,.18); color:var(--blue-deep); }
+.badge-lend { background:rgba(217,140,156,.18); color:var(--pink-deep); }
+.badge-intro { background:rgba(224,169,78,.18); color:#B4802E; }
+.spot-link { margin-top:auto; padding-top:6px; font-size:13.5px; }
+.spot-link a { color:var(--blue-deep); text-decoration:none; border-bottom:1px dashed var(--blue-deep); }
+.spot-link a:hover { color:var(--pink-deep); border-color:var(--pink-deep); }
+
+.os-empty { text-align:center; color:var(--ink-soft); font-family:var(--font-hand); padding:40px 0; }
+.os-foot { text-align:center; margin-top:34px; }
+.os-foot .sync {
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-hand); font-size:13.5px; color:var(--ink-soft);
+  background:var(--paper-card); border:1px solid var(--ring);
+  padding:9px 18px; border-radius:999px; box-shadow:var(--shadow-card);
+}
+.os-foot .sync .swirl { width:14px; height:14px; border-radius:50%; border:2px solid var(--mint-deep); border-top-color:transparent; }
+</style>
+</head>
+<body data-page="other-spots">
+
+<section class="page-hero" data-screen-label="設置場所ヒーロー">
+  <div class="blob floaty" style="background:var(--blue);width:300px;height:300px;top:-60px;left:-50px;"></div>
+  <div class="blob floaty" style="background:var(--pink);width:260px;height:260px;bottom:-70px;right:-40px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">本屋さん以外にも</p>
+    <h1>置いてくださっている<br><span class="mark-blue">いろんな場所</span></h1>
+    <p class="lead">カフェ、サロン、オフィスなど――ご縁のある方々が『ギフトに生きる』をそっと置いてくださっています。ふらっと立ち寄れる場所を、少しずつご紹介します。＾＾</p>
+    <div class="count-pill" id="countPill" hidden><span>🏠</span><span><b id="countNum">0</b> ヶ所でご覧いただけます</span></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:clamp(8px,2vw,20px)">
+  <div id="osState" class="os-state"><span class="dot"></span>設置場所の情報を読み込んでいます…</div>
+  <div id="osGrid" class="os-grid" hidden></div>
+  <div class="os-foot" id="osFoot" hidden>
+    <span class="sync"><span class="swirl"></span>このリストはスプレッドシートから自動で反映されます</span>
+  </div>
+</section>
+
+<script src="site.js"></script>
+<script>
+(function () {
+  const SHEET_ID = "1Vi5NPS7RBBl2_1mP-sd5lXuCEN-avxu6tna3CPzs9lw";
+
+  const stateEl  = document.getElementById("osState");
+  const gridEl   = document.getElementById("osGrid");
+  const footEl   = document.getElementById("osFoot");
+  const countPill= document.getElementById("countPill");
+  const countNum = document.getElementById("countNum");
+
+  const cellText = (c) => (c && (c.v != null) ? String(c.v).trim() : "");
+  const isMark = (s) => s === "◯" || s === "○" || s === "〇";
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+    });
+  }
+
+  function driveImageUrl(url) {
+    const m = url.match(/\/file\/d\/([\w-]+)/) || url.match(/[?&]id=([\w-]+)/) || url.match(/\/d\/([\w-]+)/);
+    if (m) return "https://drive.google.com/thumbnail?id=" + m[1] + "&sz=w1000";
+    if (/\.(jpe?g|png|webp|gif)(\?|$)/i.test(url)) return url;
+    return null; // フォルダURLなどは直接表示できない
+  }
+
+  function badgeFor(kind) {
+    const map = {
+      "購入可": ["badge-buy", "購入可"],
+      "閲覧のみ": ["badge-view", "閲覧のみ"],
+      "貸し出しあり": ["badge-lend", "貸し出しあり"]
+    };
+    return map[kind] || null;
+  }
+
+  window.__osPhotoFail = function (img) {
+    img.parentElement.innerHTML = '<div class="ph-empty"><span class="ic">❀</span><span class="tx">準備中</span></div>';
+  };
+
+  function spotCard(s) {
+    const photoUrl = s.photo ? driveImageUrl(s.photo) : null;
+    const photoHtml = photoUrl
+      ? '<img src="' + escapeHtml(photoUrl) + '" alt="' + escapeHtml(s.name) + '" loading="lazy" onerror="window.__osPhotoFail(this)">'
+      : '<div class="ph-empty"><span class="ic">❀</span><span class="tx">準備中</span></div>';
+
+    let badges = "";
+    const kb = badgeFor(s.kind);
+    if (kb) badges += '<span class="spot-badge ' + kb[0] + '">' + kb[1] + '</span>';
+    if (s.intro) badges += '<span class="spot-badge badge-intro">ご紹介制</span>';
+
+    const addrHtml = s.addr
+      ? '<div class="spot-addr">' + escapeHtml(s.addr) + '</div>'
+      : '<div class="spot-addr tbd">住所は準備中です</div>';
+
+    const linkHtml = s.hp
+      ? '<div class="spot-link"><a href="' + escapeHtml(s.hp) + '" target="_blank" rel="noopener">くわしく見る →</a></div>'
+      : '';
+
+    return '<div class="spot-card">' +
+      '<div class="spot-photo">' + photoHtml + '</div>' +
+      '<div class="spot-body">' +
+        '<div class="spot-name">' + escapeHtml(s.name) + '</div>' +
+        addrHtml +
+        (badges ? '<div class="spot-badges">' + badges + '</div>' : '') +
+        linkHtml +
+      '</div>' +
+    '</div>';
+  }
+
+  function onData(rows) {
+    const spots = rows.map(function (r) {
+      const c = r.c || [];
+      return {
+        name:  cellText(c[1]),
+        addr:  cellText(c[2]),
+        hp:    cellText(c[3]),
+        kind:  cellText(c[4]),
+        ok1:   cellText(c[5]),
+        ok2:   cellText(c[6]),
+        ok3:   cellText(c[7]),
+        photo: cellText(c[8]),
+        intro: isMark(cellText(c[9]))
+      };
+    }).filter(function (s) {
+      return s.name && isMark(s.ok1) && isMark(s.ok2) && isMark(s.ok3);
+    });
+
+    if (!spots.length) {
+      stateEl.innerHTML = "いま掲載できる場所の準備中です。決まり次第ここでお知らせします。";
+      return;
+    }
+
+    countNum.textContent = spots.length;
+    countPill.hidden = false;
+    gridEl.innerHTML = spots.map(spotCard).join("");
+    stateEl.hidden = true;
+    gridEl.hidden = false;
+    footEl.hidden = false;
+  }
+
+  function load() {
+    const cb = "GIFT_SPOTS_" + Date.now();
+    const timeout = setTimeout(fail, 14000);
+
+    window[cb] = function (resp) {
+      clearTimeout(timeout);
+      try {
+        const rows = (resp && resp.table && resp.table.rows) ? resp.table.rows : [];
+        onData(rows);
+      } catch (err) { fail(); }
+      cleanup();
+    };
+    function cleanup() {
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+    function fail() {
+      clearTimeout(timeout);
+      stateEl.innerHTML = 'いま情報をうまく読み込めませんでした。<br>' +
+        '<button style="background:none;border:none;color:var(--blue-deep);text-decoration:underline;cursor:pointer;font-family:var(--font-hand);font-size:14px" onclick="location.reload()">↻ もう一度ためす</button>';
+      cleanup();
+    }
+
+    const script = document.createElement("script");
+    script.onerror = fail;
+    script.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+      "/gviz/tq?tqx=out:json;responseHandler:" + cb +
+      "&headers=0&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>

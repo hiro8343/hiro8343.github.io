@@ -106,6 +106,22 @@
 /* 追伸 */
 .ps { max-width:600px; margin:38px auto 0; text-align:center; }
 .ps p { font-family:var(--font-hand); font-size:clamp(15px,2.2vw,17px); color:var(--ink-soft); line-height:2.0; }
+
+.os-state { text-align:center; color:var(--ink-soft); font-family:var(--font-hand); }
+.os-state .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:8px; background:var(--mint-deep); animation: ospulse 1.1s ease-in-out infinite; vertical-align:middle; }
+@keyframes ospulse { 0%,100%{ opacity:.3; transform:scale(.8);} 50%{ opacity:1; transform:scale(1);} }
+.os-grid { width:min(1000px, 100% - 48px); margin:0 auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px; }
+.sensei-card { background:var(--paper-card); border-radius:var(--radius-lg); box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7); padding:22px 22px 24px; display:flex; flex-direction:column; gap:10px; }
+.sensei-name { font-family:var(--font-display); font-weight:600; font-size:19px; color:#4C463E; }
+.sensei-desc { font-size:14px; color:var(--ink-soft); line-height:1.9; white-space:pre-line; }
+.sensei-badge { align-self:flex-start; font-family:var(--font-body); font-size:12px; font-weight:500; border-radius:999px; padding:4px 13px; background:rgba(124,176,136,.18); color:var(--mint-deep); }
+.sensei-badge.full { background:rgba(217,140,156,.18); color:var(--pink-deep); }
+.sensei-filter { display:flex; justify-content:center; margin-bottom:20px; }
+.sensei-filter label { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); background:var(--paper-card); border:1px solid var(--ring); border-radius:999px; padding:8px 18px; box-shadow:var(--shadow-card); cursor:pointer; }
+.sensei-filter input { accent-color:var(--mint-deep); width:15px; height:15px; }
+.sensei-link { margin-top:auto; padding-top:4px; font-size:13.5px; }
+.sensei-link a { color:var(--blue-deep); text-decoration:none; border-bottom:1px dashed var(--blue-deep); }
+.sensei-link a:hover { color:var(--pink-deep); border-color:var(--pink-deep); }
 </style>
 </head>
 <body data-page="course">
@@ -210,9 +226,9 @@
 <!-- 開催について -->
 <section class="section">
   <div class="wrap">
-    <div style="text-align:center;margin-bottom:30px" class="reveal">
+    <div style="text-align:center;margin-bottom:30px" class="reveal" id="sensei">
       <p class="eyebrow" style="justify-content:center">開催について</p>
-      <h2 class="section-title">あなたに合った<br><span class="mark-mint">先生</span>を、ご紹介します。</h2>
+      <h2 class="section-title">あなたに合った<br><span class="mark-mint">先生</span>を、お探しください。</h2>
     </div>
     <div class="hold-card reveal">
       <p>この講座は、それぞれの講師が開催しています。開催日程やペース、参加費、開催方法（オンライン・リアルなど）は、講師ごとに異なります。</p>
@@ -221,8 +237,11 @@
         <span>参加費も講師ごとに異なります</span>
         <span>オンライン／リアル、どちらも</span>
       </div>
-      <p style="margin-top:18px;margin-bottom:0">ご自身に合った先生をご紹介しますので、興味を持ってくださった方は、お気軽にお問い合わせください。＾＾</p>
+      <p style="margin-top:18px;margin-bottom:0">ご自身に合った先生をお探しの上、各先生のご紹介の最後に記載のFacebookより直接ご連絡ください。選べなくてお困りの場合は石丸まで直接ご連絡ください。⇨ <a href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">石丸弘のFacebook</a>と<a href="https://lin.ee/po92sie" target="_blank" rel="noopener">公式LINE</a></p>
     </div>
+    <div id="senseiState" class="os-state" style="padding:26px 0"><span class="dot"></span>先生の情報を読み込んでいます…</div>
+    <div class="sensei-filter" id="senseiFilter" hidden><label><input type="checkbox" id="hideFullChk">满席の先生を非表示にする</label></div>
+    <div id="senseiGrid" class="os-grid" style="margin-top:22px" hidden></div>
   </div>
 </section>
 
@@ -246,5 +265,89 @@
 </section>
 
 <script src="site.js"></script>
+<script>
+(function () {
+  const SHEET_ID = "1W9-o3rKNVnxxVwp2FSQULrrzgJYtoZ-5XopOBmAA8mo";
+  const stateEl = document.getElementById("senseiState");
+  const gridEl  = document.getElementById("senseiGrid");
+  const filterEl = document.getElementById("senseiFilter");
+  const hideFullChk = document.getElementById("hideFullChk");
+  const cellText = (c) => (c && (c.v != null) ? String(c.v).trim() : "");
+  const isFull = (status) => /\u6e80\u5e2d/.test(status || "");
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (ch) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+    });
+  }
+
+  function senseiCard(s) {
+    const linkHtml = s.fb
+      ? '<div class="sensei-link"><a href="' + escapeHtml(s.fb) + '" target="_blank" rel="noopener">Facebookを見る →</a></div>'
+      : '';
+    const badgeHtml = s.status
+      ? '<span class="sensei-badge' + (isFull(s.status) ? ' full' : '') + '">' + escapeHtml(s.status) + '</span>'
+      : '';
+    return '<div class="sensei-card" data-full="' + (isFull(s.status) ? '1' : '0') + '">' +
+      '<div class="sensei-name">' + escapeHtml(s.name) + '</div>' +
+      badgeHtml +
+      (s.desc ? '<div class="sensei-desc">' + escapeHtml(s.desc) + '</div>' : '') +
+      linkHtml +
+    '</div>';
+  }
+
+  function onData(rows) {
+    const list = rows.map(function (r) {
+      const c = r.c || [];
+      return { name: cellText(c[0]), desc: cellText(c[1]), fb: cellText(c[2]), status: cellText(c[3]) };
+    }).filter(function (s) { return s.name && s.name !== "お名前"; });
+
+    if (!list.length) {
+      stateEl.innerHTML = "いま先生の情報の準備中です。決まり次第ここでお知らせします。";
+      return;
+    }
+    gridEl.innerHTML = list.map(senseiCard).join("");
+    stateEl.hidden = true;
+    gridEl.hidden = false;
+    filterEl.hidden = false;
+    hideFullChk.addEventListener("change", function () {
+      gridEl.querySelectorAll(".sensei-card").forEach(function (card) {
+        card.style.display = (hideFullChk.checked && card.dataset.full === "1") ? "none" : "";
+      });
+    });
+  }
+
+  function load() {
+    const cb = "GIFT_SENSEI_" + Date.now();
+    const timeout = setTimeout(fail, 14000);
+    window[cb] = function (resp) {
+      clearTimeout(timeout);
+      try {
+        const rows = (resp && resp.table && resp.table.rows) ? resp.table.rows : [];
+        onData(rows);
+      } catch (err) { fail(); }
+      cleanup();
+    };
+    function cleanup() {
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+    }
+    function fail() {
+      clearTimeout(timeout);
+      stateEl.innerHTML = 'いま情報をうまく読み込めませんでした。<br>' +
+        '<button style="background:none;border:none;color:var(--blue-deep);text-decoration:underline;cursor:pointer;font-family:var(--font-hand);font-size:14px" onclick="location.reload()">↻ もう一度ためす</button>';
+      cleanup();
+    }
+    const script = document.createElement("script");
+    script.onerror = fail;
+    script.src = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+      "/gviz/tq?tqx=out:json;responseHandler:" + cb +
+      "&headers=0&_=" + Date.now();
+    document.head.appendChild(script);
+  }
+
+  load();
+})();
+</script>
 </body>
 </html>
