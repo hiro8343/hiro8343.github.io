@@ -110,7 +110,7 @@
         <div class="ic">本</div>
         <h3>本を大切な人に贈る</h3>
         <p>「あなたの存在がギフト」——そう伝えたい人へ、この本をプレゼント。きっと最高のギフトになります。</p>
-        <button class="do" data-gift="本を贈る">やってみる</button>
+        <button class="do" data-gift="本を贈る" data-href="https://amzn.to/43Rurig">やってみる</button>
       </div>
       <div class="card flow reveal">
         <div class="ic">声</div>
@@ -128,13 +128,19 @@
         <div class="ic">観</div>
         <h3>動画を誰かに教える</h3>
         <p>必要としている人がいたら、そっと。「学ぶ・繋がる」の動画を、必要な人に届けてください。</p>
-        <button class="do" data-gift="動画を教える">やってみる</button>
+        <button class="do" data-gift="動画を教える" data-href="learn.html">やってみる</button>
       </div>
       <div class="card flow reveal">
         <div class="ic">話</div>
         <h3>お話会に誘ってみる</h3>
         <p>ひとりより、ふたり。気になっている友人を、お話会やワークショップに誘ってみる。</p>
         <button class="do" data-gift="お話会に誘う">やってみる</button>
+      </div>
+      <div class="card flow reveal">
+        <div class="ic">開</div>
+        <h3>お話会を開催してみる</h3>
+        <p>自分の街やオンラインで、石丸弘を呼んでのお話会を開いてみる。むずかしい条件はありません。</p>
+        <a class="do" href="host-event.html" style="text-decoration:none;display:inline-block;text-align:center">開催マニュアルを見る</a>
       </div>
       <div class="card flow reveal">
         <div class="ic">拾</div>
@@ -218,6 +224,7 @@
         }
         n++; localStorage.setItem(KEY, n); render();
         btn.classList.add('done'); btn.textContent = 'めぐった！';
+        if (btn.dataset.href) { setTimeout(() => { window.open(btn.dataset.href, '_blank', 'noopener'); }, 350); }
         // 飛ぶハート
         const r = btn.getBoundingClientRect();
         const h = document.createElement('span');

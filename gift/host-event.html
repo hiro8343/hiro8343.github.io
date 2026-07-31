@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お話会を開催したいと思った方へ｜ギフトに生きる</title>
+<meta name="description" content="石丸弘を呼んでの『ギフトに生きる』お話会、開催マニュアル。開催条件・進め方・よくある質問・告知文サンプルまで、主催に必要な情報をまとめました。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gift.css">
+<style>
+/* ===== 開催マニュアル固有 ===== */
+.page-hero { position:relative; overflow:hidden; padding: clamp(58px,9vw,108px) 0 clamp(34px,5vw,60px); text-align:center; }
+.page-hero .lead { max-width:44ch; margin:20px auto 0; color:var(--ink-soft); }
+
+.hm-nav { width:min(760px, 100% - 48px); margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.hm-nav a { text-decoration:none; font-family:var(--font-hand); font-size:14px; color:var(--ink-soft);
+  background:var(--paper-card); border:1px solid var(--ring); border-radius:999px; padding:9px 18px;
+  box-shadow:var(--shadow-card); transition:color .2s, background .2s; }
+.hm-nav a:hover { color:var(--blue-deep); background:rgba(187,217,234,.25); }
+
+/* 開催条件 */
+.cond-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; width:min(980px, 100% - 48px); margin:0 auto; }
+.cond-card { background:var(--paper-card); border-radius:var(--radius); box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.7); padding:26px 24px; text-align:center; }
+.cond-card .ic { font-family:var(--font-hand); font-size:30px; margin-bottom:12px; }
+.cond-card h3 { font-size:17px; margin-bottom:8px; }
+.cond-card p { font-size:14.5px; color:var(--ink-soft); margin:0; line-height:1.85; }
+@media (max-width:760px){ .cond-grid { grid-template-columns:1fr; } }
+
+/* 進め方タイムライン */
+.tl { width:min(760px, 100% - 48px); margin:0 auto; display:flex; flex-direction:column; gap:0; }
+.tl-item { display:flex; gap:22px; position:relative; padding-bottom:30px; }
+.tl-item:last-child { padding-bottom:0; }
+.tl-item::before { content:""; position:absolute; left:19px; top:42px; bottom:0; width:1.5px;
+  background:repeating-linear-gradient(to bottom, var(--ink-faint) 0 6px, transparent 6px 12px); }
+.tl-item:last-child::before { display:none; }
+.tl-num { flex:none; width:40px; height:40px; border-radius:50%; display:grid; place-items:center;
+  font-family:var(--font-display); font-weight:600; font-size:16px; color:#fff;
+  background:linear-gradient(135deg,var(--blue-deep),var(--mint-deep)); box-shadow:var(--shadow-card); }
+.tl-body { flex:1; background:var(--paper-card); border-radius:var(--radius); box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.7); padding:20px 24px; }
+.tl-body h3 { font-size:17.5px; margin-bottom:8px; }
+.tl-body p, .tl-body ul { font-size:15px; color:var(--ink-soft); margin:0 0 8px; line-height:1.9; }
+.tl-body ul { padding-left:1.2em; margin-top:6px; }
+.tl-body li { margin-bottom:4px; }
+.tl-body p:last-child, .tl-body ul:last-child { margin-bottom:0; }
+.tl-body a { color:var(--blue-deep); text-decoration:none; border-bottom:1px dashed var(--blue-deep); }
+.tl-body a:hover { color:var(--pink-deep); border-color:var(--pink-deep); }
+
+/* FAQ */
+.faq-list { width:min(760px, 100% - 48px); margin:0 auto; display:flex; flex-direction:column; gap:14px; }
+.faq { background:var(--paper-card); border-radius:var(--radius); box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.7); padding:6px 24px; }
+.faq summary { cursor:pointer; list-style:none; padding:16px 0; display:flex; align-items:center; gap:12px;
+  font-family:var(--font-display); font-weight:600; font-size:16.5px; color:#4C463E; }
+.faq summary::-webkit-details-marker { display:none; }
+.faq summary .q-mark { flex:none; width:26px; height:26px; border-radius:50%; display:grid; place-items:center;
+  background:var(--pink); color:var(--pink-deep); font-family:var(--font-hand); font-size:15px; }
+.faq summary::after { content:"＋"; margin-left:auto; color:var(--ink-faint); font-size:16px; }
+.faq[open] summary::after { content:"−"; }
+.faq .a { font-size:15px; color:var(--ink-soft); line-height:1.95; padding:0 0 18px 38px; margin:0; white-space:pre-line; }
+.faq .a a { color:var(--blue-deep); }
+
+/* 告知文サンプル */
+.promo-card { width:min(760px, 100% - 48px); margin:0 auto; background:var(--paper-card);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow-card); border:1px solid rgba(255,255,255,.7);
+  padding:clamp(28px,4vw,44px); }
+.promo-card h3 { font-size:clamp(19px,2.6vw,23px); text-align:center; margin-bottom:18px; }
+.promo-card .sub { font-family:var(--font-hand); color:var(--mint-deep); font-size:14.5px; margin:22px 0 8px; }
+.promo-card p { font-size:14.5px; color:var(--ink-soft); line-height:2.0; margin:0 0 1em; }
+.promo-card ul { padding-left:1.3em; font-size:14.5px; color:var(--ink-soft); line-height:1.95; margin:0 0 1em; }
+.promo-copy-btn { display:block; margin:24px auto 0; }
+
+.words-grid { width:min(900px, 100% - 48px); margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.word-card { background:var(--paper-card); border-radius:var(--radius); box-shadow:var(--shadow-card);
+  border:1px solid rgba(255,255,255,.7); padding:18px 22px; font-size:14.5px; color:var(--ink-soft); line-height:1.9; }
+.word-card b { color:#4C463E; }
+@media (max-width:700px){ .words-grid { grid-template-columns:1fr; } }
+
+.contact-band { text-align:center; }
+.contact-inner .btn-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:26px; }
+</style>
+</head>
+<body data-page="host-event">
+
+<section class="page-hero" data-screen-label="開催マニュアルヒーロー">
+  <div class="blob floaty" style="background:var(--blue);width:300px;height:300px;top:-70px;right:-60px;"></div>
+  <div class="blob floaty" style="background:var(--cream);width:240px;height:240px;bottom:-60px;left:-50px;animation-delay:-3s;"></div>
+  <div class="wrap">
+    <p class="eyebrow" style="justify-content:center">石丸弘を呼んでの お話会 開催マニュアル</p>
+    <h1>あなたの街やオンラインで、<br><span class="mark-blue">ギフトのめぐり</span>を。</h1>
+    <p class="lead">主催に興味をもってくださりありがとうございます♡ とっても嬉しいです♡<br>以下をご確認いただき、不明点などお気軽にご相談くださいませ☆</p>
+    <div class="hm-nav" style="margin-top:30px">
+      <a href="#conditions">開催条件</a>
+      <a href="#steps">進め方</a>
+      <a href="#faq">よくある質問</a>
+      <a href="#promo">告知文サンプル</a>
+      <a href="#gift-style">ギフト制の補足</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="conditions" style="padding-top:clamp(20px,3vw,36px)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:34px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">開催条件</p>
+      <h2 class="section-title">むずかしい条件は、<br><span class="mark-mint">ありません</span>。</h2>
+    </div>
+    <div class="cond-grid reveal">
+      <div class="cond-card">
+        <div class="ic">❀</div>
+        <h3>共感があればOK</h3>
+        <p>「ギフトに生きる」に共感があれば、それだけで開催できます。</p>
+      </div>
+      <div class="cond-card">
+        <div class="ic">◯</div>
+        <h3>参加者は お一人でOK</h3>
+        <p>大勢を集める必要はありません。参加者さんがお一人いれば開催できます。</p>
+      </div>
+      <div class="cond-card">
+        <div class="ic">♡</div>
+        <h3>講師料はキニシナイ</h3>
+        <p>ギフト予算がある間は、講師料などは気にせずでOK。もらえたら、それも嬉しいです♡</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="steps" style="padding-top:0">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:34px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">はじめの一歩</p>
+      <h2 class="section-title">やりたいお気持ちが<br><span class="mark-pink">沸いたら</span>。</h2>
+      <p class="lead" style="margin-top:14px;max-width:44ch;margin-inline:auto">まずは石丸弘へご連絡ください。それだけでOKです＞＞</p>
+      <div class="btn-row" style="justify-content:center;margin-top:20px">
+        <a class="btn btn-primary" href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">石丸弘のFacebookへ</a>
+        <a class="btn btn-blue" href="https://lin.ee/po92sie" target="_blank" rel="noopener">公式LINEへ</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-bottom:34px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">進め方</p>
+      <h2 class="section-title">開催までの<br><span class="mark-blue">ゆるやかな流れ</span>。</h2>
+      <p class="lead" style="margin-top:14px;max-width:44ch;margin-inline:auto">かっこ書きの項目は「やれそうなら」「やりたければ」でOKです。</p>
+    </div>
+    <div class="tl reveal">
+      <div class="tl-item"><div class="tl-num">1</div><div class="tl-body">
+        <h3>（石丸弘ととりあえず15分ぐらい気軽に話してみる♡）</h3>
+        <p>話すだけでエネルギーが繋がったり、軽やかさが上がったり、ワクワクが増えたりするのでオススメです☆</p>
+        <p><a href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">こちらのFacebook</a>からご連絡ください。</p>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">2</div><div class="tl-body">
+        <h3>（主催の方々のLINEグループに入る）</h3>
+        <p>グループは石丸弘に聞いてみてください。</p>
+        <ul>
+          <li>素敵な人達なので、繋がってもらえたら嬉しいです。</li>
+          <li>ここで告知してもらえたらHPにも反映されます。</li>
+          <li>入る時は「お名前＠地域」（例：ひろし＠東京）で名前をつけてもらえると助かります。</li>
+        </ul>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">3</div><div class="tl-body">
+        <h3>（一緒にやる仲間を2、3人集める）</h3>
+        <p>誰か居るとやりやすいです♡</p>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">4</div><div class="tl-body">
+        <h3>お声がけ</h3>
+        <ul>
+          <li>FacebookやSNSでゆる募集してみる。</li>
+          <li>ぴんときた方に個別にメッセージやお話をしてみる。</li>
+        </ul>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">5</div><div class="tl-body">
+        <h3>数人集まったら、日程を調整する</h3>
+        <p>参加者さんと弘さんとやりとりしながら決めていきます。</p>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">6</div><div class="tl-body">
+        <h3>（前日あたりに事前リマインドがあるとよいかも）</h3>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">7</div><div class="tl-body">
+        <h3>当日（全体で60〜90分程度）</h3>
+        <ul>
+          <li>開始時間の10分ぐらい前には、弘はがんばっていきます！（笑）</li>
+          <li>弘がお話しします！ 自己紹介（参加者さん）→ 弘が20分ほどお話 → 感想・質疑 → チェックアウトでオシマイ</li>
+          <li>終わった後、お茶会する人もいます（弘さんは途中でいなくなっちゃうかもしれません（笑））。</li>
+        </ul>
+      </div></div>
+      <div class="tl-item"><div class="tl-num">8</div><div class="tl-body">
+        <h3>後日</h3>
+        <p>（アンケートなどをとってみるのもいいと思います。参加者さんの学びを深めるのでおすすめです。とったアンケートは弘さんに渡すと喜ばれます！（笑））</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="promo-card reveal">
+      <p class="eyebrow" style="justify-content:center">よくある質問</p>
+      <h3 style="margin-bottom:20px">アンケートは何をきいたらいいですか？</h3>
+      <p style="text-align:center;margin-bottom:0">オーソドックスなのはこんな感じです。</p>
+      <ul style="width:min(520px,100%);margin-inline:auto">
+        <li>参加してみての感想はどんなものでしたか？</li>
+        <li>学べたことや気がついたことはどんなものがありましたか？</li>
+        <li>今日から実践してみたい小さなアクションが思いついていたら教えてください。</li>
+        <li>この素敵な感想をHPや告知に活用させてもらえたら嬉しいです（いいよー／ニックネームならOK／ごめんなさい＞＜）</li>
+        <li>お名前（ニックネームもOK）</li>
+      </ul>
+      <p style="text-align:center;margin-bottom:0">※フォームが必要ならつくります☆</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" style="padding-top:clamp(20px,3vw,36px)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:34px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">よくある質問</p>
+      <h2 class="section-title">その他の<br><span class="mark-pink">よくある質問</span>。</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq"><summary><span class="q-mark">Q</span>本は売らないんですか？</summary>
+        <p class="a">在庫があれば持っていけます。ない場合は、お近くの書店のご紹介か、Amazonのリンクをお伝えします。
+<a href="bookstores.html" target="_blank">https://hiro8343.github.io/gift/bookstores.html</a></p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>コラボイベントにしてもいいですか？</summary>
+        <p class="a">ご自身のやりたいことと合わせていただいてOKです！ ※内容は一度ご相談ください。</p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>講師料を払いたいのですがどうしたらいいですか？</summary>
+        <p class="a">状況によってご自由に設定いただいて大丈夫です！ 収益の◯％みたいなのでもいいですし、「赤字なので0です！」でも大丈夫です。</p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>イベント開催まで伴走してくださいますか？</summary>
+        <p class="a">します。無理ないペースにはなりますが、オンラインで相談になったり、メッセージで相談にのったりはできます！</p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>集客は手伝ってくれますか？</summary>
+        <p class="a">Facebookでお知らせなどはお手伝いできます！ が……実は集客力がないのです（笑）。謎ですが、ないんです。あまり期待しないで（笑）</p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>チラシは自分で創ったほうがいいですか？</summary>
+        <p class="a">それがありがたいはありますが、告知文をもらえたらAIちゃんに創ってもらったものをお渡しはできます！ 今はChatGPTちゃんに創ってもらってCanvaで修正するのが一番楽かもです。</p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>チラシ用の素材をください！</summary>
+        <p class="a">本の写真 ⇨ <a href="https://www.facebook.com/photo.php?fbid=27446366528315684&set=pb.100001071200669.-2207520000&type=3" target="_blank" rel="noopener">Facebookより</a>
+弘の写真（リアル） ⇨ <a href="https://www.facebook.com/photo/?fbid=9109866052392344&set=a.132343783477994" target="_blank" rel="noopener">Facebookより</a>
+弘の写真（イラスト） ⇨ <a href="https://www.facebook.com/photo/?fbid=4591028980942763&set=a.132343783477994" target="_blank" rel="noopener">Facebookより</a></p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:clamp(20px,3vw,36px)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:30px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">宣伝に使えそうなワード</p>
+      <h2 class="section-title">よかったら、<br><span class="mark-mint">そのまま使ってください</span>。</h2>
+    </div>
+    <div class="words-grid reveal">
+      <div class="word-card"><b>ギフトに生きるとは</b><br>優しい人が優しいまま生きられる方法です。</div>
+      <div class="word-card"><b>どんなメリットがあるの？</b><br>豊かさが100倍に感じられる／自己犠牲が減る／自分も周りも同時に幸せになる／ギフトの循環の中に生きられる／具体的なやり方が満載</div>
+      <div class="word-card"><b>お話会の内容（参加者さんに合わせて変わります）</b><br>ギフトに生きるってなに？／自己犠牲しないためのアイデア／どんなものをもらったの？ギフトしたの？／失敗もギフトの種／受け取り方・ギフトの工夫／世界に溢れているギフトに気がつく方法／存在がギフト／その他<a href="https://docs.google.com/document/d/1eCINm3DAQUp_AdD8zzznPRBPfMdSgA0JoMSuvc4Vg6s/edit?tab=t.0#heading=h.kiwynmihfo2c" target="_blank" rel="noopener">書籍の目次</a>にあることならなんでも！</div>
+      <div class="word-card"><b>どうやってそんな生き方に？</b><br>きっかけは？——弘さん本人が当日お話しします。</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="promo" style="padding-top:clamp(20px,3vw,36px)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:30px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">告知文のサンプル</p>
+      <h2 class="section-title">そのまま使える、<br><span class="mark-blue">告知文の下書き</span>。</h2>
+    </div>
+    <div class="promo-card reveal">
+      <h3>『ギフトに生きる』お話会</h3>
+      <p>7月8日に出版した『ギフトに生きる』。ありがたいことに、この本のタイトルは映画にも採用され、私自身も出演することになりました。さらに、この考え方は論文のテーマとしても取り上げられることが決まりました。</p>
+      <p>でも、このお話会で本当にお伝えしたいのは、映画や出版のお話ではありません。「優しい人が、優しいまま幸せに生きる方法。」それが「ギフトに生きる」という考え方です。</p>
+      <p>「人のため」と頑張りすぎて疲れてしまう。つい自分を後回しにしてしまう。もっと豊かさを感じながら毎日を過ごしたい。そんな方にこそ聞いていただきたいお話です。</p>
+      <p class="sub">こんなことをお話しします</p>
+      <ul>
+        <li>「ギフトに生きる」ってどういうこと？</li>
+        <li>自己犠牲を減らす考え方</li>
+        <li>豊かさを100倍感じられる受け取り方</li>
+        <li>世界中にあふれているギフトに気づく方法</li>
+        <li>失敗をギフトに変える視点</li>
+        <li>人に何かを贈るときのコツ</li>
+        <li>存在そのものがギフトだという話</li>
+        <li>私自身がどうしてこんな生き方になったのか</li>
+        <li>参加者さんの質問に合わせたお話</li>
+      </ul>
+      <p>毎回、参加される皆さんに合わせて内容が変わるので、その場だからこその時間になります。</p>
+      <p class="sub">このお話会で持ち帰っていただきたいもの</p>
+      <ul>
+        <li>🌸 自分も周りも幸せになる考え方</li>
+        <li>🌸 自己犠牲ではない「ギフト」のコツ</li>
+        <li>🌸 日常にあるギフトを見つける視点</li>
+        <li>🌸 人とのつながりが自然と豊かになるヒント</li>
+        <li>🌸 今日からすぐに実践できる具体的な方法</li>
+      </ul>
+      <p>「何か特別なことをしなければ幸せになれない。」そんな思い込みが少し軽くなって、「今ここにも、こんなにたくさんのギフトがあったんだ。」そう感じていただけたら、とても嬉しいです。どうぞお気軽に遊びにいらしてください＾＾</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gift-style" style="padding-top:clamp(20px,3vw,36px)">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:30px" class="reveal">
+      <p class="eyebrow" style="justify-content:center">ギフト制についての補足</p>
+      <h2 class="section-title">参加費を<br><span class="mark-pink">ギフト制</span>にする方へ。</h2>
+      <p class="lead" style="margin-top:14px;max-width:46ch;margin-inline:auto">告知文にこんな一文を添えるのがおすすめです。ご自由にお使いください。</p>
+    </div>
+    <div class="promo-card reveal" style="margin-bottom:20px">
+      <p style="text-align:center;font-family:var(--font-hand);color:var(--pink-deep);font-size:15px;margin-bottom:0">
+        参加費：ギフト制　※支払いたいなと思う金額と、お財布とのバランスでお支払いいただけたら嬉しいです。
+      </p>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq"><summary><span class="q-mark">Q</span>いくらにしたらいいんだろう？</summary>
+        <p class="a">それを感じることそのものが、ギフトに生きるの練習だったりします。普段私たちは価格があるのが当たり前で、それについて高いか安いか、ぐらいの判断しかしていません。でも実は心はもっと繊細で、本当はこれぐらいの金額を払いたいと思っているとか、もう少し安かったらよかったのにと思っていたりします。そうした細やかな自分の心を大切にすることができると、豊かさを味わう感性も同時に育まれていくと考えています。ですので、この「いくらにしたらいいんだろう？」という悩みそのものが生まれているのが素晴らしいのです。
+
+そして実際にいくらにするか？　これは金額を自分で呟いてみるのをおすすめします。「100万円？　それは高すぎる！」とか、「1万円、ありかも。」とか、「12,300円、あ、このくらいかも。」みたいな感じで探してみてもらえたら嬉しいです。また「1,000円、これだと悪いかな？　でもしっくりは来てるんだよなぁ。」など生まれていたら、その両方を大切にしてみてもらえたら嬉しいです。その中にある自分の前提は、お話会全体の中で溶けていくかもしれません。気持ちとお財布のバランスを感じる練習、ぜひしてみてくださいませ。</p>
+      </details>
+      <details class="faq"><summary><span class="q-mark">Q</span>外からの目が気になるんですが……</summary>
+        <p class="a">おそらく金額を考える時に「相手に悪いな、見栄を張らなきゃ、みんなはどれぐらい？　少ないと申し訳ない、恥ずかしい」そんなふうに思うのかもしれません。もしそう感じていたなら、すでに素晴らしいです。人間ですから、そう感じて当たり前ですし、なにも問題がないです。ギフトに生きるを実践している人も、人を見下しちゃったり、申し訳なく思うこともあるって言っていました。むしろ、そんな気持ちがあるから相手に寄り添える優しさになるし、人間らしくてカワイイなって思うのです。またその気持ちって、相手を大切にしたいという優しさの表れとも言えるのです。そんな自分もお話会を通じて愛でていってもらえたら嬉しいです。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-band">
+  <div class="wrap">
+    <div class="contact-inner reveal" style="text-align:center">
+      <p class="eyebrow" style="justify-content:center">はじめの一歩</p>
+      <h2 class="section-title">まずは、気軽にお話ししませんか？</h2>
+      <p class="lead" style="max-width:42ch;margin-inline:auto">開催をご検討中の方も、ちょっと聞いてみたいだけの方も、お気軽にどうぞ＾＾</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">石丸弘のFacebookへ</a>
+        <a class="btn btn-blue" href="https://lin.ee/po92sie" target="_blank" rel="noopener">公式LINEへ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="site.js"></script>
+</body>
+</html>
