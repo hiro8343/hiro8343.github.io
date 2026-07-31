@@ -88,6 +88,10 @@
 .ev-link.contact { background:var(--pink-deep); }
 .ev-nolink { flex:none; align-self:center; font-family:var(--font-hand); font-size:13px; color:var(--ink-faint); white-space:nowrap; }
 
+.ev-filter { display:flex; justify-content:center; margin:0 0 18px; }
+.ev-filter label { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); background:var(--paper-card); border:1px solid var(--ring); border-radius:999px; padding:8px 18px; box-shadow:var(--shadow-card); cursor:pointer; }
+.ev-filter input { accent-color:var(--blue-deep); width:15px; height:15px; }
+
 /* 終了したイベント */
 .ev-card.past { opacity:.62; }
 .ev-card.past .ev-link { background:var(--ink-faint); box-shadow:none; }
@@ -135,6 +139,7 @@
 
 <section class="section" style="padding-top:clamp(28px,4vw,48px)">
   <div id="evState" class="ev-state"><span class="dot"></span>最新のイベント情報を読み込んでいます…</div>
+  <div class="ev-filter" id="evFilter" hidden><label><input type="checkbox" id="evShowPastChk">終了したイベントも表示する</label></div>
   <div id="evList" class="ev-list" hidden></div>
 
   <div class="ev-foot">
@@ -237,6 +242,22 @@
 
     stateEl.hidden = true;
     listEl.hidden = false;
+
+    const filterEl = document.getElementById("evFilter");
+    const showPastChk = document.getElementById("evShowPastChk");
+    const hasPast = events.some(function (e) { return e.date < today; });
+    if (hasPast) {
+      filterEl.hidden = false;
+      applyPastVisibility();
+      showPastChk.addEventListener("change", applyPastVisibility);
+    } else {
+      filterEl.hidden = true;
+    }
+    function applyPastVisibility() {
+      listEl.querySelectorAll(".ev-card.past").forEach(function (card) {
+        card.style.display = showPastChk.checked ? "" : "none";
+      });
+    }
   }
 
   function escapeHtml(s) {
