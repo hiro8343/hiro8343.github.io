@@ -21,6 +21,7 @@
 <meta name="twitter:description" content="会いに行ける、ギフトのめぐり。お話会・出展・出演の最新情報。">
 <meta name="twitter:image" content="https://hiro8343.github.io/gift/og-events.png">
 
+<link rel="canonical" href="https://hiro8343.github.io/gift/events.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
@@ -258,6 +259,35 @@
         card.style.display = showPastChk.checked ? "" : "none";
       });
     }
+
+    injectEventSchema(events);
+  }
+
+  function injectEventSchema(events) {
+    const upcoming = events.filter(function (e) { return e.date >= today; });
+    if (!upcoming.length) return;
+    const iso = function (d) {
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    };
+    const data = upcoming.map(function (e) {
+      const ev = {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "『ギフトに生きる』" + e.place,
+        "startDate": iso(e.date),
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": { "@type": "Place", "name": e.place, "address": e.place },
+        "organizer": { "@type": "Person", "name": "石丸 弘" },
+        "description": e.time ? e.place + "（" + e.time + "）" : e.place
+      };
+      if (e.url) ev.url = e.url;
+      return ev;
+    });
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.textContent = JSON.stringify(data);
+    document.head.appendChild(tag);
   }
 
   function escapeHtml(s) {
