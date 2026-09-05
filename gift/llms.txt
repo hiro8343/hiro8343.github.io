@@ -1,0 +1,22 @@
+# ギフトに生きる
+
+石丸弘 著『ギフトに生きる』公式サイト。
+
+## サイト概要
+「ギフトに生きる」とは、見返りを気にせず、誰かのために・世界のために（もちろん自分も含めて）、できる時に、できることを、できるところまでする生き方の思想。書籍のほか、講座・お話会・動画コンテンツを通じてこの考え方を伝えている。
+
+## 主要ページ
+- https://hiro8343.github.io/gift/index.html — トップページ
+- https://hiro8343.github.io/gift/book.html — 書籍『ギフトに生きる』の紹介・予約
+- https://hiro8343.github.io/gift/concept.html — 「ギフトに生きる」とは？（コンセプト解説）
+- https://hiro8343.github.io/gift/course.html — ギフトの循環講座（3ヶ月講座）
+- https://hiro8343.github.io/gift/events.html — お話会・出展などイベント情報
+- https://hiro8343.github.io/gift/host-event.html — お話会を開催したい方への案内
+- https://hiro8343.github.io/gift/learn.html — 学ぶ・繋がる（動画コンテンツ）
+- https://hiro8343.github.io/gift/bookstores.html — 初版を置いている書店一覧
+- https://hiro8343.github.io/gift/other-spots.html — 書店以外で本を置いている場所
+- https://hiro8343.github.io/gift/reviews.html — 読者の感想
+- https://hiro8343.github.io/gift/support.html — 応援する・循環に加わる方法
+
+## 著者
+石丸 弘（いしまる ひろし）
