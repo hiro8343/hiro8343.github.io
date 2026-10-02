@@ -91,6 +91,7 @@
             <a href="https://amzn.to/43Rurig" target="_blank" rel="noopener">書籍を予約する</a>
             <a href="events.html">イベント情報</a>
             <a href="host-event.html">お話会を開催したい方へ</a>
+            <a href="oracle/">ギフトに生きるカードを引く</a>
             <a href="course.html">ギフトの循環講座</a>
             <a href="essay-gift.html">存在がギフトである証拠</a>
             <a href="https://office-kaleido.com/gift/" target="_blank" rel="noopener">ギフトに生きるを感じる</a>

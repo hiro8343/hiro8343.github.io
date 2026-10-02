@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ギフトに生きるカード｜今のあなたへのメッセージを引く</title>
+<meta name="description" content="「今必要なメッセージはなんですか？」と心で唱えて、1枚引いてみてください。書籍『ギフトに生きる』から生まれた18枚のオラクルカード。">
+<link rel="canonical" href="https://hiro8343.github.io/gift/oracle/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hiro8343.github.io/gift/oracle/">
+<meta property="og:title" content="ギフトに生きるカード｜今のあなたへのメッセージを引く">
+<meta property="og:description" content="「今必要なメッセージはなんですか？」と心で唱えて、1枚引いてみてください。">
+<meta property="og:image" content="https://hiro8343.github.io/gift/og-index.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yomogi&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FBF7F1;--card:#FFFDF9;--ink:#5A534B;--ink-strong:#4C463E;--ink-soft:#7F786F;--ink-faint:#B7B0A6;--blue:#BBD9EA;--blue-deep:#5E93B2;--pink:#F6CCD4;--pink-deep:#C9788A;--mint:#C8E3CE;--mint-deep:#6FA37B;--cream:#FBE9C8;--ring:rgba(120,100,80,.14);--shadow:0 18px 40px -24px rgba(120,100,80,.55);--display:"Klee One","Yu Mincho",serif;--body:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;--hand:"Yomogi","Klee One",cursive}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(900px 600px at 85% -10%,rgba(246,204,212,.45),transparent 60%),radial-gradient(800px 600px at 0% 100%,rgba(200,227,206,.4),transparent 60%),radial-gradient(700px 500px at 100% 90%,rgba(187,217,234,.4),transparent 55%),var(--paper);background-attachment:fixed;color:var(--ink);font-family:var(--body);line-height:1.9;-webkit-font-smoothing:antialiased}
+a{color:var(--blue-deep)}a:hover{color:var(--pink-deep)}
+button{font-family:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;width:min(1040px,100% - 40px);margin:0 auto;padding:22px 0}
+.brand{font-family:var(--hand);font-size:17px;color:var(--ink-strong);text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--blue-deep),var(--pink-deep))}
+.top .home{font-family:var(--hand);font-size:14px;text-decoration:none;color:var(--ink-soft);border:1px solid var(--ring);background:var(--card);border-radius:999px;padding:6px 16px}
+.top .home:hover{color:var(--pink-deep)}
+.wrap{width:min(1040px,100% - 40px);margin:0 auto}
+.intro{text-align:center;padding:clamp(18px,4vw,40px) 0 0}
+.eyebrow{font-family:var(--hand);color:var(--pink-deep);font-size:15px;margin:0 0 10px}
+h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:clamp(28px,5.4vw,46px);line-height:1.45;margin:0 0 16px;text-wrap:balance}
+.mk{background:linear-gradient(transparent 62%,var(--blue) 62%);padding:0 .06em}
+.intro p.lead{max-width:34em;margin:0 auto;color:var(--ink-soft);font-size:clamp(14.5px,2.2vw,16px);text-wrap:pretty}
+.marks{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.mark{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--ring);border-radius:999px;padding:5px 14px}
+.mark b{font-family:var(--display);font-size:15px;line-height:1}
+.mark.g b{color:#D9314B}.mark.r b{color:#D9314B}
+/* fan */
+.deck-area{position:relative;margin:clamp(14px,3vw,26px) auto 0;width:100%;max-width:760px;height:calc(clamp(54px,9.2vw,92px) * 1.36 * 1.5 + 24px)}
+.fan-card{--a:0deg;--lift:0px;position:absolute;left:50%;bottom:calc(clamp(54px,9.2vw,92px) * 1.36 * .46);width:clamp(54px,9.2vw,92px);aspect-ratio:393/533;margin-left:calc(clamp(54px,9.2vw,92px) / -2);transform-origin:50% 320%;transform:rotate(var(--a)) translateY(var(--lift));transition:transform .55s cubic-bezier(.3,.7,.2,1),filter .3s;border:0;padding:0;background:none;cursor:pointer;border-radius:8px}
+.fan-card img{width:100%;height:100%;object-fit:cover;border-radius:8px;border:3px solid #fff;box-shadow:0 10px 22px -12px rgba(90,70,50,.55);display:block;pointer-events:none}
+.fan-card:hover,.fan-card:focus-visible{--lift:-22px;outline:none;filter:brightness(1.04)}
+.fan-card:focus-visible img{box-shadow:0 0 0 3px var(--pink-deep)}
+.deck-area.gather .fan-card{--a:0deg!important}
+.deck-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:26px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 24px;border-radius:999px;border:1px solid var(--ring);background:var(--card);color:var(--ink-strong);font-size:15px;font-weight:500;cursor:pointer;box-shadow:var(--shadow);text-decoration:none;transition:transform .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px);color:var(--pink-deep)}
+.btn.primary{background:var(--pink-deep);color:#fff;border-color:transparent}
+.btn.primary:hover{color:#fff;background:#B9687A}
+.hint{text-align:center;font-family:var(--hand);color:var(--ink-faint);font-size:14px;margin:14px 0 0}
+/* result */
+.result{display:none;padding:clamp(20px,4vw,40px) 0 10px}
+.result.show{display:block}
+.result-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,5vw,56px);align-items:start}
+.stage{position:sticky;top:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.flip{width:min(320px,72vw);aspect-ratio:393/533;perspective:1400px}
+.flip-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.3,.7,.2,1)}
+.flip.open .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;overflow:hidden;background:#fff;border:6px solid #fff;box-shadow:0 30px 60px -30px rgba(90,70,50,.7)}
+.face img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.3,.7,.2,1)}
+.face.front{transform:rotateY(180deg)}
+.face.front.rev img{transform:rotate(180deg)}
+.turn{font-family:var(--hand);font-size:14px;color:var(--ink-soft);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.turn:hover{color:var(--pink-deep)}
+.reading{background:var(--card);border-radius:28px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.8);padding:clamp(24px,4vw,44px);opacity:0;transform:translateY(12px);transition:opacity .6s .5s,transform .6s .5s}
+.result.revealed .reading{opacity:1;transform:none}
+.side{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;border-radius:999px;padding:5px 14px;margin:0 0 14px}
+.side.g{background:rgba(246,204,212,.45);color:#A85568}
+.side.r{background:rgba(187,217,234,.45);color:#3F7593}
+.side b{font-family:var(--display);font-size:15px;line-height:1}
+.reading h2{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:clamp(23px,3.6vw,31px);line-height:1.5;margin:0 0 6px;text-wrap:balance}
+.reading .lead-q{font-family:var(--hand);color:var(--pink-deep);font-size:15px;margin:0 0 8px}
+.reading .body{margin-top:16px}
+.reading .body p{font-size:clamp(14.5px,2vw,16px);margin:0 0 1em;text-wrap:pretty}
+.reading .body ol{list-style:none;padding:0;margin:0 0 1em;display:flex;flex-direction:column;gap:6px}
+.reading .body ol li{background:rgba(251,233,200,.45);border-radius:12px;padding:6px 14px;font-size:15px}
+.note{font-size:13.5px;color:var(--ink-soft);background:rgba(200,227,206,.3);border-radius:14px;padding:12px 16px;margin:0 0 1em;line-height:1.85}
+.works{margin-top:22px;padding-top:20px;border-top:1px dashed var(--ink-faint)}
+.works h3{font-family:var(--hand);font-weight:400;font-size:17px;color:var(--mint-deep);margin:0 0 12px}
+.works ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.works li{display:grid;grid-template-columns:auto 1fr;gap:12px;font-size:clamp(14px,1.9vw,15.5px);line-height:1.85}
+.works li .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--mint);color:#3F6E4A;font-family:var(--display);font-weight:600;font-size:14px}
+.other{margin-top:22px;padding-top:18px;border-top:1px dashed var(--ink-faint);font-size:14px;color:var(--ink-soft)}
+.other button{font-family:var(--display);font-weight:600;font-size:16px;color:var(--blue-deep);background:none;border:0;padding:0;cursor:pointer;text-align:left;border-bottom:1px dashed var(--blue-deep)}
+.other button:hover{color:var(--pink-deep);border-color:var(--pink-deep)}
+.result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:34px 0 0}
+/* gallery */
+.gallery{display:none;padding:clamp(30px,5vw,56px) 0 0}
+.gallery.show{display:block}
+.gallery h2{font-family:var(--display);font-weight:600;color:var(--ink-strong);text-align:center;font-size:clamp(21px,3.2vw,27px);margin:0 0 6px}
+.gallery .sub{text-align:center;color:var(--ink-soft);font-size:14px;margin:0 0 24px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:18px}
+.gitem{border:0;padding:0;background:none;cursor:pointer;display:flex;flex-direction:column;gap:8px;text-align:left}
+.gitem img{width:100%;aspect-ratio:393/533;object-fit:cover;border-radius:10px;border:4px solid #fff;box-shadow:0 12px 26px -16px rgba(90,70,50,.6);transition:transform .25s}
+.gitem:hover img{transform:translateY(-4px)}
+.gitem span{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+.foot{text-align:center;padding:clamp(48px,8vw,80px) 0 40px;font-size:13px;color:var(--ink-faint)}
+.foot a{color:var(--ink-soft)}
+@media (max-width:760px){.result-grid{grid-template-columns:1fr}.stage{position:static}}
+@media (prefers-reduced-motion:reduce){.fan-card,.flip-in,.face img,.reading{transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./"><span class="dot"></span>ギフトに生きるカード</a>
+  <a class="home" href="../index.html">公式サイトへ</a>
+</header>
+
+<main>
+  <section class="intro wrap" id="draw" data-screen-label="カードを引く">
+    <p class="eyebrow">18枚のオラクルカード</p>
+    <h1>今の私に必要な<br><span class="mk">メッセージ</span>は、なんですか？</h1>
+    <p class="lead">心の中でそっと唱えてから、ピンときた1枚を選んでみてください。書かれている言葉や、絵から伝わる“感じ”が、今のあなたへのメッセージかもしれません。</p>
+    <div class="marks">
+      <span class="mark g"><b>♥</b>ギフトすることのメッセージ</span>
+      <span class="mark r"><b>∪</b>受け取ることのメッセージ</span>
+    </div>
+    <div class="deck-area" id="deck" aria-label="カードの山"></div>
+    <div class="deck-actions">
+      <button class="btn" id="shuffleBtn" type="button">カードをまぜる</button>
+    </div>
+    <p class="hint">気になる1枚をタップしてください</p>
+  </section>
+
+  <section class="result wrap" id="result" data-screen-label="引いたカード" aria-live="polite">
+    <div class="result-grid">
+      <div class="stage">
+        <div class="flip" id="flip">
+          <div class="flip-in">
+            <div class="face back"><img src="img/back.jpg" alt="カードの裏面"></div>
+            <div class="face front" id="front"><img id="frontImg" src="img/back.jpg" alt=""></div>
+          </div>
+        </div>
+        <button class="turn" id="turnBtn" type="button">カードの上下を入れかえる</button>
+      </div>
+      <article class="reading" id="reading"></article>
+    </div>
+    <div class="result-actions">
+      <button class="btn primary" id="againBtn" type="button">もう一度引く</button>
+      <button class="btn" id="galleryBtn" type="button">すべてのカードを見る</button>
+    </div>
+  </section>
+
+  <section class="gallery wrap" id="gallery" data-screen-label="カード一覧">
+    <h2>18枚のカード</h2>
+    <p class="sub">気になるカードを選ぶと、メッセージを読めます。</p>
+    <div class="ggrid" id="ggrid"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>上下は引いた向きのメッセージを受け取っても、両方受け取っても大丈夫。<br>あなたのしっくりくる読み方で、自由に楽しんでください。</p>
+  <p><a href="../index.html">書籍『ギフトに生きる』公式サイト</a></p>
+</footer>
+
+<script src="cards.js"></script>
+<script>
+(function(){
+  const CARDS = window.GIFT_CARDS;
+  const N = CARDS.length;
+  const deck = document.getElementById('deck');
+  const result = document.getElementById('result');
+  const flip = document.getElementById('flip');
+  const front = document.getElementById('front');
+  const frontImg = document.getElementById('frontImg');
+  const reading = document.getElementById('reading');
+  const gallery = document.getElementById('gallery');
+  const pad = n => String(n).padStart(2,'0');
+  const img = no => 'img/card' + pad(no) + '.jpg';
+  let order = [], current = null, reversed = false;
+
+  function shuffleOrder(){
+    order = CARDS.map((_,i)=>i);
+    for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+  }
+  function buildDeck(){
+    deck.innerHTML = '';
+    const span = 72;
+    for(let i=0;i<N;i++){
+      const b = document.createElement('button');
+      b.className = 'fan-card'; b.type = 'button';
+      b.setAttribute('aria-label', (i+1) + '枚目のカードを引く');
+      b.style.setProperty('--a', (-span/2 + span*i/(N-1)).toFixed(2) + 'deg');
+      b.innerHTML = '<img src="img/back.jpg" alt="">';
+      b.addEventListener('click', ()=>pick(i));
+      deck.appendChild(b);
+    }
+  }
+  function doShuffle(){
+    shuffleOrder();
+    deck.classList.add('gather');
+    setTimeout(()=>deck.classList.remove('gather'), 650);
+  }
+  function scrollToEl(el){ window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 16, behavior:'smooth'}); }
+
+  function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+  function renderReading(){
+    const c = CARDS[current];
+    const side = reversed ? c.receive : c.give;
+    const otherSide = reversed ? c.give : c.receive;
+    let body = '', list = [];
+    const flush = ()=>{ if(list.length){ body += '<ol>' + list.map(x=>'<li>'+esc(x)+'</li>').join('') + '</ol>'; list = []; } };
+    side.body.forEach(p=>{ if(/^[①②③④⑤]/.test(p)) list.push(p); else { flush(); body += '<p>'+esc(p)+'</p>'; } });
+    flush();
+    reading.innerHTML =
+      '<span class="side ' + (reversed?'r':'g') + '"><b>' + (reversed?'∪':'♥') + '</b>' + (reversed?'受け取ることのメッセージ':'ギフトすることのメッセージ') + '</span>' +
+      '<h2>' + esc(side.title) + '</h2>' +
+      (side.lead ? '<p class="lead-q">' + esc(side.lead) + '</p>' : '') +
+      '<div class="body">' + body + (side.note ? '<p class="note">' + esc(side.note) + '</p>' : '') + '</div>' +
+      (side.works && side.works.length ? '<div class="works"><h3>ワーク</h3><ol>' + side.works.map((w,i)=>'<li><span class="n">'+(i+1)+'</span><span>'+esc(w)+'</span></li>').join('') + '</ol></div>' : '') +
+      '<div class="other">このカードのもう一方の面<br><button type="button" id="otherBtn">' + (reversed?'♥ ':'∪ ') + esc(otherSide.title) + '</button></div>';
+    document.getElementById('otherBtn').addEventListener('click', turn);
+    frontImg.alt = 'カード「' + c.give.title + '」';
+  }
+  function turn(){
+    reversed = !reversed;
+    front.classList.toggle('rev', reversed);
+    reading.style.opacity = 0;
+    setTimeout(()=>{ renderReading(); reading.style.opacity = ''; }, 300);
+  }
+  function show(idx, rev, animate){
+    current = idx; reversed = rev;
+    gallery.classList.remove('show');
+    result.classList.add('show');
+    result.classList.remove('revealed');
+    flip.classList.remove('open');
+    front.classList.toggle('rev', reversed);
+    frontImg.src = img(CARDS[idx].no);
+    renderReading();
+    scrollToEl(result);
+    const open = ()=>{ flip.classList.add('open'); result.classList.add('revealed'); };
+    if(animate){ setTimeout(open, 500); } else { open(); }
+  }
+  function pick(pos){
+    show(order[pos], Math.random() < 0.5, true);
+  }
+  document.getElementById('shuffleBtn').addEventListener('click', doShuffle);
+  document.getElementById('turnBtn').addEventListener('click', turn);
+  document.getElementById('againBtn').addEventListener('click', ()=>{
+    result.classList.remove('show'); gallery.classList.remove('show');
+    doShuffle(); scrollToEl(document.getElementById('draw'));
+  });
+  document.getElementById('galleryBtn').addEventListener('click', ()=>{
+    gallery.classList.add('show'); scrollToEl(gallery);
+  });
+  document.getElementById('ggrid').innerHTML = CARDS.map((c,i)=>
+    '<button class="gitem" type="button" data-i="'+i+'"><img src="'+img(c.no)+'" alt="カード「'+esc(c.give.title)+'」" loading="lazy"><span>♥ '+esc(c.give.title)+'<br>∪ '+esc(c.receive.title)+'</span></button>'
+  ).join('');
+  document.getElementById('ggrid').addEventListener('click', e=>{
+    const b = e.target.closest('.gitem'); if(!b) return;
+    show(+b.dataset.i, Math.random() < 0.5, false);
+  });
+  shuffleOrder(); buildDeck();
+})();
+</script>
+</body>
+</html>

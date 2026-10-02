@@ -17,6 +17,7 @@
 - https://hiro8343.github.io/gift/other-spots.html — 書店以外で本を置いている場所
 - https://hiro8343.github.io/gift/reviews.html — 読者の感想
 - https://hiro8343.github.io/gift/support.html — 応援する・循環に加わる方法
+- https://hiro8343.github.io/gift/oracle/ — ギフトに生きるカード（18枚のオラクルカードをオンラインで引ける）
 
 ## 著者
 石丸 弘（いしまる ひろし）— 「ギフトに生きる」提唱者、書籍『ギフトに生きる』著者。
