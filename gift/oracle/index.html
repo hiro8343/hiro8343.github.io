@@ -99,6 +99,10 @@ h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:
 .gitem span{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
 .foot{text-align:center;padding:clamp(48px,8vw,80px) 0 40px;font-size:13px;color:var(--ink-faint)}
 .foot a{color:var(--ink-soft)}
+.buy{width:min(560px,100% - 40px);margin:0 auto 40px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.8);padding:clamp(24px,4vw,36px);display:flex;flex-direction:column;align-items:center;gap:6px}
+.buy-t{font-family:var(--display);font-weight:600;font-size:clamp(19px,2.8vw,22px);color:var(--ink-strong);margin:0}
+.buy p{font-size:14.5px;color:var(--ink-soft);margin:0 0 12px}
+.foot .buy a.btn{color:#fff}
 @media (max-width:760px){.result-grid{grid-template-columns:1fr}.stage{position:static}}
 @media (prefers-reduced-motion:reduce){.fan-card,.flip-in,.face img,.reading{transition:none}}
 </style>
@@ -152,6 +156,11 @@ h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:
 </main>
 
 <footer class="foot">
+  <div class="buy">
+    <p class="buy-t">実物のカードがほしい方へ</p>
+    <p>手に取れる「ギフトに生きるカード」をご希望の方は、石丸までお気軽にご連絡ください＾＾</p>
+    <a class="btn primary" href="https://www.facebook.com/hiroshi.ishimaru.8343" target="_blank" rel="noopener">石丸弘のFacebookへ</a>
+  </div>
   <p>上下は引いた向きのメッセージを受け取っても、両方受け取っても大丈夫。<br>あなたのしっくりくる読み方で、自由に楽しんでください。</p>
   <p><a href="../index.html">書籍『ギフトに生きる』公式サイト</a></p>
 </footer>
