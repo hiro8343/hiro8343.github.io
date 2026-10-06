@@ -35,7 +35,11 @@ h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:
 .mk{background:linear-gradient(transparent 62%,var(--blue) 62%);padding:0 .06em}
 .intro p.lead{max-width:34em;margin:0 auto;color:var(--ink-soft);font-size:clamp(14.5px,2.2vw,16px);text-wrap:pretty}
 .marks{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:18px 0 0}
-.mark{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--ring);border-radius:999px;padding:5px 14px}
+.mark{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13px;color:var(--ink-soft);background:var(--card);border:1px solid var(--ring);border-radius:999px;padding:8px 16px;min-height:40px;cursor:pointer;transition:background .2s,color .2s,border-color .2s,box-shadow .2s}
+.mark:hover{border-color:#E5A9B6}
+.mark.g[aria-pressed="true"]{background:#F6CCD4;border-color:#D98C9C;color:#7A3A49;box-shadow:0 6px 16px -10px rgba(168,85,104,.7)}
+.mark.r[aria-pressed="true"]{background:#BBD9EA;border-color:#6FA3C0;color:#2F5A72;box-shadow:0 6px 16px -10px rgba(63,117,147,.7)}
+.mode-hint{margin:10px auto 0;font-size:12.5px;color:var(--ink-soft);max-width:34em;text-wrap:pretty}
 .mark b{font-family:var(--display);font-size:15px;line-height:1}
 .mark.g b{color:#D9314B}.mark.r b{color:#D9314B}
 /* fan */
@@ -125,10 +129,11 @@ h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:
     <p class="eyebrow">18枚のオラクルカード</p>
     <h1>今の私に必要な<br><span class="mk">メッセージ</span>は、なんですか？</h1>
     <p class="lead">心の中でそっと唱えてから、ピンときた1枚を選んでみてください。書かれている言葉や、絵から伝わる“感じ”が、今のあなたへのメッセージかもしれません。</p>
-    <div class="marks">
-      <span class="mark g"><b>♥</b>ギフトすることのメッセージ</span>
-      <span class="mark r"><b>∪</b>受け取ることのメッセージ</span>
+    <div class="marks" role="group" aria-label="引くメッセージを選ぶ">
+      <button type="button" class="mark g" data-mode="g" aria-pressed="false"><b>♥</b>ギフトすることのメッセージ</button>
+      <button type="button" class="mark r" data-mode="r" aria-pressed="false"><b>∪</b>受け取ることのメッセージ</button>
     </div>
+    <p class="mode-hint" id="modeHint">どちらかを押すと、そのメッセージだけを引けます（選ばなければ、どちらが出るかはおまかせ）。下のカードの絵柄を押すと引けます。</p>
     <div class="deck-area" id="deck" aria-label="カードの山"></div>
     <div class="deck-actions">
       <button class="btn" id="shuffleBtn" type="button">カードをまぜる</button>
@@ -342,8 +347,18 @@ h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:
     const open = ()=>{ flip.classList.add('open'); result.classList.add('revealed'); };
     if(animate){ setTimeout(open, 500); } else { open(); }
   }
+  let mode = null;
+  const sideFor = () => mode === 'g' ? false : mode === 'r' ? true : Math.random() < 0.5;
+  const modeHint = document.getElementById('modeHint');
+  const HINT_DEFAULT = modeHint.textContent;
+  document.querySelectorAll('.marks .mark').forEach(btn => btn.addEventListener('click', () => {
+    mode = (mode === btn.dataset.mode) ? null : btn.dataset.mode;
+    document.querySelectorAll('.marks .mark').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+    modeHint.textContent = mode === 'g' ? '♥ ギフトすることのメッセージを引きます。もう一度押すと、おまかせに戻ります。下のカードの絵柄を押すと引けます。'
+      : mode === 'r' ? '∪ 受け取ることのメッセージを引きます。もう一度押すと、おまかせに戻ります。下のカードの絵柄を押すと引けます。' : HINT_DEFAULT;
+  }));
   function pick(pos){
-    show(order[pos], Math.random() < 0.5, true);
+    show(order[pos], sideFor(), true);
   }
   document.getElementById('shuffleBtn').addEventListener('click', doShuffle);
   document.getElementById('turnBtn').addEventListener('click', turn);
@@ -359,7 +374,7 @@ h1{font-family:var(--display);font-weight:600;color:var(--ink-strong);font-size:
   ).join('');
   document.getElementById('ggrid').addEventListener('click', e=>{
     const b = e.target.closest('.gitem'); if(!b) return;
-    show(+b.dataset.i, Math.random() < 0.5, false);
+    show(+b.dataset.i, sideFor(), false);
   });
   shuffleOrder(); buildDeck();
   const params = new URLSearchParams(location.search);
