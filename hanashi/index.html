@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HAPPY Days together｜はなっしーのセレクトギフトショップ</title>
+<meta name="description" content="葉梨裕樹（はなっしー）が色んな場所で出会った、物語のある素敵なアイテムをお届けするセレクトギフトショップ。">
+<meta property="og:title" content="HAPPY Days together｜セレクトギフトショップ">
+<meta property="og:description" content="はなっしーが色んな場所で出会った、物語のある素敵なアイテムたち。">
+<meta property="og:image" content="https://hiro8343.github.io/hanashi/images/top.webp">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Yomogi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <a href="#top" class="nav-logo">☀ HAPPY Days together</a>
+  <nav>
+    <a href="#story">ストーリー</a>
+    <a href="#items">アイテム</a>
+    <a href="#youtube">YouTube</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <img src="images/top.webp" alt="HAPPY Days together セレクトギフトショップ。両手を広げて笑顔で迎えるはなっしー" class="hero-img">
+    <a href="#story" class="scroll-down" aria-label="下へスクロール">▼</a>
+  </section>
+
+  <section id="story" class="story">
+    <div class="wrap">
+      <p class="section-label">STORY</p>
+      <h2>こんにちは＾＾</h2>
+      <div class="story-card">
+        <p class="name">葉梨 裕樹 <span>（はなし ゆうき）</span>です。</p>
+        <p>僕は本当に色んなものに興味があります。<br>
+        色んな場所にいって、色んな人に話を聴いて。</p>
+        <p>そんな僕がみつけてきた、たっくさんの素敵なアイテム。<br>
+        ぜひみんなに手に取ってもらえたら嬉しいです。</p>
+        <p>お相逢した時は、それぞれのアイテムの素敵な物語を<br class="pc">ぜひ聴いて下さい。</p>
+        <p class="accent">そして、あなたのお話もきかせてください。</p>
+        <p class="hand">葉梨の名前の通り、話すのも、話を聴くのも大好きです＾＾</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="items" class="items">
+    <div class="wrap">
+      <p class="section-label">ITEMS</p>
+      <h2>物語のあるアイテムたち</h2>
+      <p class="lead">気になるタグを選んでみてください♪</p>
+
+      <div class="controls">
+        <div class="tags" id="tags" role="group" aria-label="タグで絞り込み"></div>
+        <label class="count">
+          表示数
+          <select id="perPage">
+            <option value="6">6件</option>
+            <option value="12" selected>12件</option>
+            <option value="24">24件</option>
+            <option value="0">すべて</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="result" id="result"></p>
+      <div class="grid" id="grid">
+        <p class="loading">アイテムを読み込み中…☀</p>
+      </div>
+      <div class="more-wrap"><button class="btn more" id="more" hidden>もっと見る</button></div>
+    </div>
+  </section>
+
+  <section id="youtube" class="youtube">
+    <div class="wrap">
+      <p class="section-label">YOUTUBE</p>
+      <h2>YouTubeもやっています！</h2>
+      <p class="lead">登録してもらえると、めちゃよろこびます＾＾</p>
+      <div class="video">
+        <iframe src="https://www.youtube.com/embed/videoseries?list=UU42rnF4Vhsgbh34VRKK6jkA" title="はなっしーのYouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <a class="btn yt" href="https://www.youtube.com/channel/UC42rnF4Vhsgbh34VRKK6jkA?sub_confirmation=1" target="_blank" rel="noopener">▶ チャンネル登録する</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="footer-title">HAPPY Days together</p>
+  <p>セレクトギフトショップ ／ 葉梨 裕樹</p>
+  <p class="copy">© HAPPY Days together</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
