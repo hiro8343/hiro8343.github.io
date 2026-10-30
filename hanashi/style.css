@@ -162,6 +162,11 @@ h2 {
 .btn.yt { background: #e62117; color: #fff; font-size: 1.1rem; }
 .btn.yt:hover { background: #c81a12; }
 
+/* contact */
+.contact { background: var(--sand); text-align: center; }
+.btn.fb { background: #1877f2; color: #fff; font-size: 1.1rem; }
+.btn.fb:hover { background: #0f63d1; }
+
 /* footer */
 .footer { background: var(--navy-deep); color: #e8eef7; text-align: center; padding: 40px 16px; font-size: .9rem; }
 .footer-title { font-weight: 900; font-size: 1.2rem; color: var(--sun); }
