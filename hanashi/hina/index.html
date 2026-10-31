@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>陽菜ちゃんと一緒に行きたい場所</title>
+<meta name="description" content="大切な君と一緒に行けたらうれしいな。世界は楽しい。一緒に色々いきましょー＾＾">
+<meta property="og:title" content="陽菜ちゃんと一緒に行きたい場所">
+<meta property="og:description" content="世界は楽しい。一緒に色々いきましょー＾＾">
+<meta property="og:image" content="https://hiro8343.github.io/hanashi/hina/images/top.webp">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Yomogi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main>
+  <section class="hero">
+    <img src="images/top.webp" alt="花畑で空と地球に向かって両手を広げる二人" class="hero-img">
+    <div class="hero-text">
+      <h1><span>陽菜ちゃんと</span><span>一緒に行きたい場所</span></h1>
+    </div>
+    <a href="#message" class="scroll-down" aria-label="下へスクロール">▼</a>
+  </section>
+
+  <section id="message" class="message">
+    <div class="wrap">
+      <p class="msg">大切な君と<br>一緒に行けたらうれしいなと<br>おもって創りました＾＾</p>
+      <p class="big">世界は楽しい</p>
+      <p class="hand">一緒に色々いきましょー＾＾</p>
+    </div>
+  </section>
+
+  <section id="places" class="places">
+    <div class="wrap">
+      <p class="section-label">PLACES</p>
+      <h2>行きたい場所リスト</h2>
+      <p class="progress" id="progress"></p>
+
+      <div class="filters">
+        <div class="filter-row">
+          <span class="filter-label">行ったよー</span>
+          <div class="chips" id="status" role="group" aria-label="行ったよーで絞り込み">
+            <button class="chip active" data-status="all">すべて</button>
+            <button class="chip" data-status="done">行ったよー♡</button>
+            <button class="chip" data-status="todo">これから</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">都道府県</span>
+          <div class="chips" id="prefs" role="group" aria-label="都道府県で絞り込み"></div>
+        </div>
+      </div>
+
+      <p class="result" id="result"></p>
+      <div class="grid" id="grid">
+        <p class="loading">行きたい場所を読み込み中…✨</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="footer-title">世界は楽しい ✨</p>
+  <p><a href="../">HAPPY Days together へ</a></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
