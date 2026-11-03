@@ -161,6 +161,53 @@ a{color:#1D5FB8}a:hover{color:#123F7D}
 </div>
 </section>
 
+<!-- SESSION VIDEOS -->
+<section id="session" style="padding: clamp(64px, 8vw, 112px) 20px">
+<div style="max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center">
+<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; color: #1D5FB8">Real session</p>
+<h2 style="margin: 0; font-size: clamp(24px, 3.4vw, 34px); font-weight: 900">実際のセッションをご覧ください</h2>
+<p style="margin: 0; font-size: 16px; color: #4A4757">あなたのお話を聴いて、その場でラップにした実際の様子です。</p>
+</div>
+
+<!-- ラップ本編 -->
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div>
+<span style="background: #FFD66B; border-radius: 999px; padding: 4px 16px; font-size: 13px; font-weight: 700; color: #3B2A12">▶ ラップ本編</span>
+<h3 style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 26px); font-weight: 900">あなたの物語が、一曲になる瞬間</h3>
+</div>
+<div style="border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 24px 48px rgba(0,0,0,0.2)">
+<video controls style="display: block; width: 100%; height: auto" preload="metadata">
+<source src="rap.mp4" type="video/mp4">
+<track src="rap.vtt" kind="subtitles" srclang="ja" label="日本語" default>
+</video>
+</div>
+</div>
+
+<!-- 感想 -->
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div>
+<span style="background: #DCEBFF; border-radius: 999px; padding: 4px 16px; font-size: 13px; font-weight: 700; color: #1D5FB8">♡ 受け取ったかたの感想</span>
+<h3 style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 26px); font-weight: 900">「魂の響きって、こういう感じなんだな」</h3>
+</div>
+<div id="v-short" style="border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 24px 48px rgba(0,0,0,0.2)">
+<video id="vs" controls style="display: block; width: 100%; height: auto" preload="metadata">
+<source src="reaction_short.mp4" type="video/mp4">
+</video>
+</div>
+<div id="v-long" style="display: none; border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 24px 48px rgba(0,0,0,0.2)">
+<video id="vl" controls style="display: block; width: 100%; height: auto" preload="none">
+<source src="reaction_long.mp4" type="video/mp4">
+</video>
+</div>
+<p style="margin: 0; text-align: center">
+<button id="toggle-v" onclick="var s=document.getElementById('v-short'),l=document.getElementById('v-long'),vs=document.getElementById('vs'),vl=document.getElementById('vl'),b=document.getElementById('toggle-v');if(l.style.display==='none'){s.style.display='none';vs.pause();l.style.display='block';b.textContent='▲ 短い版に戻す（1分10秒）';}else{l.style.display='none';vl.pause();s.style.display='block';b.textContent='▼ 全部見る（2分52秒）';}" style="background: none; border: 2px solid #1D5FB8; color: #1D5FB8; border-radius: 999px; padding: 10px 28px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Zen Maru Gothic', sans-serif">▼ 全部見る（2分52秒）</button>
+</p>
+</div>
+
+</div>
+</section>
+
 <!-- VOICES -->
 <section style="padding: clamp(64px, 8vw, 112px) 20px">
 <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
