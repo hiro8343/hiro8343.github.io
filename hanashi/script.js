@@ -1,5 +1,5 @@
 // スプレッドシート（「リンクを知っている全員が閲覧可」にしておく）
-// 列：商品名 / 商品内容 / タグ（必須）、画像 / 価格 / リンク（任意・あれば表示）
+// 列：商品名 / 商品内容 / タグ（必須）、価格（税込み） / 画像 / リンク（任意・あれば表示）
 const SHEET_ID = "1nV_jHRtpdwBhIpkNlxa99AZmtog-7o-Rq41uxSYZCKc";
 const SHEET_GID = "0";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}`;
@@ -50,7 +50,7 @@ function toItems(rows) {
       desc: pick(o, ["商品内容", "説明"]),
       tags: pick(o, ["タグ"]).split(/[,、，\/／]+/).map(t => t.trim()).filter(Boolean),
       image: pick(o, ["画像", "画像URL", "写真"]),
-      price: pick(o, ["価格", "値段"]),
+      price: pick(o, ["価格（税込み）", "価格(税込み)", "価格", "値段"]),
       link: pick(o, ["リンク", "URL", "購入リンク"]),
     }))
     .filter(it => it.name);
@@ -60,6 +60,12 @@ function toItems(rows) {
 function imageUrl(url) {
   const m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?.*id=)([\w-]+)/);
   return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800` : url;
+}
+
+// 数字だけなら「¥3,000（税込み）」の形に。文字入りはそのまま表示
+function priceText(price) {
+  const digits = price.replace(/[¥￥,，円\s]/g, "");
+  return /^\d+$/.test(digits) ? `¥${Number(digits).toLocaleString("ja-JP")}（税込み）` : price;
 }
 
 function esc(s) {
@@ -87,7 +93,7 @@ function card(it, i) {
       <div class="card-tags">${tags}</div>
       <h3>${esc(it.name)}</h3>
       <p class="desc">${esc(it.desc)}</p>
-      ${it.price ? `<p class="price">${esc(it.price)}</p>` : ""}
+      ${it.price ? `<p class="price">${esc(priceText(it.price))}</p>` : `<p class="price ask">価格はお問い合わせください</p>`}
       ${it.link ? `<a class="link" href="${esc(it.link)}" target="_blank" rel="noopener">詳しく見る →</a>` : ""}
     </div>
   </article>`;
