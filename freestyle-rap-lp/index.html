@@ -179,6 +179,7 @@ a{color:#1D5FB8}a:hover{color:#123F7D}
 <div>
 <span style="background: #DCEBFF; border-radius: 999px; padding: 4px 16px; font-size: 13px; font-weight: 700; color: #1D5FB8">♡ 受け取ったかたの感想</span>
 <h3 style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 26px); font-weight: 900">「魂の響きって、こういう感じなんだな」</h3>
+<p style="margin: 6px 0 0; font-size: 14px; color: #6A6676">ふうちゃん</p>
 </div>
 <div style="display: flex; justify-content: center">
 <div id="v-short" style="width: 100%; max-width: 420px; border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 24px 48px rgba(0,0,0,0.2)">
@@ -197,6 +198,29 @@ a{color:#1D5FB8}a:hover{color:#123F7D}
 </p>
 </div>
 
+<!-- 感想2（陽菜ちゃん） -->
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div>
+<span style="background: #DCEBFF; border-radius: 999px; padding: 4px 16px; font-size: 13px; font-weight: 700; color: #1D5FB8">♡ 受け取ったかたの感想</span>
+<h3 style="margin: 10px 0 0; font-size: clamp(20px, 2.4vw, 26px); font-weight: 900">「聞くだけで上がるし、ときめくし、うれしいし」</h3>
+<p style="margin: 6px 0 0; font-size: 14px; color: #6A6676">陽菜ちゃん</p>
+</div>
+<div style="display: flex; justify-content: center">
+<div id="v2-short" style="width: 100%; max-width: 420px; border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 24px 48px rgba(0,0,0,0.2)">
+<video id="v2s" controls style="display: block; width: 100%; height: auto" preload="metadata">
+<source src="reaction2_short.mp4" type="video/mp4">
+</video>
+</div>
+<div id="v2-long" style="display: none; width: 100%; max-width: 420px; border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 24px 48px rgba(0,0,0,0.2)">
+<video id="v2l" controls style="display: block; width: 100%; height: auto" preload="none">
+<source src="reaction2_long.mp4" type="video/mp4">
+</video>
+</div>
+</div>
+<p style="margin: 0; text-align: center">
+<button id="toggle-v2" onclick="var s=document.getElementById('v2-short'),l=document.getElementById('v2-long'),vs=document.getElementById('v2s'),vl=document.getElementById('v2l'),b=document.getElementById('toggle-v2');if(l.style.display==='none'){s.style.display='none';vs.pause();l.style.display='block';b.textContent='▲ 短い版に戻す（1分20秒）';}else{l.style.display='none';vl.pause();s.style.display='block';b.textContent='▼ 全部見る（3分7秒）';}" style="background: none; border: 2px solid #1D5FB8; color: #1D5FB8; border-radius: 999px; padding: 10px 28px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Zen Maru Gothic', sans-serif">▼ 全部見る（3分7秒）</button>
+</p>
+</div>
 </div>
 </section>
 
@@ -206,23 +230,17 @@ a{color:#1D5FB8}a:hover{color:#123F7D}
 <div style="text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 28px; color: #1D5FB8">Voices</p>
 <h2 style="margin: 0; font-size: clamp(24px, 3.4vw, 34px); font-weight: 900">お客様の声</h2>
-<p style="margin: 0; font-size: 14px; color: #6A6676; background: #F3EEE6; border-radius: 999px; padding: 4px 16px">※ ただいま準備中です。以下は掲載イメージです</p>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px">
 <figure style="margin: 0; background: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 12px 32px rgba(120, 80, 30, 0.08); display: flex; flex-direction: column; gap: 16px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 56px; line-height: 0.6; color: #FFD66B" aria-hidden="true">“</p>
-<blockquote style="margin: 0; font-size: 16px">20分話しただけなのに、自分でも忘れていた想いがラップになって返ってきて、気づいたら泣いていました。転職するか迷っていた背中を、そっと押してもらえた気がします。</blockquote>
-<figcaption style="font-size: 13px; color: #6A6676">30代・会社員（イメージ）</figcaption>
+<blockquote style="margin: 0; font-size: 16px">魂の響きってこういう感じなんだなって。地球の鼓動と一緒になって、地球とその方が繋がって、そこから感じたリズムで、宇宙からは言葉が来てるみたいな感じがして、言葉にならない感動をしました。短い間だったけど、泣きそうで。すごい励まされました。ありがとうございました。</blockquote>
+<figcaption style="font-size: 13px; color: #6A6676">ふうちゃん</figcaption>
 </figure>
 <figure style="margin: 0; background: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 12px 32px rgba(120, 80, 30, 0.08); display: flex; flex-direction: column; gap: 16px">
 <p style="margin: 0; font-family: 'Caveat', cursive; font-size: 56px; line-height: 0.6; color: #FFD66B" aria-hidden="true">“</p>
-<blockquote style="margin: 0; font-size: 16px">ラップは正直よく知らなかったけど、自分のことをこんなに褒めてもらえる体験は初めて。録音したものを、落ち込んだ日に聴き返しています。</blockquote>
-<figcaption style="font-size: 13px; color: #6A6676">40代・子育て中（イメージ）</figcaption>
-</figure>
-<figure style="margin: 0; background: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 12px 32px rgba(120, 80, 30, 0.08); display: flex; flex-direction: column; gap: 16px">
-<p style="margin: 0; font-family: 'Caveat', cursive; font-size: 56px; line-height: 0.6; color: #FFD66B" aria-hidden="true">“</p>
-<blockquote style="margin: 0; font-size: 16px">起業前の不安を話したら「もう準備はできてる」というフレーズが飛んできて、ハッとしました。言葉にリズムがつくと、こんなに心に残るんですね。</blockquote>
-<figcaption style="font-size: 13px; color: #6A6676">40代・個人事業主（イメージ）</figcaption>
+<blockquote style="margin: 0; font-size: 16px">口説きをテーマにラップをしていただいて、まずは本当にすごくときめきました。聞くたび聞くたびときめくので、スキンケアをするときなどに聞いて、ニコニコしながら音源を活用させてもらっています。今の私の状態や時期をすごく肯定的に捉えてくれて、「そこがいい」という感覚にさせてくれました。かけられている言葉を、自分にもかけてあげたいなと感じて、自分との対話のきっかけにもなっています。聞くだけで上がるし、ときめくし、うれしいし。本当に感謝しています。</blockquote>
+<figcaption style="font-size: 13px; color: #6A6676">陽菜ちゃん</figcaption>
 </figure>
 </div>
 </div>
