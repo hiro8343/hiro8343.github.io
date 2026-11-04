@@ -3,6 +3,7 @@
 const SHEET_ID = "1nV_jHRtpdwBhIpkNlxa99AZmtog-7o-Rq41uxSYZCKc";
 const SHEET_GID = "0";
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${SHEET_GID}`;
+const MESSENGER_URL = "https://m.me/yuki.hanashi.7";
 
 const ALL = "すべて";
 const EMOJIS = ["🎁", "🌈", "☀️", "🌺", "🍀", "🌊", "✨", "🧿"];
@@ -68,6 +69,13 @@ function priceText(price) {
   return /^\d+$/.test(digits) ? `¥${Number(digits).toLocaleString("ja-JP")}（税込み）` : price;
 }
 
+// 価格があれば「購入する」、空欄なら「問い合わせる」。メッセージの下書きに商品名を入れる
+function messengerLink(it) {
+  const label = it.price ? "購入する" : "問い合わせる";
+  const text = `「${it.name}」を${it.price ? "購入したいです" : "問い合わせたいです"}＾＾`;
+  return `<a class="btn buy" href="${MESSENGER_URL}?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${label}</a>`;
+}
+
 function esc(s) {
   return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
@@ -94,6 +102,7 @@ function card(it, i) {
       <h3>${esc(it.name)}</h3>
       <p class="desc">${esc(it.desc)}</p>
       ${it.price ? `<p class="price">${esc(priceText(it.price))}</p>` : `<p class="price ask">価格はお問い合わせください</p>`}
+      ${messengerLink(it)}
       ${it.link ? `<a class="link" href="${esc(it.link)}" target="_blank" rel="noopener">詳しく見る →</a>` : ""}
     </div>
   </article>`;

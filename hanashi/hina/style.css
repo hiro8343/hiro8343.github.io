@@ -104,8 +104,8 @@ h2 {
 }
 .card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(63,127,216,.16); }
 @keyframes fadein { from { opacity: 0; transform: translateY(10px); } }
-.card-img { aspect-ratio: 4 / 3; background: linear-gradient(135deg, #cfe2ff, #f3dcff); }
-.card-img img { width: 100%; height: 100%; object-fit: cover; }
+.card-img { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: linear-gradient(135deg, #cfe2ff, #f3dcff); }
+.card-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .card-img.placeholder { display: grid; place-items: center; font-size: 3.4rem; }
 .card-body { padding: 16px 20px 22px; }
 .pref {
