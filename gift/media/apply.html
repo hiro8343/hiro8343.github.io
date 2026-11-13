@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>インタビューに参加する｜ギフトの旅人たち</title>
+<meta name="description" content="インタビューを受けたい方・インタビュアーになりたい方へ。「ギフトの旅人たち」への参加方法をご案内します。準備なしで大丈夫。あなたのお話、聴かせてください。">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hiro8343.github.io/gift/media/apply.html">
+<meta property="og:title" content="インタビューに参加する｜ギフトの旅人たち">
+<meta property="og:description" content="インタビューを受けたい方・インタビュアーになりたい方へ。準備なしで大丈夫。あなたのお話、聴かせてください。">
+<meta property="og:image" content="https://hiro8343.github.io/gift/og-index.png">
+<meta property="og:site_name" content="ギフトに生きる">
+<meta property="og:locale" content="ja_JP">
+
+<link rel="canonical" href="https://hiro8343.github.io/gift/media/apply.html">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&family=Yomogi&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../gift.css">
+
+<style>
+:root {
+  --maxw: 860px;
+  --paper-mid: #F3EDE3;
+  --mint-mid: #A5D0AF;
+  --shadow: 0 10px 32px -16px rgba(100,80,60,.35);
+  --shadow-lg: 0 20px 50px -24px rgba(100,80,60,.42);
+  --font-d: var(--font-display);
+  --font-b: var(--font-body);
+  --font-h: var(--font-hand);
+  --radius: 20px;
+  --radius-lg: 32px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper-mid: #201C15;
+    --mint-mid: #3A6042;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper-mid: #201C15;
+  --mint-mid: #3A6042;
+  color-scheme: dark;
+}
+body { overflow-x: hidden; }
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(140,120,90,.04) 1px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-inline: max(16px, env(safe-area-inset-left,0px));
+}
+
+/* HEADER */
+.site-hd {
+  position: sticky; top: 0; z-index: 100;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--ink-faint);
+  padding-block: 13px;
+}
+.site-hd .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hd-brand { display: flex; flex-direction: column; line-height: 1.3; text-decoration: none; color: inherit; }
+.hd-brand-main { font-family: var(--font-d); font-weight: 600; font-size: 1.05rem; letter-spacing: .06em; }
+.hd-brand-sub { font-family: var(--font-h); font-size: .72rem; color: var(--ink-soft); letter-spacing: .1em; }
+.hd-nav { display: flex; gap: 18px; font-size: .82rem; color: var(--ink-soft); }
+.hd-nav a:hover { color: var(--ink); }
+.hd-nav a.active { color: var(--mint-deep); font-weight: 700; }
+@media (max-width: 520px) { .hd-nav { display: none; } }
+
+/* HERO */
+.apply-hero {
+  padding-block: 64px 48px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.apply-hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(55% 55% at 25% 40%, rgba(200,227,206,.5), transparent 70%),
+    radial-gradient(50% 50% at 78% 35%, rgba(246,204,212,.4), transparent 70%);
+  filter: blur(6px);
+}
+.apply-hero .wrap { position: relative; z-index: 1; }
+.apply-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-h); font-size: .78rem; color: var(--mint-deep);
+  letter-spacing: .15em; margin-bottom: 20px;
+  background: var(--mint); padding: 5px 16px; border-radius: 100px;
+}
+.apply-hero h1 { font-size: clamp(1.6rem, 5vw, 2.5rem); line-height: 1.5; margin-bottom: 18px; }
+.apply-hero-desc {
+  font-size: .95rem; color: var(--ink-soft); line-height: 2.1;
+  max-width: 500px; margin: 0 auto;
+}
+
+/* CARDS */
+.apply-section { padding-block: 56px; }
+.apply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 600px) { .apply-grid { grid-template-columns: 1fr; } }
+
+.apply-card {
+  border-radius: var(--radius-lg); border: 2px solid;
+  overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: var(--shadow);
+}
+.apply-card.c-pink { border-color: var(--pink-deep); }
+.apply-card.c-mint { border-color: var(--mint-mid); }
+
+.apply-card-hd {
+  padding: 28px 28px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.apply-card.c-pink .apply-card-hd {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--pink) 30%, var(--paper-card)), var(--paper-card));
+}
+.apply-card.c-mint .apply-card-hd {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--mint) 30%, var(--paper-card)), var(--paper-card));
+}
+.apply-icon { font-size: 2.2rem; }
+.apply-title { font-family: var(--font-d); font-size: 1.15rem; font-weight: 600; }
+.apply-subtitle { font-size: .82rem; color: var(--ink-soft); font-family: var(--font-h); letter-spacing: .05em; }
+
+.apply-card-body {
+  padding: 20px 28px 28px;
+  background: var(--paper-card);
+  flex: 1; display: flex; flex-direction: column; gap: 18px;
+}
+.apply-card-lead { font-size: .9rem; color: var(--ink); line-height: 2; }
+
+.apply-steps { display: flex; flex-direction: column; gap: 12px; }
+.apply-step { display: flex; gap: 12px; align-items: flex-start; }
+.apply-step-num {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700; color: #fff; margin-top: 2px;
+}
+.c-pink .apply-step-num { background: var(--pink-deep); }
+.c-mint .apply-step-num { background: var(--mint-deep); }
+.apply-step-text { font-size: .86rem; color: var(--ink-soft); line-height: 1.8; flex: 1; }
+.apply-step-text strong { color: var(--ink); font-weight: 700; }
+
+.apply-cta-wrap { margin-top: auto; padding-top: 8px; }
+.apply-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 24px; border-radius: 100px;
+  font-size: .92rem; font-weight: 700; letter-spacing: .03em;
+  text-decoration: none; transition: transform .15s, filter .15s;
+  width: 100%; text-align: center;
+}
+.apply-cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.c-pink .apply-cta { background: var(--pink-deep); color: #fff; box-shadow: var(--shadow); }
+.c-mint .apply-cta { background: var(--mint-deep); color: #fff; box-shadow: var(--shadow); }
+
+/* EMAIL MEMO */
+.email-hint {
+  font-size: .78rem; color: var(--ink-soft); font-family: var(--font-h);
+  text-align: center; margin-top: 6px; letter-spacing: .04em;
+}
+
+/* NOTE SECTION */
+.note-section { padding-block: 0 56px; }
+.note-card {
+  background: var(--paper-card); border-radius: var(--radius-lg);
+  border: 1px solid var(--ink-faint);
+  padding: 32px 36px;
+}
+.note-label { font-family: var(--font-h); font-size: .75rem; color: var(--ink-soft); letter-spacing: .18em; margin-bottom: 14px; }
+.note-h3 { font-size: 1.05rem; margin-bottom: 18px; }
+.note-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.note-list li {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: .88rem; color: var(--ink-soft); line-height: 1.8;
+}
+.note-list li::before { content: "✦"; color: var(--mint-deep); flex-shrink: 0; margin-top: 2px; }
+
+/* FOOTER */
+.site-ft { padding-block: 44px; border-top: 1px solid var(--ink-faint); text-align: center; }
+.ft-brand { font-family: var(--font-d); font-size: 1.05rem; font-weight: 600; letter-spacing: .06em; margin-bottom: 8px; }
+.ft-sub { font-family: var(--font-h); font-size: .78rem; color: var(--ink-soft); margin-bottom: 20px; }
+.ft-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; font-size: .82rem; color: var(--ink-soft); }
+.ft-links a:hover { color: var(--ink); }
+.ft-copy { margin-top: 20px; font-size: .75rem; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-hd">
+  <div class="wrap">
+    <a href="../index.html" class="hd-brand">
+      <span class="hd-brand-main">ギフトの旅人たち</span>
+      <span class="hd-brand-sub">ギフトに生きる オウンドメディア</span>
+    </a>
+    <nav class="hd-nav">
+      <a href="./index.html">インタビュー一覧</a>
+      <a href="./apply.html" class="active">参加する</a>
+      <a href="../book.html">本を読む</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="apply-hero">
+  <div class="wrap">
+    <div class="apply-eyebrow">✦ 参加する</div>
+    <h1>あなたの中のギフトを、<br>一緒に探しませんか。</h1>
+    <p class="apply-hero-desc">
+      準備は一切いりません。<br>
+      インタビューで話すうちに、自分でも気づいていなかった宝物が出てきます。
+      受けた人みんなが「話してみてよかった」と言ってくれています。
+    </p>
+  </div>
+</section>
+
+<!-- APPLY CARDS -->
+<section class="apply-section">
+  <div class="wrap">
+    <div class="apply-grid">
+
+      <!-- インタビューを受けたい -->
+      <div class="apply-card c-pink">
+        <div class="apply-card-hd">
+          <div class="apply-icon">🌸</div>
+          <div class="apply-title">インタビューを受けたい</div>
+          <div class="apply-subtitle">話すだけで、ギフトが見えてくる</div>
+        </div>
+        <div class="apply-card-body">
+          <p class="apply-card-lead">
+            「自分にはギフトなんてない」と思っている人ほど、話してみると宝物がザクザク出てきます。準備なしで大丈夫。
+          </p>
+          <div class="apply-steps">
+            <div class="apply-step">
+              <span class="apply-step-num">1</span>
+              <span class="apply-step-text"><strong>メールを送る</strong><br>「インタビューを受けたい」と書いて送ってください</span>
+            </div>
+            <div class="apply-step">
+              <span class="apply-step-num">2</span>
+              <span class="apply-step-text"><strong>日程を調整する</strong><br>オンライン（Zoom等）で30〜40分ほど</span>
+            </div>
+            <div class="apply-step">
+              <span class="apply-step-num">3</span>
+              <span class="apply-step-text"><strong>記事になる</strong><br>YouTubeとこのページで公開します</span>
+            </div>
+          </div>
+          <div class="apply-cta-wrap">
+            <a href="mailto:hiro.mosmos.jp@gmail.com?subject=ギフトの旅人たち：インタビューを受けたい" class="apply-cta">
+              ✉ 応募メールを送る
+            </a>
+            <p class="email-hint">件名に「インタビューを受けたい」と書いてください</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- インタビュアーになりたい -->
+      <div class="apply-card c-mint">
+        <div class="apply-card-hd">
+          <div class="apply-icon">🎙</div>
+          <div class="apply-title">インタビュアーになりたい</div>
+          <div class="apply-subtitle">聴く力を磨く体験</div>
+        </div>
+        <div class="apply-card-body">
+          <p class="apply-card-lead">
+            インタビューする側をやると、ギフトの眼差しが自然と身につきます。誰かの人生を深く聴く体験、やってみませんか。
+          </p>
+          <div class="apply-steps">
+            <div class="apply-step">
+              <span class="apply-step-num">1</span>
+              <span class="apply-step-text"><strong>メールを送る</strong><br>「インタビュアーになりたい」と書いて送ってください</span>
+            </div>
+            <div class="apply-step">
+              <span class="apply-step-num">2</span>
+              <span class="apply-step-text"><strong>事前にお話する</strong><br>インタビューの流れや質問の仕方をお伝えします</span>
+            </div>
+            <div class="apply-step">
+              <span class="apply-step-num">3</span>
+              <span class="apply-step-text"><strong>実践する</strong><br>実際にインタビューを担当します</span>
+            </div>
+          </div>
+          <div class="apply-cta-wrap">
+            <a href="mailto:hiro.mosmos.jp@gmail.com?subject=ギフトの旅人たち：インタビュアーになりたい" class="apply-cta">
+              ✉ 参加メールを送る
+            </a>
+            <p class="email-hint">件名に「インタビュアーになりたい」と書いてください</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NOTE -->
+<section class="note-section">
+  <div class="wrap">
+    <div class="note-card">
+      <div class="note-label">よくある質問</div>
+      <h3 class="note-h3">参加する前に知っておいてほしいこと</h3>
+      <ul class="note-list">
+        <li>インタビューはオンライン（Zoom等）で行います。対面も相談可能です。</li>
+        <li>事前の準備や原稿は一切不要です。思いついたことをそのまま話してください。</li>
+        <li>公開前に記事の内容を確認していただけます。修正・非公開も対応します。</li>
+        <li>出演料・参加費はかかりません。</li>
+        <li>インタビューの様子はYouTubeに動画として公開することがあります。</li>
+        <li>不安なことや聞いてみたいことは、メールで何でも聞いてください。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-ft">
+  <div class="wrap">
+    <div class="ft-brand">ギフトに生きる</div>
+    <div class="ft-sub">ギフトの旅人たち — オウンドメディア</div>
+    <div class="ft-links">
+      <a href="./index.html">インタビュー一覧</a>
+      <a href="../book.html">本を読む</a>
+      <a href="../concept.html">コンセプト</a>
+      <a href="../index.html">サイトトップ</a>
+    </div>
+    <div class="ft-copy">© 2026 ギフトに生きる / 石丸弘</div>
+  </div>
+</footer>
+
+</body>
+</html>
