@@ -89,7 +89,12 @@
 .ev-link.contact { background:var(--pink-deep); }
 .ev-nolink { flex:none; align-self:center; font-family:var(--font-hand); font-size:13px; color:var(--ink-faint); white-space:nowrap; }
 
-.ev-filter { display:flex; justify-content:center; margin:0 0 18px; }
+.ev-filter { display:flex; flex-direction:column; align-items:center; gap:12px; margin:0 0 18px; }
+.ev-tally { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:0; font-family:var(--font-hand); font-size:14.5px; color:var(--ink-soft); }
+.ev-tally span { display:inline-flex; align-items:baseline; gap:6px; padding:6px 16px; border-radius:999px; }
+.ev-tally .done { background:rgba(246,204,212,.35); }
+.ev-tally .soon { background:rgba(187,217,234,.4); }
+.ev-tally b { font-family:var(--font-display); font-weight:600; font-size:20px; color:#4C463E; }
 .ev-filter label { display:inline-flex; align-items:center; gap:8px; font-family:var(--font-hand); font-size:14px; color:var(--ink-soft); background:var(--paper-card); border:1px solid var(--ring); border-radius:999px; padding:8px 18px; box-shadow:var(--shadow-card); cursor:pointer; }
 .ev-filter input { accent-color:var(--blue-deep); width:15px; height:15px; }
 
@@ -140,7 +145,7 @@
 
 <section class="section" style="padding-top:clamp(28px,4vw,48px)">
   <div id="evState" class="ev-state"><span class="dot"></span>最新のイベント情報を読み込んでいます…</div>
-  <div class="ev-filter" id="evFilter" hidden><label><input type="checkbox" id="evShowPastChk">終了したイベントも表示する</label></div>
+  <div class="ev-filter" id="evFilter" hidden><p class="ev-tally" id="evTally"></p><label><input type="checkbox" id="evShowPastChk">終了したイベントも表示する</label></div>
   <div id="evList" class="ev-list" hidden></div>
 
   <div class="ev-foot">
@@ -246,7 +251,12 @@
 
     const filterEl = document.getElementById("evFilter");
     const showPastChk = document.getElementById("evShowPastChk");
-    const hasPast = events.some(function (e) { return e.date < today; });
+    const pastCount = events.filter(function (e) { return e.date < today; }).length;
+    const soonCount = events.length - pastCount;
+    const hasPast = pastCount > 0;
+    document.getElementById("evTally").innerHTML =
+      '<span class="done">これまでに <b>' + pastCount + '</b> 回、ギフトがめぐりました</span>' +
+      (soonCount ? '<span class="soon">これから <b>' + soonCount + '</b> 回、出会えます</span>' : '');
     if (hasPast) {
       filterEl.hidden = false;
       applyPastVisibility();
@@ -260,10 +270,10 @@
       });
     }
 
-    injectEventSchema(events);
+    injectEventSchema(events, today);
   }
 
-  function injectEventSchema(events) {
+  function injectEventSchema(events, today) {
     const upcoming = events.filter(function (e) { return e.date >= today; });
     if (!upcoming.length) return;
     const iso = function (d) {
