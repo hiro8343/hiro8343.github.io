@@ -292,11 +292,17 @@ details.d-toggle[open] .d-toggle-arrow { transform: rotate(180deg); }
   border-radius: var(--radius);
   overflow: hidden;
 }
-.d-transcript {
-  padding: 24px 28px;
-  font-size: .88rem; color: var(--ink); line-height: 2;
-  white-space: pre-wrap;
+.d-lines { padding: 8px 20px 20px; }
+.d-line { display: flex; gap: 10px; align-items: flex-start; padding-block: 9px; }
+.d-line + .d-line { border-top: 1px dashed var(--ink-faint); }
+.d-sp {
+  flex-shrink: 0; min-width: 46px; padding: 2px 8px; border-radius: 100px;
+  font-size: .72rem; font-weight: 700; text-align: center;
+  background: var(--paper-mid); color: var(--ink-soft);
 }
+.d-sp.eri   { background: var(--mint); color: var(--mint-deep); }
+.d-sp.yoshi { background: var(--pink); color: var(--pink-deep); }
+.d-txt { flex: 1; min-width: 0; font-size: .88rem; line-height: 1.95; color: var(--ink); }
 .d-transcript-note {
   padding: 16px 28px;
   font-size: .78rem; color: var(--ink-soft); font-style: italic;
@@ -596,7 +602,7 @@ hr.divider { border: none; border-top: 1px solid var(--ink-faint); margin: 0; }
 <section class="dialogue-section">
   <div class="wrap">
     <div class="section-label">インタビュー文字起こし</div>
-    <h2 class="section-h2">弘とヨッシーの対話、すべて</h2>
+    <h2 class="section-h2">えりとヨッシーの対話、すべて</h2>
 
     <details class="d-toggle">
       <summary>
@@ -610,681 +616,898 @@ hr.divider { border: none; border-top: 1px solid var(--ink-faint); margin: 0; }
       <div class="d-body">
         <div class="d-transcript-note">
           <span>✦</span>
-          <span>以下はYouTubeの自動字幕から取得した文字起こしです。話者の区別は含まれていません。第１回との構成上の違いはここにあります。</span>
+          <span>以下はYouTubeの自動字幕をもとにAIが話者を推定したものです。一部の割り当てに誤りがある場合があります。</span>
         </div>
-        <div class="d-transcript">よろしくお願いします。
-よろしくお願いします。今日はですね、
-あのギフトに生きるということで、え、
-その
-どんなことがギフトにつながっているのか
-というところをですね、あの感じながらお
-話をお伺いできたらいいなと思っており
-ます。
-私はあのえりちゃんとか
-あの呼んでいただけたら嬉しいなと思っ
-てるんですけれども。
-ですか。
-はい。なんてお呼びしたらよろしい
-でしょうか。
-あの特にないんですけどね。
-別に
-あの
-よしでもしげちゃんでもいいですけど。
-[笑い]
-先生とか呼ばれることも多いですか。
-そうですね。皆さんまあ別になんと呼ばれ
-てもはいってお答えしてますけど。
-じゃあ今日は
-あ、何がいいですかね。
-ヨッシーでもいいですよ。
-ヨッシー。じゃあちょっとずうずうしい
-ような気もいたしますが
-はい、[笑い]いえ。
-ヨッシーと呼ばせていただきたいと思い
-ます。
-はい。
-ありがとうございます。
-では早速なんですけれども
-え
-今されていること、お仕事とか趣味でも
-活動でも
-あの現在されていることをお聞かせ
-いただいていいでしょうか。
-ああ。
-まあ仕事は
-え、意識哲学というなんか固い名前の
-理論を作っているわけで
-はい。
-でそれのパワーポイントですね、説明する
-時の
-これを鋭意作成しております。
-あ、意識哲学のパワポを作ってる。
-ええ。
-はい。
-で今までその線画きで自分で書いてたん
-ですよ。
-はい。
-そたら分からん分からんって言われて
-で同じをAI使って、あの、総天然色の絵
-にしたらは分かりやすいって言われたん
-ですね。
-ああ、はい。
-そこが引っかかってんのかってのが分かり
-まして。
-はい。
-え、
-必死に今
-AIに絵を描いてもらってます。
-あ、その意識哲学の
-その図解を
-そうですね。元々あの心の構造と
-え、原理を解き明かしたと言ってるんです
-けども
-それのあの、ま
-の構造
-うん。心そのものの構造と原理を
-解き明かしちゃったと。
-ええ。
-だからその心に関する質問には全部お答え
-しますと宣言してるんですね。
-ええ、すごい。
-で、それの
-要するに元々が150以上の図で示してた
-んですね、それを。
-ううん。
-で、それを全部絵に、
-あの、綺麗な絵に書き換えていると。
-はい。
-そんな感じです。
-すごいですね。150
-ほとんどのそのこういう時の心持ちはこう
-いう図で表せますよみたいな。
-すごいですね。今いくつぐらいその原理は
-図になってるんですか。
-えっと、だからま150以上なんですけど
-も
-あ、うん。
-ま、その場その場でね
-別にそのいくつかかっちりと固定されて
-いるわけではなくて
-そのクライアントさんからお聞きしたら
-ば、あ、あなたの心はこうなってますよ
-ねってかけちゃうようなね。
-あ、
-めちゃくちゃ興味があります。
-そうするとあの
-こう了解を得た上で協力して問題の解決に
-当たれるんですね。
-ううん。
-だから従来のね、カウンセリングの例えば
-積極的傾聴なんかで
-あの私治るでしょうか言ったら、治るか
-どうか不安なんですねとか言って
-あのわけのわかんないものを煩わってやっ
-てくるというね。
-ええ、そうするとなんかなんていうかな、
-カウンセラーが誘導するみたいな形になる
-わけですけれど
-はい。
-で、それももちろん有効なことは多々ある
-んですが
-なるべく私はそのご本人の了解を得て、
-あ、ここをこうくっつけたらいいんですね
-とかっていうことをね
-へえ、心と心をくっつける。
-うんとね、1人の人間、あまずですね、心
-の問題っていうのは原因が1つしかないん
-です。
-はい。
-それは心の分断なんですね。
-うんうんうんうん。
-自分[咳払い]の心のはずのものが仲間
-割れをするんですよ。
-ふうん。
-そうするとメインのところの体積がそれが
-減っちゃうわけですね、分断した分だけ。
-うん。
-で、こう分断したところの能力は使えない
-んですね。
-はい。
-それだけじゃなくて、何かやってる最中に
-これがちょっかい出して邪魔するんです
-よ。
-ううん。
-それをこうぴゅっと統合しちゃえば問題は
-消えちゃうんです。
-面白いです。[笑い]
-ちょっと火を改めてその辺
-あのもっとお伺いしたくなってきました。
-原理はめちゃくちゃ単純なんですけども
-はい。
-そのどこが分断してるかによって症状が
-千差万別なんですね。
-ううん。
-そのどこがっていうのが150
-項目
-いやいや、そうじゃなくて、それはあの
-あの聞かなきゃしょうがないわけですね、
-ご本人に。
-なるほど。
-うん。
-ううん。
-いや、すごい。
-[笑い]
-じゃあ今はそのパワポ作りに
-そうですね。
-なるべく分かりやすく。じゃあ今のAI
-ってのはすごいですね。
-いや、すごいですよ。
-あのなんていうか、こんな簡単な説明で
-わかるかなっていうのをこちらの意図を
-組んでやってくれるんですよね。
-そうなんですよね。
-自分以上に自分を分かってくれてるんじゃ
-ないかと思っています。[笑い]
-本当に。
-ええ。あ、じゃあ
-その
-今は、今はっていうかもうずっとそれを
-研究
-そうですね、35年くらいやってますね。
-35年か。
-もう75になっちゃいました。あの
-[笑い]
-あら、もう
-元々があのサラリーマンで
-はい。
-え、で38でやめて40歳くらいから今の
-研究に入って
-ええ。
-75歳になっちゃいましたからね。
-あらまあ。
-もうだいぶボケてます。
-いやいやいやいやいや、しっかり、
-しっかりして
-あの、いらっしゃるように見えます。
-ねえ。
-時々抜けますから。
-そう、使ってますもんね。
-そうするとあの
-これからやってきたいこととかなんかこの
-どんな未来が待っている、それをやると
-どんな未来が待ってるみたいなことって
-あるんですか。
-あの、やること、やった方がいい事って
-無限にあるんですよね。
-はい。
-うん。で、まあ一応原理は完成したので今
-そのパワーココを作るのも相当時間かかる
-なとは思ってるんですが
-はい。
-えっと、それ以外にその具体的な問題に
-ついてこの問題はこういう風に表せます
-よ、こうやったらうまくいきますよって
-いうことをね
-え、まあたくさん事例を作っていくって
-ことと
-それから従来の心理学とか心理
-カウンセリングの理論というのはここの
-ことを言ってますよって全部説明できるん
-ですよね。
-へえ。
-そうすると説明できると何がいいかという
-とA理論とB理論を合わせて使えるんです
-ね。
-A理論とB理論を合わせ
-つまりあのいろんな心理学の理論っていう
-のは
-ここは俺たちはすごいぜっていうことを
-言うんですけど、他の理論との関係性って
-あんまり言わないんですよね。
-へえ。
-みんなこの独立していて
-うん。
-それを1つのテーブルの上に乗せてえ、
-全体を論ずることができると。
-なるほど。
-それってなんかすごい
-あの
-なんですか、
-分かりやすくなりそうですよね。
-うん、あの相当単純化するし
-え、そのま、意識哲学を最初に勉強して
-いただけると他の理論を聞いた時に分かり
-方が全然違うんですね。
-うん、うん、うん。
-理論への解釈が
-深まる。
-そうですね。
-聞いた時にああ、あの子、あそこのことだ
-なってのはすぐピンとくるんですよ。
-うん、うん。
-すごいな、なんか。
-すごいんです。
-[笑い]
-そう、えっと
-心で悩む人が減ってくるってことですか
-ね。
-あ、そうですね。あのもちろんあの
-カウンセリングしてもいいし、で一番いい
-のはね、理論を勉強していただけると
-自分で自分をカウンセリングできるんです
-ね。
-ああ、
-自己カウンセリングが
-できるようになる。
-ええ。
-で、本当はあの労働厚生省か何かが認可し
-てくれてですね
-日本中の妊婦さん全部に勉強して
-いただけると子育てのね、おぎゃあと
-生まれた時からその分かってる親が育てる
-ってことになるのですごくうまくいくん
-ですけども
-なかなかあのそういうわけにもいかないの
-で
-え、ご自身でどうも私の心は上手に育って
-こなかったぞと
-うん。
-いうふうに自覚された方が勉強して
-いただくと自分で自分の心を変えられるん
-ですね。
-うん、うん、うん。
-ああ、であの私自身あの
-いい年してですね、初対面の方と1対1で
-も上手に喋れない人間だったんですよ。
-ううん。
-あのもうドキマギキョロキョロ
-オロオロしている人間だったんですね。
-あ、そうですか。
-で、うん、それがあの
-40歳くらいから50までの10年間で
-激変して
-50で人並みになりまして
-で、50から60までにさらに激変して
-ですね
-え、ちょっと偉そうな顔していると。
-いや、それ[笑い]
-はなんか
-あれですよね、人生にかなり大きく影響し
-た
-もうもう全然別人だって、あの私地球の
-裏側から来ましたって言ってんですけど
-ね。
-で、一番違うことは何かというと楽なん
-です。
-楽
-うん。
-心、自分の心が自由に使えると全く楽なん
-ですね。
-ううん。
-昔の私てなんか私周りの人どう見てん
-だろうとかってもういろんなこと気になっ
-ちゃって
-キョロキョロしてたんですけども、座っ
-てるだけで疲れたんですね。
-ううん。
-それがもう今はもう全く何もないんです
-よ。
-何もないんですか。
-だから
-え
-こう話していて、あ、
-セミナーの時間ですよって言ったら、
-ああ、こんにちはって言ってこう行け
-ちゃうようなね。
-あのそのまんまなんですよね、どこ行って
-もね。
-そうすると要するに人の心ってのは楽で
-あればあるほど全体を上手に使えるんです
-ね。
-あ、自分も含めて
-もね。
-あ、自分も含めて
-その場
-はい。
-そうか、そういう意味ですか。
-あの、なんていうか、いつでも自分の全
-人格を使えるみたいなね。
-全人格ですね。
-うん。
-全人格全能力を
-だから私として、あの他の方と比べてどう
-こうってのはないんですけども、私自身と
-しては最高のパフォーマンスになるんです
-ね。
-私自身の最高のパフォーマンス
-うん。
-僕は
-自分を信用できる。
-めっちゃ
-大事なところですね。
-昔はもう全く自分を信用できしてません
-でしたからね。
-確かに
-なんか実はすごいシンプルっていうこと
-ですよね。自分を信用するっていう
-そうですね。
-難しいとこだったんですね。
-うん。
-だから例えばこう何十人かの方を前にして
-喋る時も全部前に集中できるんですね。
-こっから後ろには不安がないんですよ。
-そういう状態に皆さんにもなっていただき
-たいと。
-うんうん。
-だから[笑い]うん。心は自分で作れる
-し、自由自在にコントロールできますと。
-すごい。
-だってだってだって自分自身じゃないです
-か、心ってのはね。
-そうなんですよね。
-うん。
-確かに私はなんかあれですね
-あの
-変な期待っていうか
-こうこうある種の夢みたいな
-えっとね、ちょっとね、音声が結構乱れて
-いる感じなんですね。
-どっかどっか接触接触どっか悪いとかない
-ですかね、配線で。
-あの
-えっと
-ね
-あのお声がタタタタタタってこう途切れて
-聞こえるもんですから
-あ、今ですね。
-はい。
-ちょっと待ってくださいね。
-はい。
-途中からなんか
-途中から
-なんですかね。
-えっと
-配線がどっか接触悪いかもしれません。
-あ、良くなったかな。
-良くなりましたか。あ
-あ
-すごいすごい良くなったり
-もっともっとしてます。あ、あ、今
-ちょっと乱れちゃっていうところが
-良くなったりしてます。あ、すいません。
-あ、大丈夫かな。そのままで。
-今ちょっと
-相当手を離していただきます。
-どうでしょう。
-まあ、似たようなもんか。[笑い]
-いや、大丈夫です。あの、分かります
-から。
-分かりますか。
-ありがとうございます。ちょっと、あの、
-ちょうどね、ひろしさんからメッセージを
-いただいているので[笑い]ちょっとだけ
-はい。
-はい。
-あ。
-ちょっとだけ大丈夫そうですねってことで
-ご返事だけ入れときます。
-ありがとうございます。
-今大丈夫そうですよね。
-ん。
-大丈夫か。
-はい。
-ありがとうございます。
-はい。
-じゃあ、その
-話を戻しますと50歳から
-はい。
-お変わったというところで
-で[鼻息]
-その
-出来事っていうのは何変わったんですか、
-きっかけ。
-きっかけは、まあ、子供の頃から心に興味
-があって
-はい。
-んで、会社であの、ちょっと心身共に壊れ
-まして
-[笑い]
-いや、辞めざるを得なかったんですけれど
-も
-はい。
-で、第第2の人生としてどうせだったら
-やりたいことやろうと
-いうことでやってます。
-うん。
-うん。
-その
-心に興味があったところで
-すごい
-そうですね。
-うん。
-で、じゃあここ
-まあ、いろいろあの、不思議な出来事とか
-こうドラステックな出来事とかいろいろ
-あったんですけどね。
-語れば長い物語
-[笑い]
-そういうことが
-あったんですね。
-なんか
-そうですよね。
-うん。
-その
-体験は
-あって
-その中で
-こう
-振り返ってみて
-あ、これがギフトだったんだなって思った
-ことって
-ああ。
-いや、ギフトってはもうなんか私の人生
-って神様に全部仕組まれてるようなね
-要所要所で
-うん、とんでもなく不思議な偶然が重なっ
-て今の道に入ってるんですね。
-ううん。
-だからまあまあ神に命令されたんだったら
-しょうがないからやるかみたいな感じです
-ね。
-そうですね。やるか。
-だから
-神様からの
-ギフトみたいな
-うん、ちょっとあのまあ
-あのね信じる信じない別にして高校の2年
-の時に何か不思議なメッセージがありまし
-て
-高校
-お前は心うん、心を解明するのだみたいな
-感じでね
-言われたんですよ。
-で私は蹴っ飛ばしたんですよ。そんな
-うん。
-その時はもう私蹴っ飛ばしまして
-そんな儲からないじゃないかって言って
-[笑い]
-断ったんですけどね。
-[鼻息]そしたら次から次といろいろやっ
-てきまして
-もうダメだっていうところで
-その
-立身出世を諦めまして
-で会社やめたら奇跡的に病気が治っちゃっ
-て
-でまあまあ無理やり連れて来られたなって
-感じなんですね。
-ええ。
-あ、やめたら
-病気が治った。
-そうですね。医者は治んないと言ったが
-奇跡的に治りまして。
-じゃあそれは
-とまあ
-ギフト
-ま、ギうん、ギフト、神様からのギフトと
-いえばギフトですね。
-で、もう1つはカウンセリングをしていて
-1番
-徳をしたのは私自身で
-いろんな方の心を知ることによって自分が
-統合されましてね
-で1番なんか恩恵を受けてるなっていう気
-はします。
-じゃあそのカウンセリング
-からの恩恵
-それは
-なんか例えば例お話聞かせていただける
-事例的なものってありますか。
-そうですね。まあ世の中にどういう方が
-どのくらいいるかみたいなことをね、まあ
-限られたものではありますけれども
-あの
-まあまあ基本的に不幸な方が来られるわけ
-ですから
-で、その方が元気になっていくのをなん
-ずっと眺めているわけですね。
-そうすると、あ、こういうことやるとこれ
-だけ人間ってのはこう幸せになるんだ
-みたいなことをいっぱい見て
-で、自分もそれにつれられ、釣られてって
-いうか一緒にどんどんどんどん元気になっ
-てきてみたいなことですね。
-カウンセリングをすればするほど元気に
-なっていく。
-そうですね。やる側も元気になるんです
-ね。
-で、今までまたじゃああの宣伝がほとんど
-してないんですね。
-で
-だからあの他を回ってうまくいかなかった
-方がたどり着くようなことが多いんです
-よ。
-あの10人カウンセラー回ってきまし
-たって人珍しくないですね。
-で、その方が結構あっさり治って
-いただけると
-やったあみたいなね。
-[笑い]
-すごい、
-すごいですね。もうなんかお話聞いてたら
-全て
-がギフトだったなっていう
-そうですね。
-うん。
-あの、
-結構その時は辛い、辛かった時辛かったか
-もしれないけれども
-その経験があったからこそ
-なんかこう
-自分が知ってる心
-も分析できるというか
-うん。
-それも
-あの、そうですね。だから
-私は見ててこの人はどういう、どうして
-こういう問題が起きていてどうやって治る
-かっていうのはその割と簡単に分かるん
-ですよ。
-うんうんうん。
-ただご本人がその気になってくれるかどう
-かっていうところが非常に難しいんです
-ね。
-でも本当に1人でも多くの方が楽しくなっ
-てね、楽で楽しくなって能力発揮できたら
-いいなと思ってます。
-そうですよね。
-いや、なんか
-あの、
-そのお話を聞いて
-こういうとこがギフトでしたよねっていう
-私の感想をお伝えする
-ことになってるんですけど
-はい。
-そうか。
-どう[笑い]しよっかな。
-どこをこう
-これがギフトでしたよねって
-言ったらいいのか分からないことだったの
-に
-ですね。全部ですね。もうね、なんか私今
-やりたいことしかやってないような感じな
-んですね。
-うん。
-うん。
-自分やりたいことをやっていれば、まあ
-一応仕事になるとか
-あの、喜んでいただけるとかってことです
-から
-もうギフトに囲まれて生活をしてる感じ
-ですね。
-いや、すごい、
-すごい。
-あの
-きっとに生きる。
-じゃあそれがその、あ、ギフトね、ギフト
-なんだってことにこう明確になったのは
-石丸さんに再会して色々教えていただいた
-ためなんですね。
-やっぱりこう言葉でね、あ、これはギフト
-なんだっていうことを明確にするってこと
-はとても大事ですね。
-言葉でね、これ
-がギフトだっていうことを
-自分自身も
-感じて
-そうですね。
-おお話しした時に私自身もあ、
-これはギフトって感じるっていう
-コミュニケーションですよね、まさに。
-そうですね。
-うん。
-これがこう繋がっていくと
-もっとみんなが心が
-楽になるそうな気がします。
-そうですね。
-ギフトじゃないものとギフトの違いとか
-ね、色々解析するとまたあの
-なんていうか説明しやすくなるってことは
-あるんですね。
-あの、相殺しちゃう関係と相乗効果の関係
-というのをね、石丸さんが言われてるん
-ですけど、それがなぜ生まれるかなんて
-いうのをね
-またあの機会があったら説明させて
-いただければと思うんですが。
-ぜひぜひお願いいたします。
-[笑い]
-はい。
-嬉しい。
-まあ、今日はあのちょっと初インタビュー
-をさせていただいたんですけれどもあの
-はい。
-私は多分
-あの
-あれですね、50歳前の
-感じの状態なのかもしれないので[笑い]
-信じがたいかもしれないですけどどうでし
-たか。
-つけてみて優しい感じ
-ああ。
-なんかとてもあの自然で
-気分よく
-お答えさせていただきました。
-よかった。ありがとうございます。
-ということで、え、
-音声の問題ですとかいろいろございました
-が、一旦ここで
-え、インタビューを
-終了
-させていただきたいと思います。
-はい。
-ありがとうございます。
-どうもありがとうございました。
-ありがとう
-ありがとうございました。
-はい。</div>
+        <div class="d-lines">
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">よろしくお願いします。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">よろしくお願いします。今日はですね、</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あのギフトに生きるということで、え、 その どんなことがギフトにつながっているのか というところをですね、あの感じながらお 話をお伺いできたらいいなと思っており ます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">私はあのえりちゃんとか あの呼んでいただけたら嬉しいなと思っ てるんですけれども。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ですか。 はい。なんてお呼びしたらよろしい でしょうか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">あの特にないんですけどね。 別に あの よしでもしげちゃんでもいいですけど。 [笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">先生とか呼ばれることも多いですか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。皆さんまあ別になんと呼ばれ てもはいってお答えしてますけど。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">じゃあ今日は あ、何がいいですかね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ヨッシーでもいいですよ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ヨッシー。じゃあちょっとずうずうしい ような気もいたしますが</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい、[笑い]いえ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ヨッシーと呼ばせていただきたいと思い ます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ありがとうございます。 では早速なんですけれども え 今されていること、お仕事とか趣味でも 活動でも あの現在されていることをお聞かせ いただいていいでしょうか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ああ。 まあ仕事は え、意識哲学というなんか固い名前の 理論を作っているわけで</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">でそれのパワーポイントですね、説明する 時の これを鋭意作成しております。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ、意識哲学のパワポを作ってる。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ええ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">で今までその線画きで自分で書いてたん ですよ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そたら分からん分からんって言われて で同じをAI使って、あの、総天然色の絵 にしたらは分かりやすいって言われたん ですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ああ、はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そこが引っかかってんのかってのが分かり まして。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">え、 必死に今 AIに絵を描いてもらってます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ、その意識哲学の その図解を</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。元々あの心の構造と え、原理を解き明かしたと言ってるんです けども それのあの、ま の構造</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。心そのものの構造と原理を 解き明かしちゃったと。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ええ。 だからその心に関する質問には全部お答え しますと宣言してるんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ええ、すごい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">で、それの 要するに元々が150以上の図で示してた んですね、それを。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">で、それを全部絵に、 あの、綺麗な絵に書き換えていると。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そんな感じです。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">すごいですね。150</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ほとんどのそのこういう時の心持ちはこう いう図で表せますよみたいな。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">すごいですね。今いくつぐらいその原理は 図になってるんですか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">えっと、だからま150以上なんですけど も</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ、うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ま、その場その場でね 別にそのいくつかかっちりと固定されて いるわけではなくて そのクライアントさんからお聞きしたら ば、あ、あなたの心はこうなってますよ ねってかけちゃうようなね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ、 めちゃくちゃ興味があります。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうするとあの こう了解を得た上で協力して問題の解決に 当たれるんですね。 ううん。 だから従来のね、カウンセリングの例えば 積極的傾聴なんかで あの私治るでしょうか言ったら、治るか どうか不安なんですねとか言って あのわけのわかんないものを煩わってやっ てくるというね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ええ、そうするとなんかなんていうかな、 カウンセラーが誘導するみたいな形になる わけですけれど</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。 で、それももちろん有効なことは多々ある んですが なるべく私はそのご本人の了解を得て、 あ、ここをこうくっつけたらいいんですね とかっていうことをね</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">へえ、心と心をくっつける。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">うんとね、1人の人間、あまずですね、心 の問題っていうのは原因が1つしかないん です。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">それは心の分断なんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うんうんうんうん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">自分[咳払い]の心のはずのものが仲間 割れをするんですよ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ふうん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうするとメインのところの体積がそれが 減っちゃうわけですね、分断した分だけ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">で、こう分断したところの能力は使えない んですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">それだけじゃなくて、何かやってる最中に これがちょっかい出して邪魔するんです よ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">それをこうぴゅっと統合しちゃえば問題は 消えちゃうんです。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">面白いです。[笑い] ちょっと火を改めてその辺 あのもっとお伺いしたくなってきました。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">原理はめちゃくちゃ単純なんですけども</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そのどこが分断してるかによって症状が 千差万別なんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。 そのどこがっていうのが150 項目</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">いやいや、そうじゃなくて、それはあの あの聞かなきゃしょうがないわけですね、 ご本人に。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">なるほど。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。 いや、すごい。 [笑い] じゃあ今はそのパワポ作りに</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。 なるべく分かりやすく。じゃあ今のAI</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ってのはすごいですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">いや、すごいですよ。 あのなんていうか、こんな簡単な説明で わかるかなっていうのをこちらの意図を 組んでやってくれるんですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そうなんですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">自分以上に自分を分かってくれてるんじゃ ないかと思っています。[笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">本当に。 ええ。あ、じゃあ その 今は、今はっていうかもうずっとそれを 研究</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね、35年くらいやってますね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">35年か。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">もう75になっちゃいました。あの [笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あら、もう</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">元々があのサラリーマンで</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">え、で38でやめて40歳くらいから今の 研究に入って</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ええ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">75歳になっちゃいましたからね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あらまあ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">もうだいぶボケてます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">いやいやいやいやいや、しっかり、 しっかりして あの、いらっしゃるように見えます。 ねえ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">時々抜けますから。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そう、使ってますもんね。 そうするとあの これからやってきたいこととかなんかこの どんな未来が待っている、それをやると どんな未来が待ってるみたいなことって あるんですか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">あの、やること、やった方がいい事って 無限にあるんですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">うん。で、まあ一応原理は完成したので今</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そのパワーココを作るのも相当時間かかる なとは思ってるんですが</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。 えっと、それ以外にその具体的な問題に ついてこの問題はこういう風に表せます よ、こうやったらうまくいきますよって いうことをね え、まあたくさん事例を作っていくって ことと それから従来の心理学とか心理 カウンセリングの理論というのはここの ことを言ってますよって全部説明できるん ですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">へえ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうすると説明できると何がいいかという とA理論とB理論を合わせて使えるんです ね。 A理論とB理論を合わせ つまりあのいろんな心理学の理論っていう のは ここは俺たちはすごいぜっていうことを 言うんですけど、他の理論との関係性って あんまり言わないんですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">へえ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">みんなこの独立していて</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">それを1つのテーブルの上に乗せてえ、 全体を論ずることができると。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">なるほど。 それってなんかすごい あの なんですか、 分かりやすくなりそうですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">うん、あの相当単純化するし え、そのま、意識哲学を最初に勉強して いただけると他の理論を聞いた時に分かり 方が全然違うんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん、うん、うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">理論への解釈が 深まる。 そうですね。 聞いた時にああ、あの子、あそこのことだ なってのはすぐピンとくるんですよ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん、うん。 すごいな、なんか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">すごいんです。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">[笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そう、えっと</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">心で悩む人が減ってくるってことですか ね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">あ、そうですね。あのもちろんあの カウンセリングしてもいいし、で一番いい のはね、理論を勉強していただけると 自分で自分をカウンセリングできるんです ね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ああ、 自己カウンセリングが できるようになる。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ええ。 で、本当はあの労働厚生省か何かが認可し てくれてですね 日本中の妊婦さん全部に勉強して いただけると子育てのね、おぎゃあと 生まれた時からその分かってる親が育てる ってことになるのですごくうまくいくん ですけども なかなかあのそういうわけにもいかないの で え、ご自身でどうも私の心は上手に育って こなかったぞと</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">いうふうに自覚された方が勉強して いただくと自分で自分の心を変えられるん ですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん、うん、うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ああ、であの私自身あの いい年してですね、初対面の方と1対1で も上手に喋れない人間だったんですよ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">あのもうドキマギキョロキョロ オロオロしている人間だったんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ、そうですか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">で、うん、それがあの 40歳くらいから50までの10年間で 激変して 50で人並みになりまして で、50から60までにさらに激変して ですね え、ちょっと偉そうな顔していると。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">いや、それ[笑い] はなんか あれですよね、人生にかなり大きく影響し た</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">もうもう全然別人だって、あの私地球の 裏側から来ましたって言ってんですけど ね。 で、一番違うことは何かというと楽なん です。 楽</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">心、自分の心が自由に使えると全く楽なん ですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">昔の私てなんか私周りの人どう見てん だろうとかってもういろんなこと気になっ ちゃって キョロキョロしてたんですけども、座っ てるだけで疲れたんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">それがもう今はもう全く何もないんです よ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">何もないんですか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">だから え こう話していて、あ、 セミナーの時間ですよって言ったら、 ああ、こんにちはって言ってこう行け ちゃうようなね。 あのそのまんまなんですよね、どこ行って もね。 そうすると要するに人の心ってのは楽で あればあるほど全体を上手に使えるんです ね。 あ、自分も含めて もね。 あ、自分も含めて その場</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。 そうか、そういう意味ですか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">あの、なんていうか、いつでも自分の全 人格を使えるみたいなね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">全人格ですね。 うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">全人格全能力を だから私として、あの他の方と比べてどう こうってのはないんですけども、私自身と しては最高のパフォーマンスになるんです ね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">私自身の最高のパフォーマンス うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">僕は 自分を信用できる。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">めっちゃ 大事なところですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">昔はもう全く自分を信用できしてません でしたからね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">確かに なんか実はすごいシンプルっていうこと ですよね。自分を信用するっていう</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">難しいとこだったんですね。 うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">だから例えばこう何十人かの方を前にして 喋る時も全部前に集中できるんですね。 こっから後ろには不安がないんですよ。 そういう状態に皆さんにもなっていただき たいと。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うんうん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">だから[笑い]うん。心は自分で作れる し、自由自在にコントロールできますと。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">すごい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">だってだってだって自分自身じゃないです か、心ってのはね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そうなんですよね。 うん。 確かに私はなんかあれですね あの 変な期待っていうか こうこうある種の夢みたいな</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">えっとね、ちょっとね、音声が結構乱れて いる感じなんですね。 どっかどっか接触接触どっか悪いとかない ですかね、配線で。 あの えっと ね あのお声がタタタタタタってこう途切れて 聞こえるもんですから</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ、今ですね。 はい。 ちょっと待ってくださいね。 はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">途中からなんか 途中から なんですかね。 えっと 配線がどっか接触悪いかもしれません。 あ、良くなったかな。 良くなりましたか。あ あ すごいすごい良くなったり もっともっとしてます。あ、あ、今 ちょっと乱れちゃっていうところが 良くなったりしてます。あ、すいません。 あ、大丈夫かな。そのままで。 今ちょっと 相当手を離していただきます。 どうでしょう。 まあ、似たようなもんか。[笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">いや、大丈夫です。あの、分かります から。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">分かりますか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ありがとうございます。ちょっと、あの、 ちょうどね、ひろしさんからメッセージを いただいているので[笑い]ちょっとだけ</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。 はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あ。 ちょっとだけ大丈夫そうですねってことで ご返事だけ入れときます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ありがとうございます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">今大丈夫そうですよね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">大丈夫か。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ありがとうございます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">じゃあ、その 話を戻しますと50歳から</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">お変わったというところで で[鼻息] その 出来事っていうのは何変わったんですか、 きっかけ。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">きっかけは、まあ、子供の頃から心に興味 があって</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">んで、会社であの、ちょっと心身共に壊れ まして [笑い] いや、辞めざるを得なかったんですけれど も</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">で、第第2の人生としてどうせだったら やりたいことやろうと いうことでやってます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。 うん。 その 心に興味があったところで すごい</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。 で、じゃあここ</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">まあ、いろいろあの、不思議な出来事とか こうドラステックな出来事とかいろいろ あったんですけどね。 語れば長い物語 [笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そういうことが あったんですね。 なんか そうですよね。 うん。 その 体験は あって その中で こう 振り返ってみて あ、これがギフトだったんだなって思った ことって</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ああ。 いや、ギフトってはもうなんか私の人生 って神様に全部仕組まれてるようなね 要所要所で うん、とんでもなく不思議な偶然が重なっ て今の道に入ってるんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ううん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">だからまあまあ神に命令されたんだったら しょうがないからやるかみたいな感じです ね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そうですね。やるか。 だから 神様からの ギフトみたいな</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">うん、ちょっとあのまあ あのね信じる信じない別にして高校の2年 の時に何か不思議なメッセージがありまし て</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">高校</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">お前は心うん、心を解明するのだみたいな 感じでね 言われたんですよ。 で私は蹴っ飛ばしたんですよ。そんな</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">その時はもう私蹴っ飛ばしまして そんな儲からないじゃないかって言って [笑い] 断ったんですけどね。 [鼻息]そしたら次から次といろいろやっ てきまして もうダメだっていうところで その 立身出世を諦めまして で会社やめたら奇跡的に病気が治っちゃっ</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">て でまあまあ無理やり連れて来られたなって 感じなんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ええ。 あ、やめたら 病気が治った。 そうですね。医者は治んないと言ったが 奇跡的に治りまして。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">じゃあそれは</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">とまあ ギフト ま、ギうん、ギフト、神様からのギフトと いえばギフトですね。 で、もう1つはカウンセリングをしていて 1番 徳をしたのは私自身で いろんな方の心を知ることによって自分が 統合されましてね で1番なんか恩恵を受けてるなっていう気 はします。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">じゃあそのカウンセリング からの恩恵 それは なんか例えば例お話聞かせていただける 事例的なものってありますか。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。まあ世の中にどういう方が どのくらいいるかみたいなことをね、まあ 限られたものではありますけれども あの まあまあ基本的に不幸な方が来られるわけ ですから で、その方が元気になっていくのをなん ずっと眺めているわけですね。 そうすると、あ、こういうことやるとこれ だけ人間ってのはこう幸せになるんだ みたいなことをいっぱい見て で、自分もそれにつれられ、釣られてって いうか一緒にどんどんどんどん元気になっ てきてみたいなことですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">カウンセリングをすればするほど元気に なっていく。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。やる側も元気になるんです ね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">で、今までまたじゃああの宣伝がほとんど してないんですね。 で</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">だからあの他を回ってうまくいかなかった 方がたどり着くようなことが多いんです よ。 あの10人カウンセラー回ってきまし たって人珍しくないですね。 で、その方が結構あっさり治って いただけると やったあみたいなね。 [笑い]</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">すごい、 すごいですね。もうなんかお話聞いてたら 全て がギフトだったなっていう</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。 うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">あの、 結構その時は辛い、辛かった時辛かったか もしれないけれども その経験があったからこそ なんかこう 自分が知ってる心 も分析できるというか うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">それも あの、そうですね。だから 私は見ててこの人はどういう、どうして こういう問題が起きていてどうやって治る かっていうのはその割と簡単に分かるん ですよ。 うんうんうん。 ただご本人がその気になってくれるかどう かっていうところが非常に難しいんです ね。 でも本当に1人でも多くの方が楽しくなっ てね、楽で楽しくなって能力発揮できたら いいなと思ってます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そうですよね。 いや、なんか あの、 そのお話を聞いて こういうとこがギフトでしたよねっていう 私の感想をお伝えする ことになってるんですけど</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そうか。 どう[笑い]しよっかな。 どこをこう これがギフトでしたよねって 言ったらいいのか分からないことだったの に</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ですね。全部ですね。もうね、なんか私今 やりたいことしかやってないような感じな んですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">うん。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">うん。 自分やりたいことをやっていれば、まあ 一応仕事になるとか あの、喜んでいただけるとかってことです から もうギフトに囲まれて生活をしてる感じ ですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">いや、すごい、 すごい。 あの きっとに生きる。 じゃあそれがその、あ、ギフトね、ギフト なんだってことにこう明確になったのは 石丸さんに再会して色々教えていただいた ためなんですね。 やっぱりこう言葉でね、あ、これはギフト なんだっていうことを明確にするってこと はとても大事ですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">言葉でね、これ がギフトだっていうことを 自分自身も 感じて そうですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">おお話しした時に私自身もあ、 これはギフトって感じるっていう コミュニケーションですよね、まさに。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">そうですね。 うん。 これがこう繋がっていくと もっとみんなが心が 楽になるそうな気がします。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">そうですね。 ギフトじゃないものとギフトの違いとか ね、色々解析するとまたあの なんていうか説明しやすくなるってことは あるんですね。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">あの、相殺しちゃう関係と相乗効果の関係 というのをね、石丸さんが言われてるん ですけど、それがなぜ生まれるかなんて いうのをね またあの機会があったら説明させて いただければと思うんですが。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ぜひぜひお願いいたします。 [笑い] はい。 嬉しい。 まあ、今日はあのちょっと初インタビュー をさせていただいたんですけれどもあの</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">私は多分 あの あれですね、50歳前の 感じの状態なのかもしれないので[笑い] 信じがたいかもしれないですけどどうでし たか。 つけてみて優しい感じ</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ああ。 なんかとてもあの自然で 気分よく お答えさせていただきました。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">よかった。ありがとうございます。 ということで、え、 音声の問題ですとかいろいろございました が、一旦ここで え、インタビューを 終了 させていただきたいと思います。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。 ありがとうございます。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">どうもありがとうございました。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">ありがとう</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp eri">えり</span>
+            <span class="d-txt">ありがとうございました。</span>
+          </div>
+          <div class="d-line">
+            <span class="d-sp yoshi">ヨッシー</span>
+            <span class="d-txt">はい。</span>
+          </div>
+        </div>
       </div>
     </details>
   </div>
