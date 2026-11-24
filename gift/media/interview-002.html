@@ -139,39 +139,14 @@ body::after {
 
 /* ===== VIDEO ===== */
 .video-block { padding-block: 0 48px; }
-.video-link-card {
-  display: flex; align-items: center; gap: 20px;
-  padding: 24px 28px;
-  background: var(--paper-card);
-  border: 1.5px solid var(--ink-faint);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  text-decoration: none;
-  transition: transform .2s, box-shadow .2s;
-  position: relative; overflow: hidden;
+.video-embed-wrap {
+  position: relative; padding-top: 56.25%;
+  border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-lg);
 }
-.video-link-card::before {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent 60%, rgba(199,227,206,.15));
-  pointer-events: none;
+.video-embed-wrap iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
 }
-.video-link-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-.play-circle {
-  flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%;
-  background: var(--mint-deep);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 14px rgba(124,176,136,.4);
-}
-.play-circle svg { width: 22px; height: 22px; fill: white; margin-left: 3px; }
-.video-info { flex: 1; min-width: 0; }
-.video-info-title { font-family: var(--font-d); font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-.video-info-meta { font-size: .78rem; color: var(--ink-soft); }
-.video-yt-badge {
-  flex-shrink: 0; padding: 5px 12px;
-  background: #FF0000; color: white;
-  border-radius: 6px; font-size: .72rem; font-weight: 700; letter-spacing: .04em;
-}
-@media (max-width: 520px) { .video-link-card { gap: 14px; } .video-yt-badge { display: none; } }
 
 /* ===== SECTION ===== */
 .section { padding-block: 56px; }
@@ -414,16 +389,15 @@ hr.divider { border: none; border-top: 1px solid var(--ink-faint); margin: 0; }
 <!-- VIDEO -->
 <div class="video-block">
   <div class="wrap">
-    <a class="video-link-card" href="https://www.youtube.com/watch?v=QPjbmaNqPko" target="_blank" rel="noopener">
-      <div class="play-circle">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-      <div class="video-info">
-        <div class="video-info-title">第2回 心の分断を統合し、ギフトに生きる｜ヨッシーさんインタビュー</div>
-        <div class="video-info-meta">ハートフルラジオ局 · YouTubeで視聴する（25:10）</div>
-      </div>
-      <div class="video-yt-badge">YouTube</div>
-    </a>
+    <div class="video-embed-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/QPjbmaNqPko"
+        title="第2回 心の分断を統合し、ギフトに生きる｜ヨッシー ギフトの旅人たち"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>
   </div>
 </div>
 
@@ -436,18 +410,18 @@ hr.divider { border: none; border-top: 1px solid var(--ink-faint); margin: 0; }
     <div class="theme-cards">
       <div class="theme-card">
         <div class="theme-card-no">THEME 01</div>
-        <div class="theme-card-title">意識哲学とAIの融合</div>
-        <p class="theme-card-body">心の本質の構造と原理を150以上の図で解説してきた意識哲学を、AIを使ってより分かりやすい絵に作成し直している。線書きで伝わりにくかった図が、AIの力で誰でも直感的に理解できるビジュアルに生まれ変わりつつある。</p>
+        <div class="theme-card-title">いまやっていること</div>
+        <p class="theme-card-body">35年かけて体系化した意識哲学の150以上の図を、AIを使ってより分かりやすい絵に作り直している。線書きで伝わりにくかった図が、AIの力で誰でも直感的に理解できるビジュアルに生まれ変わりつつある。哲学をビジュアルで民主化する試みが進行中。</p>
       </div>
       <div class="theme-card">
         <div class="theme-card-no">THEME 02</div>
-        <div class="theme-card-title">心の問題は「分断」から</div>
-        <p class="theme-card-body">心の問題の根本原因は心の分断であり、統合することで問題が消え去るという。自分で自分をカウンセリングできるようになることが理想であり、そのための原理を体系化してきた。誰もが心の仕組みを学べる環境を目指している。</p>
+        <div class="theme-card-title">これからやりたいこと</div>
+        <p class="theme-card-body">「誰もが自分で自分をカウンセリングできる社会」を目指している。心の問題の根本原因である「分断」を統合する原理を、もっと多くの人に届けたい。専門家に頼らなくても自分で心を整えられる仕組みを作ることが、次のステージ。</p>
       </div>
       <div class="theme-card">
         <div class="theme-card-no">THEME 03</div>
-        <div class="theme-card-title">すべては神様からのギフト</div>
-        <p class="theme-card-body">会社員時代の心身の不調や病気、カウンセリングを通じて得た経験など、人生の要所における出来事はすべてギフトだったと語る。35年の探求を経て気づいた「人生は神様に仕組まれている」という視点が、今のヨッシーさんを支えている。</p>
+        <div class="theme-card-title">人生に影響したできごと</div>
+        <p class="theme-card-body">会社員時代に心身を壊して退職。その体験が意識哲学の探求へのドアを開いた。その後35年間、カウンセリングを通じて多くの方の心に触れながら、自分自身も統合されていった。病気も苦難も、すべては神様に仕組まれたギフトだったと気づいた。</p>
       </div>
     </div>
 
@@ -473,7 +447,7 @@ hr.divider { border: none; border-top: 1px solid var(--ink-faint); margin: 0; }
 <!-- HIROSHI PERSPECTIVE -->
 <section class="section">
   <div class="wrap">
-    <div class="section-label">ひろさんの眼差し</div>
+    <div class="section-label">インタビュアーの眼差し</div>
     <h2 class="section-h2">35年という問いが、ギフトを育てた</h2>
 
     <div class="hiro-perspective">
