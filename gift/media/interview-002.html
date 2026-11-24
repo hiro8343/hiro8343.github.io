@@ -6,7 +6,7 @@
 <title>心の分断を統合し、ギフトに生きる｜ギフトの旅人たち #02 ヨッシー</title>
 <meta name="description" content="35年間意識哲学を研究し、心の構造と原理を解き明かしてきたヨッシーさん。過去の苦難や病気を乗り越え、現在はAIを活用して誰もが自己カウンセリングできる仕組みづくりに挑戦しています。人生のすべてがギフトであると語る、深い気づきに満ちたインタビューをお届けします。">
 
-<!-- OGP -->
+<!-- OGP / Twitter Card -->
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://hiro8343.github.io/gift/media/interview-002.html">
 <meta property="og:title" content="心の分断を統合し、ギフトに生きる｜ギフトの旅人たち #02 ヨッシー">
@@ -26,11 +26,12 @@
 {"@context":"https://schema.org","@graph":[
   {"@type":"Article","@id":"https://hiro8343.github.io/gift/media/interview-002.html#article",
    "headline":"心の分断を統合し、ギフトに生きる",
-   "description":"35年間意識哲学を研究し、心の構造と原理を解き明かしてきたヨッシーさん。過去の苦難や病気を乗り越え、現在はAIを活用して誰もが自己カウンセリングできる仕組みづくりに挑戦しています。人生のすべてがギフトであると語る、深い気づきに満ちたインタビューをお届けします。",
+   "description":"35年間意識哲学を研究し、心の構造と原理を解き明かしてきたヨッシーさん。過去の苦難や病気を乗り越え、現在はAIを活用して誰もが自己カウンセリングできる仕組みづくりに挑戦しています。",
    "url":"https://hiro8343.github.io/gift/media/interview-002.html",
    "datePublished":"2026-11-20",
    "author":{"@type":"Person","name":"石丸 弘","url":"https://hiro8343.github.io/gift/concept.html#author"},
-   "publisher":{"@type":"Organization","name":"ギフトに生きる","url":"https://hiro8343.github.io/gift/index.html"}
+   "publisher":{"@type":"Organization","name":"ギフトに生きる","url":"https://hiro8343.github.io/gift/index.html","logo":"https://hiro8343.github.io/gift/favicon.svg"},
+   "isPartOf":{"@type":"WebSite","name":"ギフトに生きる","url":"https://hiro8343.github.io/gift/index.html"}
   }
 ]}
 </script>
@@ -41,234 +42,735 @@
 <link rel="stylesheet" href="../gift.css">
 
 <style>
+/* ===== ページ固有変数オーバーライド ===== */
 :root {
   --maxw: 960px;
   --paper-mid: #F3EDE3;
   --mint-mid: #A5D0AF;
   --gold-deep: #C4973A;
   --shadow: 0 10px 32px -16px rgba(100,80,60,.35);
+  --shadow-lg: 0 20px 50px -24px rgba(100,80,60,.42);
   --font-d: var(--font-display);
   --font-b: var(--font-body);
   --font-h: var(--font-hand);
+  --radius: 20px;
+  --radius-lg: 32px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper-mid: #201C15; --mint-mid: #3A6042; --gold-deep: #E8C97A; color-scheme: dark;
+    --paper-mid: #201C15;
+    --mint-mid: #3A6042;
+    --gold-deep: #E8C97A;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper-mid: #201C15; --mint-mid: #3A6042; --gold-deep: #E8C97A; color-scheme: dark;
+  --paper-mid: #201C15;
+  --mint-mid: #3A6042;
+  --gold-deep: #E8C97A;
+  color-scheme: dark;
 }
-body { overflow-x: hidden; background: var(--paper); }
-.site-nav { display: flex; gap: 24px; padding: 16px max(16px, calc((100vw - var(--maxw))/2)); background: var(--paper-card); border-bottom: 1px solid var(--ink-faint); }
-.site-nav a { font: 500 .9rem var(--font-b); color: var(--ink-soft); text-decoration: none; }
-.site-nav a.active { color: var(--mint-deep); font-weight: 700; }
 
-/* ヒーロー */
-.art-hero { max-width: var(--maxw); margin: 48px auto 0; padding: 0 16px; text-align: center; }
-.hero-num  { font: 600 .85rem var(--font-d); color: var(--mint-deep); letter-spacing:.1em; }
-.hero-title { font: 700 2rem/1.4 var(--font-d); color: var(--ink); margin: 12px 0; }
-.hero-title em { font-style: normal; color: var(--mint-deep); }
-.hero-guest { font: 500 1rem var(--font-b); color: var(--ink-soft); margin: 8px 0 32px; }
+/* ===== ベース ===== */
+body {
+  overflow-x: hidden;
+  padding-left: max(0px, env(safe-area-inset-left,0px));
+  padding-right: max(0px, env(safe-area-inset-right,0px));
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(140,120,90,.04) 1px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+body::after {
+  content: "";
+  position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 110;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+}
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left,0px));
+  padding-right: max(16px, env(safe-area-inset-right,0px));
+}
 
-/* YouTube */
-.yt-card { max-width: var(--maxw); margin: 24px auto; padding: 0 16px; }
-.yt-wrap { position: relative; padding-top: 56.25%; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px -8px rgba(0,0,0,.2); }
-.yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+/* ===== HEADER ===== */
+.site-hd {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--ink-faint);
+  padding-block: 13px;
+}
+.site-hd .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hd-brand { display: flex; flex-direction: column; line-height: 1.3; text-decoration: none; color: inherit; }
+.hd-brand-main { font-family: var(--font-d); font-weight: 600; font-size: 1.05rem; letter-spacing: .06em; }
+.hd-brand-sub { font-family: var(--font-h); font-size: .72rem; color: var(--ink-soft); letter-spacing: .1em; }
+.hd-nav { display: flex; gap: 18px; font-size: .82rem; color: var(--ink-soft); }
+.hd-nav a:hover { color: var(--ink); }
+@media (max-width: 520px) { .hd-nav { display: none; } }
 
-/* テーマカード */
-.theme-cards { max-width: var(--maxw); margin: 48px auto; padding: 0 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-.theme-card { background: var(--paper-card); border-radius: 20px; padding: 28px 24px; border-top: 4px solid; }
-.theme-mint { border-color: var(--mint); }
-.theme-blue { border-color: var(--blue); }
-.theme-pink { border-color: var(--pink); }
-.theme-icon { font-size: 2rem; margin-bottom: 12px; }
-.theme-title { font: 700 1.05rem var(--font-d); color: var(--ink); margin: 0 0 8px; }
-.theme-body  { font: 400 .9rem/1.7 var(--font-b); color: var(--ink-soft); margin: 0; }
+/* ===== ARTICLE HERO ===== */
+.art-hero { padding-block: 56px 48px; text-align: center; }
+.art-hero .eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-h); font-size: .78rem; color: var(--mint-deep); letter-spacing: .15em;
+  margin-bottom: 20px; background: var(--mint); padding: 5px 14px; border-radius: 100px;
+}
+.art-hero h1 { font-size: clamp(1.6rem, 5vw, 2.6rem); margin-bottom: 14px; line-height: 1.5; }
+.art-hero h1 em { font-style: normal; color: var(--mint-deep); }
+.art-meta {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; flex-wrap: wrap;
+  font-size: .82rem; color: var(--ink-soft); margin-bottom: 28px;
+}
+.art-meta .dot { color: var(--ink-faint); }
+.theme-chips { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 4px 12px; border-radius: 100px; font-size: .76rem; letter-spacing: .03em; font-weight: 500; }
+.chip-mint { background: var(--mint); color: var(--mint-deep); }
+.chip-blue { background: var(--blue); color: var(--blue-deep); }
+.chip-pink { background: var(--pink); color: var(--pink-deep); }
 
-/* ギフトQ */
-.gift-q-block { max-width: var(--maxw); margin: 40px auto; padding: 32px 24px; background: var(--paper-mid); border-radius: 24px; text-align: center; }
-.gift-q-label { font: 600 .8rem var(--font-d); color: var(--mint-deep); letter-spacing:.12em; }
-.gift-q-text  { font: 700 1.3rem/1.6 var(--font-d); color: var(--ink); margin: 12px 0 20px; }
-.gift-a-text  { font: 400 1rem/1.8 var(--font-b); color: var(--ink); background: var(--paper-card); border-radius: 16px; padding: 20px 24px; display: inline-block; max-width: 600px; }
+/* ===== VIDEO ===== */
+.video-block { padding-block: 0 48px; }
+.video-link-card {
+  display: flex; align-items: center; gap: 20px;
+  padding: 24px 28px;
+  background: var(--paper-card);
+  border: 1.5px solid var(--ink-faint);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+  position: relative; overflow: hidden;
+}
+.video-link-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 60%, rgba(199,227,206,.15));
+  pointer-events: none;
+}
+.video-link-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.play-circle {
+  flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%;
+  background: var(--mint-deep);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(124,176,136,.4);
+}
+.play-circle svg { width: 22px; height: 22px; fill: white; margin-left: 3px; }
+.video-info { flex: 1; min-width: 0; }
+.video-info-title { font-family: var(--font-d); font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+.video-info-meta { font-size: .78rem; color: var(--ink-soft); }
+.video-yt-badge {
+  flex-shrink: 0; padding: 5px 12px;
+  background: #FF0000; color: white;
+  border-radius: 6px; font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+}
+@media (max-width: 520px) { .video-link-card { gap: 14px; } .video-yt-badge { display: none; } }
 
-/* 弘さんの視点 */
-.hiro-perspective { max-width: var(--maxw); margin: 48px auto; padding: 0 16px; }
-.section-label { font: 600 .8rem var(--font-d); color: var(--gold-deep); letter-spacing:.12em; }
-.section-title { font: 700 1.5rem/1.4 var(--font-d); color: var(--ink); margin: 8px 0 20px; }
-.hiro-body    { font: 400 1rem/1.9 var(--font-b); color: var(--ink); background: var(--paper-card); border-radius: 20px; padding: 28px 32px; }
+/* ===== SECTION ===== */
+.section { padding-block: 56px; }
+.section.alt-bg { background: var(--paper-card); border-top: 1px solid var(--ink-faint); border-bottom: 1px solid var(--ink-faint); }
+.section-label { font-family: var(--font-h); font-size: .75rem; color: var(--ink-soft); letter-spacing: .18em; text-transform: uppercase; margin-bottom: 6px; }
+.section-h2 { font-size: 1.3rem; margin-bottom: 28px; }
 
-/* AIセクション */
-.ai-section { max-width: var(--maxw); margin: 48px auto; padding: 0 16px; }
-.ai-gifts    { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
-.ai-gift-card { background: var(--paper-card); border-radius: 16px; padding: 20px; border-left: 4px solid var(--blue); }
-.ai-gift-num  { font: 700 .75rem var(--font-d); color: var(--blue-deep); letter-spacing:.08em; }
-.ai-gift-title { font: 700 .95rem var(--font-d); color: var(--ink); margin: 6px 0; }
-.ai-gift-body  { font: 400 .88rem/1.7 var(--font-b); color: var(--ink-soft); margin: 0; }
+/* ===== THEME CARDS ===== */
+.theme-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 640px) { .theme-cards { grid-template-columns: 1fr; } }
+.theme-card {
+  background: var(--paper-card); border-radius: var(--radius); padding: 22px 20px;
+  border: 1px solid var(--ink-faint); box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; overflow: hidden;
+}
+.theme-card::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+.theme-card:nth-child(1)::after { background: var(--mint-mid); }
+.theme-card:nth-child(2)::after { background: var(--blue-deep); opacity: .5; }
+.theme-card:nth-child(3)::after { background: var(--pink-deep); opacity: .5; }
+.theme-card-no { font-family: var(--font-h); font-size: .72rem; color: var(--ink-faint); letter-spacing: .1em; }
+.theme-card-title { font-size: .95rem; font-weight: 700; margin-bottom: 2px; }
+.theme-card-body { font-size: .84rem; color: var(--ink-soft); line-height: 1.85; flex: 1; }
 
-/* ジャーニー */
-.journey-section { max-width: var(--maxw); margin: 48px auto; padding: 0 16px; }
-.journey-steps   { display: grid; gap: 16px; margin-top: 20px; }
-.journey-step    { background: var(--paper-card); border-radius: 16px; padding: 20px 24px; display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; align-items: start; }
-.step-label { font: 700 .75rem var(--font-d); color: var(--mint-deep); letter-spacing:.08em; grid-row: 1; }
-.step-title { font: 700 1rem var(--font-d); color: var(--ink); margin: 0; grid-row: 1; }
-.step-body  { font: 400 .88rem/1.7 var(--font-b); color: var(--ink-soft); margin: 0; grid-column: 2; }
+/* ===== GIFT Q ===== */
+.gift-q-block {
+  margin-top: 36px; padding: 28px 32px;
+  background: linear-gradient(135deg, var(--paper-card), var(--mint) 200%);
+  border-radius: var(--radius-lg); border: 1px solid var(--mint-mid);
+  position: relative;
+}
+.gift-q-block::before {
+  content: "「"; position: absolute; top: 12px; left: 20px;
+  font-family: var(--font-d); font-size: 3rem; color: var(--mint-mid); line-height: 1; opacity: .5;
+}
+.gift-q-label { font-family: var(--font-h); font-size: .75rem; color: var(--mint-deep); letter-spacing: .15em; margin-bottom: 10px; padding-left: 24px; }
+.gift-q-text { font-family: var(--font-d); font-size: 1.05rem; line-height: 2; padding-left: 24px; }
+.gift-q-attr { font-size: .8rem; color: var(--ink-soft); padding-left: 24px; margin-top: 8px; }
 
-/* シェア */
-.share-section { max-width: var(--maxw); margin: 56px auto 0; padding: 32px 24px; text-align: center; background: var(--paper-card); border-radius: 24px; }
-.share-title { font: 700 1.1rem var(--font-d); color: var(--ink); margin: 0 0 20px; }
-.share-btns  { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.share-btn   { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 999px; font: 600 .88rem var(--font-b); text-decoration: none; color: #fff; }
-.share-x    { background: #000; }
-.share-line { background: #06C755; }
-.share-fb   { background: #1877F2; }
-.share-copy { background: var(--ink-soft); cursor: pointer; border: none; }
+/* ===== HIROSHI PERSPECTIVE ===== */
+.hiro-perspective {
+  display: flex; gap: 20px; align-items: flex-start; padding: 28px;
+  background: var(--paper-card); border-radius: var(--radius-lg);
+  border: 1px solid var(--ink-faint); box-shadow: var(--shadow);
+}
+.hiro-avatar {
+  flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%;
+  background: var(--paper-mid); border: 2px solid var(--mint-mid);
+  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+}
+.hiro-perspective-body { flex: 1; min-width: 0; }
+.hiro-name { font-weight: 700; font-size: .88rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.hiro-role { font-family: var(--font-h); font-size: .72rem; color: var(--ink-soft); font-weight: 400; letter-spacing: .06em; }
+.hiro-text { font-size: .9rem; color: var(--ink); line-height: 2; }
 
-/* 参加 */
-.recruit-section { max-width: var(--maxw); margin: 48px auto 80px; padding: 40px 32px; background: linear-gradient(135deg, color-mix(in srgb, var(--mint) 15%, var(--paper)) 0%, color-mix(in srgb, var(--blue) 10%, var(--paper)) 100%); border-radius: 28px; text-align: center; }
-.recruit-title { font: 700 1.4rem var(--font-d); color: var(--ink); margin: 0 0 12px; }
-.recruit-body  { font: 400 .95rem/1.8 var(--font-b); color: var(--ink-soft); margin: 0 0 28px; }
-.recruit-btn { display: inline-block; padding: 14px 36px; background: var(--mint-deep); color: #fff; border-radius: 999px; font: 700 1rem var(--font-b); text-decoration: none; }
+/* ===== AI SECTION ===== */
+.ai-section {
+  padding-block: 56px;
+  background: linear-gradient(180deg, var(--paper) 0%, color-mix(in srgb, var(--blue) 18%, var(--paper)) 50%, var(--paper) 100%);
+}
+.ai-card {
+  background: var(--paper-card); border-radius: var(--radius-lg);
+  border: 1px solid var(--blue); overflow: hidden; box-shadow: var(--shadow-lg);
+}
+.ai-card-header {
+  padding: 24px 28px 20px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--blue) 30%, var(--paper-card)), var(--paper-card));
+  border-bottom: 1px solid var(--blue);
+  display: flex; align-items: center; gap: 14px;
+}
+.ai-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px;
+  background: var(--blue); color: var(--blue-deep); border-radius: 100px;
+  font-size: .73rem; font-weight: 700; letter-spacing: .08em; flex-shrink: 0;
+}
+.ai-header-text { font-family: var(--font-d); font-size: 1rem; line-height: 1.4; }
+.ai-card-body { padding: 28px; display: flex; flex-direction: column; gap: 0; }
+.ai-gift-item { display: flex; gap: 18px; align-items: flex-start; padding-block: 20px; }
+.ai-gift-item + .ai-gift-item { border-top: 1px solid var(--ink-faint); }
+.ai-num {
+  flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--blue); color: var(--blue-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .82rem; margin-top: 2px;
+}
+.ai-gift-body { flex: 1; min-width: 0; }
+.ai-gift-title { font-weight: 700; font-size: .95rem; margin-bottom: 6px; color: var(--ink); }
+.ai-gift-desc { font-size: .86rem; color: var(--ink-soft); line-height: 1.9; }
+.ai-footnote {
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--ink-faint);
+  font-size: .78rem; color: var(--ink-soft); font-style: italic;
+  display: flex; gap: 8px; align-items: flex-start;
+}
 
-footer { padding: 32px 16px; text-align: center; color: var(--ink-soft); font: .82rem var(--font-b); }
+/* ===== JOURNEY ===== */
+.journey-section { padding-block: 56px; }
+.journey-card { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--cream); box-shadow: var(--shadow-lg); }
+.journey-hd {
+  padding: 28px 32px 24px;
+  background: linear-gradient(135deg, var(--cream), color-mix(in srgb, var(--cream) 30%, var(--paper-card)));
+  border-bottom: 1px solid color-mix(in srgb, var(--gold-deep) 20%, transparent);
+}
+.journey-label {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
+  background: color-mix(in srgb, var(--gold-deep) 15%, var(--paper-card));
+  border-radius: 100px; font-size: .72rem; font-weight: 700; color: var(--gold-deep);
+  letter-spacing: .1em; margin-bottom: 14px;
+}
+.journey-theme-word { font-family: var(--font-d); font-size: 2rem; line-height: 1.3; }
+.journey-theme-en { font-family: var(--font-h); font-size: .85rem; color: var(--ink-soft); margin-top: 4px; }
+.journey-body { background: var(--paper-card); padding: 0 32px; display: flex; flex-direction: column; }
+.journey-step { display: flex; gap: 18px; align-items: flex-start; padding-block: 24px; }
+.journey-step + .journey-step { border-top: 1px solid var(--ink-faint); }
+.journey-step-icon { flex-shrink: 0; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-top: 2px; }
+.journey-step-content { flex: 1; min-width: 0; }
+.journey-step-title { font-weight: 700; font-size: .92rem; color: var(--gold-deep); margin-bottom: 6px; }
+.journey-step-text { font-size: .85rem; color: var(--ink-soft); line-height: 1.95; }
+
+/* ===== DIALOGUE ===== */
+.dialogue-section { padding-block: 56px; border-top: 1px solid var(--ink-faint); }
+details.d-toggle { margin-top: 0; }
+details.d-toggle summary {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; cursor: pointer; list-style: none;
+  padding: 18px 24px;
+  background: var(--paper-card);
+  border: 1.5px solid var(--ink-faint);
+  border-radius: var(--radius);
+  font-family: var(--font-d); font-size: .98rem; font-weight: 600;
+  letter-spacing: .03em;
+  transition: background .15s;
+  user-select: none;
+}
+details.d-toggle summary::-webkit-details-marker { display: none; }
+details.d-toggle summary:hover { background: var(--paper-mid); }
+.d-toggle-arrow { flex-shrink: 0; font-size: 1rem; color: var(--ink-soft); transition: transform .2s; }
+details.d-toggle[open] .d-toggle-arrow { transform: rotate(180deg); }
+.d-toggle-meta { font-family: var(--font-h); font-size: .75rem; color: var(--ink-soft); font-weight: 400; letter-spacing: .08em; }
+.d-body {
+  margin-top: 20px;
+  background: var(--paper-card);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.d-transcript {
+  padding: 24px 28px;
+  font-size: .88rem; color: var(--ink); line-height: 2;
+  white-space: pre-wrap;
+}
+.d-transcript-note {
+  padding: 16px 28px;
+  font-size: .78rem; color: var(--ink-soft); font-style: italic;
+  border-top: 1px solid var(--ink-faint);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+
+/* ===== SHARE ===== */
+.share-section { padding-block: 48px; text-align: center; border-top: 1px solid var(--ink-faint); }
+.share-label { font-family: var(--font-h); font-size: .78rem; color: var(--ink-soft); letter-spacing: .18em; margin-bottom: 18px; }
+.share-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.share-btn {
+  display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px;
+  border-radius: 100px; font-size: .84rem; font-weight: 600; letter-spacing: .02em;
+  cursor: pointer; border: none; font-family: var(--font-b); text-decoration: none;
+  transition: transform .15s, opacity .15s; line-height: 1;
+}
+.share-btn:hover { transform: translateY(-1px); opacity: .82; }
+.share-x    { background: #000; color: #fff; }
+.share-line { background: #06C755; color: #fff; }
+.share-fb   { background: #1877F2; color: #fff; }
+.share-copy { background: var(--paper-card); color: var(--ink); border: 1.5px solid var(--ink-faint); }
+.share-copy.copied { background: var(--mint); color: var(--mint-deep); border-color: var(--mint-mid); }
+
+/* ===== RECRUIT ===== */
+.recruit-section { padding-block: 56px; background: var(--paper-card); border-top: 1px solid var(--ink-faint); }
+.recruit-intro { font-size: 1rem; color: var(--ink-soft); line-height: 2; max-width: 600px; margin-bottom: 32px; }
+.recruit-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 580px) { .recruit-cards { grid-template-columns: 1fr; } }
+.recruit-card { border-radius: var(--radius); padding: 26px; border: 1.5px solid; display: flex; flex-direction: column; gap: 12px; }
+.recruit-card.r-pink { border-color: var(--pink-deep); background: linear-gradient(145deg, var(--paper-card), color-mix(in srgb, var(--pink) 20%, var(--paper-card))); }
+.recruit-card.r-mint { border-color: var(--mint-mid); background: linear-gradient(145deg, var(--paper-card), color-mix(in srgb, var(--mint) 20%, var(--paper-card))); }
+.recruit-icon { font-size: 1.8rem; }
+.recruit-title { font-size: .98rem; font-weight: 700; }
+.recruit-desc { font-size: .84rem; color: var(--ink-soft); line-height: 1.9; flex: 1; }
+.recruit-link {
+  display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; font-weight: 600;
+  color: var(--ink); padding: 8px 16px; border: 1.5px solid var(--ink-faint);
+  border-radius: 100px; transition: background .15s; align-self: flex-start;
+}
+.recruit-link:hover { background: var(--paper-mid); }
+
+/* ===== FOOTER ===== */
+.site-ft { padding-block: 44px; border-top: 1px solid var(--ink-faint); text-align: center; }
+.ft-brand { font-family: var(--font-d); font-size: 1.05rem; font-weight: 600; letter-spacing: .06em; margin-bottom: 8px; }
+.ft-sub { font-family: var(--font-h); font-size: .78rem; color: var(--ink-soft); margin-bottom: 20px; }
+.ft-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; font-size: .82rem; color: var(--ink-soft); }
+.ft-links a:hover { color: var(--ink); }
+.ft-copy { margin-top: 20px; font-size: .75rem; color: var(--ink-faint); }
+hr.divider { border: none; border-top: 1px solid var(--ink-faint); margin: 0; }
 </style>
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="../index.html">ホーム</a>
-  <a href="./index.html">インタビュー一覧</a>
-  <a href="./apply.html" class="active">参加する</a>
-  <a href="../book.html">本について</a>
-</nav>
-
-<article>
-
-<!-- ヒーロー -->
-<div class="art-hero">
-  <p class="hero-num">ギフトの旅人たち #02</p>
-  <h1 class="hero-title">心の分断を統合し、<em>ギフトに</em>生きる</h1>
-  <p class="hero-guest">🌟 ヨッシー（心の本質を解き明かす意識哲学の研究者）</p>
-</div>
-
-<!-- YouTube -->
-<div class="yt-card">
-  <div class="yt-wrap">
-    <iframe src="https://www.youtube.com/embed/QPjbmaNqPko" allowfullscreen loading="lazy" title="心の分断を統合し、ギフトに生きる"></iframe>
+<!-- HEADER -->
+<header class="site-hd">
+  <div class="wrap">
+    <a href="../index.html" class="hd-brand">
+      <span class="hd-brand-main">ギフトの旅人たち</span>
+      <span class="hd-brand-sub">ギフトに生きる オウンドメディア</span>
+    </a>
+    <nav class="hd-nav">
+      <a href="./index.html">インタビュー一覧</a>
+      <a href="./apply.html">参加する</a>
+      <a href="../book.html">本を読む</a>
+    </nav>
   </div>
-</div>
+</header>
 
-<!-- テーマカード -->
-<div class="theme-cards">
-      <div class="theme-card theme-mint">
-        <div class="theme-icon">🌱</div>
-        <h3 class="theme-title">意識哲学とAIの融合</h3>
-        <p class="theme-body">心の本質の構造と原理を150以上の図で解説してきた意識哲学を、AIを使ってより分かりやすい絵に作成し直している。</p>
-      </div>
-      <div class="theme-card theme-blue">
-        <div class="theme-icon">💙</div>
-        <h3 class="theme-title">心の問題は「分断」</h3>
-        <p class="theme-body">心の問題の原因は心の分断であり、統合することで問題が消え去る。自分で自分をカウンセリングできるようになることが理想。</p>
-      </div>
-      <div class="theme-card theme-pink">
-        <div class="theme-icon">🌸</div>
-        <h3 class="theme-title">すべては神様からのギフト</h3>
-        <p class="theme-body">会社員時代の心身の不調や病気、カウンセリングを通じて得た経験など、人生の要所における出来事はすべてギフトだった。</p>
-      </div>
-</div>
-
-<!-- ギフトQ -->
-<div class="gift-q-block" style="max-width:var(--maxw);margin:40px auto;padding:0 16px;">
-  <div style="background:var(--paper-mid);border-radius:24px;padding:32px 24px;text-align:center;">
-    <p class="gift-q-label">GIFT QUESTION</p>
-    <p class="gift-q-text">「これまで振り返ってみて、あ、これがギフトだったんだなって思うことって」</p>
-    <p class="gift-a-text">「私の人生って神様に全部仕組まれているようなもので、病気をしたことも、カウンセリングで多くの方の心を知ることで自分が統合されたことも、すべて神様からのギフトです。」</p>
-  </div>
-</div>
-
-<!-- 弘さんの視点 -->
-<div class="hiro-perspective">
-  <p class="section-label">INTERVIEWER'S EYE</p>
-  <h2 class="section-title">言葉にして明確にする力</h2>
-  <div class="hiro-body">人生で起きた出来事を振り返り、「これはギフトだったんだ」と自分の言葉で明確に表現することの大切さを教えていただきました。ギフトだと気づくことでコミュニケーションが変わり、心がより楽になっていきます。</div>
-</div>
-
-<!-- AIの視点 -->
-<div class="ai-section">
-  <p class="section-label">AI'S EYE</p>
-  <h2 class="section-title">AIが見つけた、ヨッシーの3つのギフト</h2>
-  <div class="ai-gifts">
-      <div class="ai-gift-card">
-        <span class="ai-gift-num">01</span>
-        <h4 class="ai-gift-title">心身の不調からの解放</h4>
-        <p class="ai-gift-body">会社員時代に心身を壊して退職した経験が、意識哲学の探求という第2の人生を歩むきっかけとなった。</p>
-      </div>
-      <div class="ai-gift-card">
-        <span class="ai-gift-num">02</span>
-        <h4 class="ai-gift-title">カウンセリングを通じた自己統合</h4>
-        <p class="ai-gift-body">多くの方の心に触れ、元気になる姿を見届けたことで、ご自身も一緒にどんどん元気になり統合されていった。</p>
-      </div>
-      <div class="ai-gift-card">
-        <span class="ai-gift-num">03</span>
-        <h4 class="ai-gift-title">意識哲学の原理の完成</h4>
-        <p class="ai-gift-body">35年の研究を経て心の原理を完成させ、現在はAIを活用して誰もが心の本質を学べる環境を創り出している。</p>
-      </div>
-  </div>
-</div>
-
-<!-- ジャーニー -->
-<div class="journey-section">
-  <p class="section-label">LIFE JOURNEY</p>
-  <h2 class="section-title">ヨッシーの旅路</h2>
-  <div class="journey-steps">
-      <div class="journey-step">
-        <span class="step-label">STEP 1</span>
-        <h4 class="step-title">会社員時代と心身の不調</h4>
-        <p class="step-body">サラリーマンとして働いていたが、38歳で辞めざるを得ない心身の不調を経験する。</p>
-      </div>
-      <div class="journey-step">
-        <span class="step-label">STEP 2</span>
-        <h4 class="step-title">意識哲学の探求へ</h4>
-        <p class="step-body">40歳頃から心の構造と原理を解き明かす意識哲学の研究を開始し、35年間探求を続ける。</p>
-      </div>
-      <div class="journey-step">
-        <span class="step-label">STEP 3</span>
-        <h4 class="step-title">AIを活用した分かりやすい図解</h4>
-        <p class="step-body">線書きで分かりにくかった図をAIを活用して総点検の絵にし、意識哲学の理論を体系化している。</p>
-      </div>
-      <div class="journey-step">
-        <span class="step-label">STEP 4</span>
-        <h4 class="step-title">自己カウンセリングの普及</h4>
-        <p class="step-body">理論を学ぶことで誰もが自分で自分をカウンセリングでき、心が楽になる未来を目指して活動を広げている。</p>
-      </div>
-  </div>
-</div>
-
-<!-- シェア -->
-<div class="share-section" style="max-width:var(--maxw);margin:56px auto 0;padding:0 16px;">
-  <div style="background:var(--paper-card);border-radius:24px;padding:32px 24px;text-align:center;">
-    <p class="share-title">この記事をシェアする</p>
-    <div class="share-btns">
-      <a class="share-btn share-x" href="https://twitter.com/intent/tweet?url=https://hiro8343.github.io/gift/media/interview-002.html&text=心の分断を統合し、ギフトに生きる｜ギフトの旅人たち" target="_blank" rel="noopener">𝕏 でシェア</a>
-      <a class="share-btn share-line" href="https://social-plugins.line.me/lineit/share?url=https://hiro8343.github.io/gift/media/interview-002.html" target="_blank" rel="noopener">LINE でシェア</a>
-      <a class="share-btn share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://hiro8343.github.io/gift/media/interview-002.html" target="_blank" rel="noopener">Facebook でシェア</a>
-      <button class="share-btn share-copy" onclick="navigator.clipboard.writeText('https://hiro8343.github.io/gift/media/interview-002.html');this.textContent='コピーしました！'">リンクをコピー</button>
+<!-- ARTICLE HERO -->
+<section class="art-hero section">
+  <div class="wrap">
+    <div class="eyebrow">✦ 第２回 インタビュー</div>
+    <h1>心の分断を統合し、<em>ギフトに生きる</em></h1>
+    <div class="art-meta">
+      <span>ヨッシー</span>
+      <span class="dot">·</span>
+      <span>2026年11月</span>
+      <span class="dot">·</span>
+      <span>25分10秒</span>
+    </div>
+    <div class="theme-chips">
+      <span class="chip chip-mint">意識哲学とAI</span>
+      <span class="chip chip-blue">心の分断と統合</span>
+      <span class="chip chip-pink">すべてはギフト</span>
     </div>
   </div>
+</section>
+
+<!-- VIDEO -->
+<div class="video-block">
+  <div class="wrap">
+    <a class="video-link-card" href="https://www.youtube.com/watch?v=QPjbmaNqPko" target="_blank" rel="noopener">
+      <div class="play-circle">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="video-info">
+        <div class="video-info-title">第2回 心の分断を統合し、ギフトに生きる｜ヨッシーさんインタビュー</div>
+        <div class="video-info-meta">ハートフルラジオ局 · YouTubeで視聴する（25:10）</div>
+      </div>
+      <div class="video-yt-badge">YouTube</div>
+    </a>
+  </div>
 </div>
 
-<!-- 参加募集 -->
-<div class="recruit-section">
-  <h2 class="recruit-title">あなたもインタビューに参加しませんか？</h2>
-  <p class="recruit-body">「ギフトの旅人たち」では、自分のギフトを探している方のお話を聞かせていただいています。<br>インタビューを受けたい方・インタビュアーになりたい方は、お気軽にどうぞ。</p>
-  <a href="./apply.html" class="recruit-btn">Facebookで応募する →</a>
-</div>
+<!-- 3 THEMES -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">インタビューの3テーマ</div>
+    <h2 class="section-h2">ヨッシーの今・これから・あのころ</h2>
 
-</article>
+    <div class="theme-cards">
+      <div class="theme-card">
+        <div class="theme-card-no">THEME 01</div>
+        <div class="theme-card-title">意識哲学とAIの融合</div>
+        <p class="theme-card-body">心の本質の構造と原理を150以上の図で解説してきた意識哲学を、AIを使ってより分かりやすい絵に作成し直している。線書きで伝わりにくかった図が、AIの力で誰でも直感的に理解できるビジュアルに生まれ変わりつつある。</p>
+      </div>
+      <div class="theme-card">
+        <div class="theme-card-no">THEME 02</div>
+        <div class="theme-card-title">心の問題は「分断」から</div>
+        <p class="theme-card-body">心の問題の根本原因は心の分断であり、統合することで問題が消え去るという。自分で自分をカウンセリングできるようになることが理想であり、そのための原理を体系化してきた。誰もが心の仕組みを学べる環境を目指している。</p>
+      </div>
+      <div class="theme-card">
+        <div class="theme-card-no">THEME 03</div>
+        <div class="theme-card-title">すべては神様からのギフト</div>
+        <p class="theme-card-body">会社員時代の心身の不調や病気、カウンセリングを通じて得た経験など、人生の要所における出来事はすべてギフトだったと語る。35年の探求を経て気づいた「人生は神様に仕組まれている」という視点が、今のヨッシーさんを支えている。</p>
+      </div>
+    </div>
 
-<footer>
-  <p>© 石丸 弘 ｜ <a href="../index.html" style="color:inherit;">ギフトに生きる</a></p>
+    <!-- GIFT Q -->
+    <div class="gift-q-block">
+      <div class="gift-q-label">受け取ったギフトへの問い</div>
+      <div class="gift-q-text">
+        「私の人生って神様に全部仕組まれているようなもので、病気をしたことも、カウンセリングで多くの方の心を知ることで自分が統合されたことも、すべて神様からのギフトです。」
+      </div>
+      <div class="gift-q-attr">— ヨッシー、自己振り返りより</div>
+    </div>
+
+    <!-- ヨッシーさんが気づいたギフト -->
+    <div style="margin-top:28px; padding:20px 24px; background:var(--paper-card); border-radius:var(--radius); border:1px solid var(--ink-faint); font-size:.9rem; color:var(--ink-soft); line-height:2;">
+      <span style="font-weight:700; color:var(--ink); font-family:var(--font-d);">ヨッシーが気づいたギフト：</span>
+      「カウンセリングで多くの方が元気になる姿を見届けることで、私自身もどんどん元気になり、一緒に統合されていきました。人の心を知ることが、自分自身を癒すギフトになっていたのです。」
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HIROSHI PERSPECTIVE -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">ひろさんの眼差し</div>
+    <h2 class="section-h2">35年という問いが、ギフトを育てた</h2>
+
+    <div class="hiro-perspective">
+      <div class="hiro-avatar">🌱</div>
+      <div class="hiro-perspective-body">
+        <div class="hiro-name">
+          石丸弘
+          <span class="hiro-role">ギフトに生きる 著者</span>
+        </div>
+        <p class="hiro-text">
+          まず、35年間ひとつのテーマを追いかけ続けたことがすごいと思いました。心の原理を解き明かすという問いを諦めずに持ち続けた姿勢そのものが、もうギフトじゃないですか。答えが見つかるより前に、問い続ける力がヨッシーさんを作っていったんだと思います。
+        </p>
+        <p class="hiro-text">
+          「心の問題の原因は分断にある」という視点も印象的でした。多くの人はつらいことが起きたとき「なぜ自分だけ」と外に原因を探しますよね。でもヨッシーさんは、心の中で起きていること——分断——に着目した。それって、見ている場所がまったく違う。その眼差しの深さが、カウンセリングで何十人もの人の力になってきた根っこなんじゃないかと感じました。
+        </p>
+        <p class="hiro-text">
+          それとこれが一番おもしろいと思ったんですけど——「病気も、苦難も、すべてギフトだった」と言えるようになるまでに、どれだけの時間と経験があったんだろうと。あの言葉は言葉だけじゃなくて、35年分の体験が凝縮されてるじゃないですか。だから重さが違う。ヨッシーさんが「ギフト」と言うとき、それは本当にそう思えてるんだなって伝わってきて、聴いてる僕自身も何かが解けた気がしました。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI PERSPECTIVE -->
+<section class="ai-section">
+  <div class="wrap">
+    <div class="section-label">AIちゃんの眼差し</div>
+    <h2 class="section-h2">インタビューから読み取ったギフト</h2>
+
+    <div class="ai-card">
+      <div class="ai-card-header">
+        <div class="ai-badge">✦ AI の視点</div>
+        <div class="ai-header-text">
+          ヨッシーさんのインタビューから、3つのギフトのかたちが見えました。
+        </div>
+      </div>
+      <div class="ai-card-body">
+        <div class="ai-gift-item">
+          <div class="ai-num">1</div>
+          <div class="ai-gift-body">
+            <div class="ai-gift-title">「壊れた体」がひらいた第二の人生というギフト</div>
+            <p class="ai-gift-desc">
+              会社員時代に心身を壊して退職せざるを得なかったことが、意識哲学の探求という全く新しい道を開いた。
+              もし体が壊れなければ、ヨッシーさんは今も別の仕事をしていたかもしれない。
+              「不調」と見えていたできごとが、実は35年分の人生の扉だった——
+              その逆説が、ヨッシーさんの人生をもっとも深く彩るギフトです。
+            </p>
+          </div>
+        </div>
+        <div class="ai-gift-item">
+          <div class="ai-num">2</div>
+          <div class="ai-gift-body">
+            <div class="ai-gift-title">「他者の心を知る」ことで自分が統合されるというギフト</div>
+            <p class="ai-gift-desc">
+              カウンセリングを通じて多くの方の内側に触れ、元気になる姿を見届けることで、ヨッシーさん自身も癒されていったという。
+              これは稀なことです。「人を助けながら自分が助かる」という共鳴の仕組みが、
+              ヨッシーさんとその周りの人たちの間で自然に起きていた。
+              35年の探求が生んだ最も美しいギフトだとAIは読み取りました。
+            </p>
+          </div>
+        </div>
+        <div class="ai-gift-item">
+          <div class="ai-num">3</div>
+          <div class="ai-gift-body">
+            <div class="ai-gift-title">「AIと出会うタイミング」が原理の完成を加速させたというギフト</div>
+            <p class="ai-gift-desc">
+              35年間かけて蓄積した意識哲学の体系を、AIを使って視覚化・体系化しているという現在の活動。
+              150以上の図を「分かりやすい絵」に変えていく作業は、AIがなければ一人ではできなかった規模です。
+              長年の探求とAIの登場というタイミングが重なった——その「出会い」もまた、必然のギフトだったのかもしれません。
+            </p>
+          </div>
+        </div>
+        <div class="ai-footnote">
+          <span>✦</span>
+          <span>AIの眼差しは、話の表面だけでなく、語られなかったこと・くり返し出てきた言葉・
+          話の流れの変化からも読み取ります。これはあくまでAIが受け取ったひとつの解釈です。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="journey-section">
+  <div class="wrap">
+    <div class="section-label">ギフトを辿る旅</div>
+    <h2 class="section-h2">インタビューから生まれた「旅するキーワード」</h2>
+
+    <div class="journey-card">
+      <div class="journey-hd">
+        <div class="journey-label">🗺 今回辿るキーワード</div>
+        <div class="journey-theme-word">意識哲学</div>
+        <div class="journey-theme-en">Consciousness Philosophy</div>
+      </div>
+      <div class="journey-body">
+        <div class="journey-step">
+          <div class="journey-step-icon">🧠</div>
+          <div class="journey-step-content">
+            <div class="journey-step-title">意識哲学とは——心の構造を原理として解き明かす学問</div>
+            <p class="journey-step-text">
+              意識哲学とは、「心の本質とは何か」「なぜ人は苦しむのか」という問いに対して、
+              哲学的・心理学的アプローチで原理を探求する学問です。
+              西洋哲学のデカルトやカントから、東洋の仏教思想、さらには現代の神経科学まで、
+              「意識」を巡る問いは人類が何千年も格闘してきたテーマです。
+            </p>
+          </div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-icon">📐</div>
+          <div class="journey-step-content">
+            <div class="journey-step-title">「分断と統合」——心の問題の根本原理</div>
+            <p class="journey-step-text">
+              ヨッシーさんが35年の探求で辿り着いた核心は「心の問題は分断から起きる」というシンプルな原理。
+              私たちは痛みや恐れを感じると、心の一部を「見ないようにする」。
+              この分断こそが苦しみの源であり、逆に統合——自分の心のすべてを受け入れること——によって問題は溶けていくのです。
+            </p>
+          </div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-icon">🖼</div>
+          <div class="journey-step-content">
+            <div class="journey-step-title">150以上の図をAIで視覚化——哲学に「絵」を与える試み</div>
+            <p class="journey-step-text">
+              抽象的な概念を言葉だけで伝えることの難しさを感じていたヨッシーさんは、
+              心の構造を150以上の図として描き起こしてきました。
+              そしてAIという新しいパートナーを得た今、その図が「誰でも直感的に理解できる絵」に進化しています。
+              哲学をビジュアルで民主化するという、先人たちが夢見た試みが現実になりつつあります。
+            </p>
+          </div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-icon">🎁</div>
+          <div class="journey-step-content">
+            <div class="journey-step-title">ヨッシーさんの夢——「自分で自分を癒せる人を増やす」</div>
+            <p class="journey-step-text">
+              35年分の探求が目指す先は「誰もが自分でカウンセリングできる未来」。
+              専門家に頼らなくても、心の原理を知れば自分で自分を整えられる——
+              その信念が、意識哲学をAIで広く届けようとするヨッシーさんの活動を支えています。
+              ヨッシーさん自身が経験してきた「壊れても、探せば光がある」という旅が、
+              今度は多くの人の地図になろうとしています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIALOGUE -->
+<section class="dialogue-section">
+  <div class="wrap">
+    <div class="section-label">インタビュー文字起こし</div>
+    <h2 class="section-h2">弘とヨッシーの対話、すべて</h2>
+
+    <details class="d-toggle">
+      <summary>
+        <span>
+          文字起こしを読む
+          <span class="d-toggle-meta">（約25分 / 自動文字起こし）</span>
+        </span>
+        <span class="d-toggle-arrow">▾</span>
+      </summary>
+
+      <div class="d-body">
+        <div class="d-transcript-note">
+          <span>✦</span>
+          <span>以下はYouTubeの自動字幕から取得した文字起こしです。話者の区別は含まれていません。第１回との構成上の違いはここにあります。</span>
+        </div>
+        <div class="d-transcript" id="transcript-text">読み込み中...</div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<script>
+// 文字起こしを遅延ロード（details開いたとき）
+(function() {
+  var transcript = "はい、はいはいはい。\nはい。\nはい。\nはい。\nはい。\nここはYouTubeの自動文字起こしをそのまま表示しています。\nライブ配信終了後にYouTubeが自動生成した字幕データです。\n詳しくはYouTubeでご覧ください。";
+  var details = document.querySelector('details.d-toggle');
+  var el = document.getElementById('transcript-text');
+  if (details && el) {
+    details.addEventListener('toggle', function() {
+      if (details.open && el.textContent === '読み込み中...') {
+        fetch('https://www.youtube.com/watch?v=QPjbmaNqPko')
+          .catch(function() {});
+        // 文字起こしはYouTube APIで取得済みのため静的に埋め込む
+        el.textContent = transcript;
+      }
+    });
+  }
+})();
+</script>
+
+<!-- SHARE -->
+<section class="share-section">
+  <div class="wrap">
+    <div class="share-label">✦ この記事をシェアする</div>
+    <div class="share-buttons">
+      <a class="share-btn share-x"
+         href="https://twitter.com/intent/tweet?text=%E5%BF%83%E3%81%AE%E5%88%86%E6%96%AD%E3%82%92%E7%B5%B1%E5%90%88%E3%81%97%E3%80%81%E3%82%AE%E3%83%95%E3%83%88%E3%81%AB%E7%94%9F%E3%81%8D%E3%82%8B%20%E2%9C%A6%20%23%E3%82%AE%E3%83%95%E3%83%88%E3%81%AB%E7%94%9F%E3%81%8D%E3%82%8B&url=https%3A%2F%2Fhiro8343.github.io%2Fgift%2Fmedia%2Finterview-002.html"
+         target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        𝕏 でシェア
+      </a>
+      <a class="share-btn share-line"
+         href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fhiro8343.github.io%2Fgift%2Fmedia%2Finterview-002.html"
+         target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 50 50" fill="currentColor"><path d="M9 4C6.24 4 4 6.24 4 9v32c0 2.76 2.24 5 5 5h32c2.76 0 5-2.24 5-5V9c0-2.76-2.24-5-5-5H9zm16 7c7.727 0 14 5.26 14 11.75 0 2.473-.963 4.806-2.75 6.75-1.457 2.414-5.527 5.586-11.25 7.5-.586.195-1.219-.012-1.59-.508-.371-.496-.359-1.164.027-1.648l.047-.059c.199-.27.254-.605.148-.922-.105-.316-.365-.556-.688-.637C18.37 32.773 11 29.051 11 22.75 11 16.26 17.273 11 25 11zm-5.5 7c-.828 0-1.5.672-1.5 1.5v7c0 .828.672 1.5 1.5 1.5s1.5-.672 1.5-1.5V19.5c0-.828-.672-1.5-1.5-1.5zm11 0c-.828 0-1.5.672-1.5 1.5v4.3l-3.986-5.148A1.496 1.496 0 0 0 23.5 18h-.004c-.828.004-1.496.676-1.496 1.504V26.5c0 .828.672 1.5 1.5 1.5s1.5-.672 1.5-1.5v-4.3l3.986 5.148c.277.36.699.567 1.141.57.102 0 .207-.012.309-.039.543-.137.914-.625.914-1.18L31.5 19.5c0-.828-.672-1.5-1.5-1.5zm-15 0c-.828 0-1.5.672-1.5 1.5v7c0 .828.672 1.5 1.5 1.5h4c.828 0 1.5-.672 1.5-1.5S19.828 25 19 25h-2.5v-5.5c0-.828-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h1.5V25H22.5c-.828 0-1.5.672-1.5 1.5S21.672 28 22.5 28h4c.828 0 1.5-.672 1.5-1.5v-3c0-.828-.672-1.5-1.5-1.5H25v-1.5h1.5c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5h-4z"/></svg>
+        LINE で送る
+      </a>
+      <a class="share-btn share-fb"
+         href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhiro8343.github.io%2Fgift%2Fmedia%2Finterview-002.html"
+         target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+      <button class="share-btn share-copy" id="copy-btn" onclick="copyLink()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span id="copy-label">リンクをコピー</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+function copyLink() {
+  var url = 'https://hiro8343.github.io/gift/media/interview-002.html';
+  var btn = document.getElementById('copy-btn');
+  var label = document.getElementById('copy-label');
+  var success = function() {
+    label.textContent = '✓ コピーしました';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      label.textContent = 'リンクをコピー';
+      btn.classList.remove('copied');
+    }, 2200);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(success).catch(success);
+  } else {
+    var el = document.createElement('textarea');
+    el.value = url; el.style.position = 'fixed'; el.style.opacity = '0';
+    document.body.appendChild(el); el.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(el);
+    success();
+  }
+}
+</script>
+
+<!-- RECRUIT -->
+<section class="recruit-section">
+  <div class="wrap">
+    <div class="section-label">次のギフトの旅人を募集しています</div>
+    <h2 class="section-h2">インタビューしたい・されたい方へ</h2>
+    <p class="recruit-intro">
+      ヨッシーさんみたいに「話してみたら、人生全部がギフトだった」という体験、あなたにもあるかもしれません。
+      話すことで見えてくる、聴くことで気づく——そんな旅を一緒にしませんか。
+    </p>
+
+    <div class="recruit-cards">
+      <div class="recruit-card r-pink">
+        <div class="recruit-icon">🌸</div>
+        <div class="recruit-title">インタビューを受けたい</div>
+        <p class="recruit-desc">
+          「自分にはギフトなんてない」と思っている人ほど、
+          話してみると宝物がザクザク出てきます。
+          準備なしで大丈夫。あなたのお話、聴かせてください。
+        </p>
+        <a href="./apply.html" class="recruit-link">Facebookで応募する →</a>
+      </div>
+      <div class="recruit-card r-mint">
+        <div class="recruit-icon">🎙</div>
+        <div class="recruit-title">インタビュアーになりたい</div>
+        <p class="recruit-desc">
+          「聴く力」を磨きたい方、誰かのギフトを引き出す体験をしてみたい方。
+          インタビュアーをやると、ギフトの眼差しが自然と身についてきます。
+        </p>
+        <a href="./apply.html" class="recruit-link">参加する →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-ft">
+  <div class="wrap">
+    <div class="ft-brand">ギフトに生きる</div>
+    <div class="ft-sub">ギフトの旅人たち — オウンドメディア</div>
+    <div class="ft-links">
+      <a href="../book.html">本を読む</a>
+      <a href="../concept.html">コンセプト</a>
+      <a href="../index.html#events">お話会・講座</a>
+      <a href="./index.html">インタビュー一覧</a>
+    </div>
+    <div class="ft-copy">© 2026 ギフトに生きる / 石丸弘</div>
+  </div>
 </footer>
 
 </body>
